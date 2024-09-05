@@ -86,7 +86,7 @@ services:
       - "5173:5173"
     working_dir: /var/www/html
     # entrypoint: [ 'npm' ]
-    command: [ "npm", "run", "dev" ]
+    command: [ "npm", "run", "build" ]
     networks:
       - laravel
 

@@ -20,4 +20,8 @@ export default defineConfig({
         }),
         react(),
     ],
+    build: {
+        manifest: true, // Ensure manifest is generated
+        outDir: 'public/build', // Output directory for built files
+    },
 });
