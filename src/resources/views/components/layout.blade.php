@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    @vite(['resources/css/app.css', 'resources/js/app.jsx'])
 </head>
 
 <body class=" pb-20 min-h-screen  bg-gray-100 dark:bg-gray-900  m-auto bg-gradient-to-r from-rose-100 to-teal-100">
