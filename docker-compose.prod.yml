@@ -16,11 +16,18 @@ services:
       - ./src:/var/www/html:delegated
       - ./storage:/var/www/html/storage
       - ./bootstrap/cache:/var/www/html/bootstrap/cache
+    command: sh -c "chown -R laravel:laravel /var/www/html && chmod -R 755 /var/www/html/public && nginx -g 'daemon off;'"
     depends_on:
       - php
       - redis
       - mysql
       - npm
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
       - laravel
 
@@ -107,10 +114,4 @@ services:
     networks:
       - laravel
 
-  fix-permissions:
-    image: alpine:latest
-    volumes:
-      - ./src:/var/www/html
-    command: sh -c "chown -R root:root /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/build && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/build"
- 
 
