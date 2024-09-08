@@ -104,11 +104,3 @@ services:
     entrypoint: [ 'php', '/var/www/html/artisan' ]
     networks:
       - laravel
-
-  fix-permissions:
-    image: alpine
-    volumes:
-      - ./src:/var/www/html
-    command: sh -c "chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache"
-    networks:
-      - laravel
