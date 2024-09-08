@@ -19,7 +19,6 @@ services:
     command: sh -c "chown -R laravel:laravel /var/www/html && chmod -R 755 /var/www/html"
     depends_on:
       - php
-      - redis
       - mysql
       - npm
     healthcheck:
