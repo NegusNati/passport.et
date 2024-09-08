@@ -11,7 +11,7 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
-      - "85:80"
+      - "89:80"
     volumes:
       - ./src:/var/www/html:delegated
       - ./storage:/var/www/html/storage
@@ -21,12 +21,6 @@ services:
       - php
       - mysql
       - npm
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
     networks:
       - laravel
 
