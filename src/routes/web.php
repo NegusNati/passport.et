@@ -32,6 +32,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'throttle:rateLimiter'])->group(function () {
 
     Route::get('/passport', [PassportSearchController::class, 'index'])->name('passport');
+    Route::get('/passport/search', [PassportSearchController::class, 'show'])->name('passport.show');
     Route::post('/passport', [PassportSearchController::class, 'show'])->name('passport.show');
     Route::get('/passport/{id}', [PassportSearchController::class, 'detail'])->name('passport.showDetail');
     Route::get('/all-passports', [PassportSearchController::class, 'all'])->name('passport.all');

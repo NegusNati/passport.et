@@ -16,7 +16,6 @@ services:
       - ./src:/var/www/html:delegated
     depends_on:
       - php
-      - redis
       - mysql
     networks:
       - laravel
@@ -53,13 +52,6 @@ services:
     networks:
       - laravel
 
-  redis:
-    image: redis:alpine
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    networks:
-      - laravel
 
   composer:
     build:
@@ -86,7 +78,10 @@ services:
       - "5173:5173"
     working_dir: /var/www/html
     # entrypoint: [ 'npm' ]
-    command: [ "npm", "run", "build" ]
+    command: >
+      sh -c "npm run build &&
+            cd /var/www/html/public/build/.vite/ &&
+            cp manifest.json ../"
     networks:
       - laravel
 
