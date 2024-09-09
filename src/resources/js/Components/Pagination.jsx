@@ -2,7 +2,7 @@ import { Link } from "@inertiajs/react";
 
 const Pagination = ({ passports, handlePageChange }) => {
     return (
-        passports.length > 0 && (
+        passports.data.length > 0 && (
             <div className=" font-semibold text-sm text-gray-700  flex justify-between border-t border-gray-200 pt-6   px-4 dark:border-gray-700 dark:text-black/80">
                 {passports.prev_page_url && (
                     <Link
