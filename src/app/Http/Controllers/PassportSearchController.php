@@ -89,9 +89,8 @@ class PassportSearchController extends Controller
             }
         }
 
-        $passports = $query->get(); // Execute the query
-
-        // dd($passports);
+        // $passports = $query->get(); // Execute the query
+        $passports = $query->orderBy('requestNumber', 'desc')->simplePaginate(100);
 
         return Inertia::render(
             'Passport/Show',
@@ -148,7 +147,7 @@ class PassportSearchController extends Controller
         // $passports = PDFToSQLite::latest()->simplePaginate(50)->fragment("fragment-id");
         // $passports = PDFToSQLite::latest()->simplePaginate(30);
         $passports = PDFToSQLite::query()->orderBy('id', 'desc')->simplePaginate(50);
-        
+
 
 
         return Inertia::render('Passport/TableView', [
