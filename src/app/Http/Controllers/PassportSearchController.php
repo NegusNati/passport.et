@@ -55,19 +55,6 @@ class PassportSearchController extends Controller
         $middleName = $request->input('middleName');
         $lastName = $request->input('lastName');
 
-        // Dynamically add conditions based on the presence of input values
-        // if (!empty($requestNumber)) {
-        //     $query->where('requestNumber', 'LIKE', '%'. $requestNumber. '%');
-        // }
-        // if (!empty($firstName)) {
-        //     $query->orWhere('firstName', 'LIKE', '%'. $firstName. '%');
-        // }
-        // if (!empty($middleName)) {
-        //     $query->orWhere('middleName', 'LIKE', '%'. $middleName. '%');
-        // }
-        // if (!empty($lastName)) {
-        //     $query->orWhere('lastName', 'LIKE', '%'. $lastName. '%');
-        // }
 
         // Check if requestNumber is provided
         $query->when($requestNumber, function ($q) use ($requestNumber) {
@@ -87,7 +74,7 @@ class PassportSearchController extends Controller
             });
         });
 
-        $passports = $query->limit(20)->get(); // Execute the query
+        $passports = $query->limit(60)->get(); // Execute the query
 
 
         return Inertia::render(
