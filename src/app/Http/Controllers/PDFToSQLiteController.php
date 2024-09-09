@@ -24,7 +24,7 @@ class PDFToSQLiteController extends Controller
             'linesToSkip' => 'required',
         ]);
 
-        $path = $request->pdf_file->store('pdfs');
+        $path = $request->pdf_file->store('pdfs', 'public');
         $filePath = storage_path('app/public/pdfs/' . basename($path));
         // $filePath = storage_path('app/pdfs/' . basename($path));
         Log::info("Attempting to read file path: {$filePath}");
