@@ -76,10 +76,9 @@ services:
       - "3001:3001"
       - "5173:5173"
     working_dir: /var/www/html
-    entrypoint: [ 'npm' ]
+    entrypoint: [ 'sh', '-c' ]
     command: >
-      sh -c "cd /var/www/html/public/build/.vite/ &&
-            cp manifest.json ../"
+      "npm run build && cd /var/www/html/public/build/.vite/ && cp manifest.json ../"
     networks:
       - laravel
 
