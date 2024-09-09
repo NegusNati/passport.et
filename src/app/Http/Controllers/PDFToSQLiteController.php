@@ -17,29 +17,59 @@ class PDFToSQLiteController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
-            'pdf_file' => 'required|file|mimes:pdf',
-            'date' => 'required|date',
-            'location' => 'required',
-            'linesToSkip' => 'required',
-        ]);
-        Log::info("in pdf store : ");
-        $path = $request->file('pdf_file')->store('pdfs', 'public');
-        if (!$path) {
-            throw new \Exception('Failed to store the file.');
+
+        try {
+            $request->validate([
+                'pdf_file' => 'required|file|mimes:pdf|max:10240', // 10MB max
+                'date' => 'required|date',
+                'location' => 'required',
+                'linesToSkip' => 'required|integer',
+            ]);
+
+            $path = $request->file('pdf_file')->store('pdfs', 'public');
+            if (!$path) {
+                throw new \Exception('Failed to store the file.');
+            }
+
+            $filePath = storage_path('app/public/pdfs/' . basename($path));
+            Log::info("File stored at: {$filePath}");
+
+            dispatch(new PDFToSQLiteJob($filePath, $request->date, $request->location, $request->linesToSkip));
+            Log::info("Job dispatched successfully");
+
+            return Redirect::to('/')->with('success', 'PDF uploaded and processing started.');
+        } catch (\Exception $e) {
+            Log::error('PDF upload failed: ' . $e->getMessage());
+            return Redirect::back()->withErrors(['error' => 'Failed to upload PDF. Please try again.']);
         }
+        // $request->validate([
+        //     'pdf_file' => 'required|file|mimes:pdf',
+        //     'date' => 'required|date',
+        //     'location' => 'required',
+        //     'linesToSkip' => 'required',
+        // ]);
+        // Log::info("in pdf store : ");
+        // $path = $request->file('pdf_file')->store('pdfs', 'public');
+        // if (!$path) {
+        //     throw new \Exception('Failed to store the file.');
+        // }
 
-        $filePath = storage_path('app/public/pdfs/' . basename($path));
-        // $filePath = storage_path('app/pdfs/' . basename($path));
-        Log::info("Attempting to read file path: {$filePath}");
-        // PDFToSQLiteJob::dispatch($filePath);
-        dispatch(new PDFToSQLiteJob($filePath , $request->date, $request->location,$request->linesToSkip));
-        Log::info("After the dispatch");
+        // $filePath = storage_path('app/public/pdfs/' . basename($path));
+        // // $filePath = storage_path('app/pdfs/' . basename($path));
+        // Log::info("Attempting to read file path: {$filePath}");
+        // // PDFToSQLiteJob::dispatch($filePath);
+        // dispatch(new PDFToSQLiteJob($filePath , $request->date, $request->location,$request->linesToSkip));
+        // Log::info("After the dispatch");
 
 
-        return Redirect::to('/');
+        // return Redirect::to('/');
 
 
+
+
+
+
+        
         // $request->validate([
         //     'pdf_file' => 'required|file|mimes:pdf',
         // ]);
