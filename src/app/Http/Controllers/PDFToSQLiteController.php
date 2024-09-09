@@ -23,8 +23,12 @@ class PDFToSQLiteController extends Controller
             'location' => 'required',
             'linesToSkip' => 'required',
         ]);
+        Log::info("in pdf store : ");
+        $path = $request->file('pdf_file')->store('pdfs', 'public');
+        if (!$path) {
+            throw new \Exception('Failed to store the file.');
+        }
 
-        $path = $request->pdf_file->store('pdfs', 'public');
         $filePath = storage_path('app/public/pdfs/' . basename($path));
         // $filePath = storage_path('app/pdfs/' . basename($path));
         Log::info("Attempting to read file path: {$filePath}");
