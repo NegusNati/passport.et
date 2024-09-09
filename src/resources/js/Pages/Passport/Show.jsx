@@ -55,8 +55,8 @@ function Show({ auth, passports, search }) {
             <Head title="Results" />
 
             <main className="mt-8 max-w-[990px] m-auto selection:bg-[#FF2D20] selection:text-white mb-20 pb-40 ">
-                {passports.length > 0 ? (
-                    passports.map((passport) => (
+                {data.length > 0 ? (
+                    data.map((passport) => (
                         <Link
                             href={route("passport.showDetail", {
                                 id: passport.id,
