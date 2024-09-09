@@ -1,5 +1,6 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import Pagination from "@/Components/Pagination";
 
 function Show({ auth, passports, search }) {
     const { requestNumber, firstName, middleName, lastName } = search;
