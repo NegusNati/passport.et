@@ -4,16 +4,7 @@ import Pagination from "@/Components/Pagination";
 
 function Show({ auth, passports, search }) {
     const { requestNumber, firstName, middleName, lastName } = search;
-    let { data, links } = passports;
 
-    const handlePageChange = (newPage) => {
-        // Your logic to fetch new data based on the new page
-        // After fetching new data, toggle the transition class
-        setTransitionClass(
-            newPage === passports.current_page ? "" : "opacity-0"
-        );
-        setTimeout(() => setTransitionClass(""), 500); // Reset after the transition completes
-    };
     const formatDate = (dateString) => {
         const options = { year: "numeric", month: "long", day: "numeric" };
         const date = new Date(dateString);
@@ -56,8 +47,8 @@ function Show({ auth, passports, search }) {
             <Head title="Results" />
 
             <main className="mt-8 max-w-[990px] m-auto selection:bg-[#FF2D20] selection:text-white mb-20 pb-40 ">
-                {data.length > 0 ? (
-                    data.map((passport) => (
+                {passports.length > 0 ? (
+                    passports.map((passport) => (
                         <Link
                             href={route("passport.showDetail", {
                                 id: passport.id,
@@ -129,12 +120,6 @@ function Show({ auth, passports, search }) {
                         </p>
                     </div>
                 )}
-                 <div className="p-4 m-4">
-                        <Pagination
-                            passports={passports}
-                            handlePageChange={handlePageChange}
-                        />
-                    </div>
             </main>
         </Authenticated>
     );

@@ -1,11 +1,23 @@
 {
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
   "_ApplicationLogo---6mrIpj.js": {
     "file": "assets/ApplicationLogo---6mrIpj.js",
+========
+  "_ApplicationLogo-DjX9TE0R.js": {
+    "file": "assets/ApplicationLogo-DjX9TE0R.js",
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+  "_ApplicationLogo-DjX9TE0R.js": {
+    "file": "assets/ApplicationLogo-DjX9TE0R.js",
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "ApplicationLogo",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
   "_AuthenticatedLayout-CiPKgsbr.js": {
     "file": "assets/AuthenticatedLayout-CiPKgsbr.js",
     "name": "AuthenticatedLayout",
@@ -18,18 +30,49 @@
   },
   "_DismissibleBanner-CaCrlVVn.js": {
     "file": "assets/DismissibleBanner-CaCrlVVn.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+  "_AuthenticatedLayout-B9CrYmGt.js": {
+    "file": "assets/AuthenticatedLayout-B9CrYmGt.js",
+    "name": "AuthenticatedLayout",
+    "imports": [
+      "resources/js/app.jsx",
+      "_ApplicationLogo-DjX9TE0R.js",
+      "_transition-BgIRyZo8.js",
+      "_Footer-D96GKrcg.js"
+    ]
+  },
+  "_DismissibleBanner-DB8e_ijc.js": {
+    "file": "assets/DismissibleBanner-DB8e_ijc.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "DismissibleBanner",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
   "_Footer-BlWkgruW.js": {
     "file": "assets/Footer-BlWkgruW.js",
+========
+  "_Footer-D96GKrcg.js": {
+    "file": "assets/Footer-D96GKrcg.js",
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+  "_Footer-D96GKrcg.js": {
+    "file": "assets/Footer-D96GKrcg.js",
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "Footer",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
   "_GuestLayout-BfzE6vNF.js": {
     "file": "assets/GuestLayout-BfzE6vNF.js",
     "name": "GuestLayout",
@@ -40,27 +83,74 @@
   },
   "_InputError-BfsTzgla.js": {
     "file": "assets/InputError-BfsTzgla.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+  "_GuestLayout-BnblGjB4.js": {
+    "file": "assets/GuestLayout-BnblGjB4.js",
+    "name": "GuestLayout",
+    "imports": [
+      "resources/js/app.jsx",
+      "_ApplicationLogo-DjX9TE0R.js"
+    ]
+  },
+  "_InputError-D4rQktw3.js": {
+    "file": "assets/InputError-D4rQktw3.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "InputError",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
   "_InputLabel-BLA6HHAZ.js": {
     "file": "assets/InputLabel-BLA6HHAZ.js",
+========
+  "_InputLabel-BKquCTmL.js": {
+    "file": "assets/InputLabel-BKquCTmL.js",
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+  "_InputLabel-BKquCTmL.js": {
+    "file": "assets/InputLabel-BKquCTmL.js",
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "InputLabel",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
   "_PrimaryButton-KtFuHzGX.js": {
     "file": "assets/PrimaryButton-KtFuHzGX.js",
+========
+  "_PrimaryButton-BJXaOI8p.js": {
+    "file": "assets/PrimaryButton-BJXaOI8p.js",
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+  "_PrimaryButton-BJXaOI8p.js": {
+    "file": "assets/PrimaryButton-BJXaOI8p.js",
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "PrimaryButton",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
   "_TextInput-DoSLeRgk.js": {
     "file": "assets/TextInput-DoSLeRgk.js",
+========
+  "_TextInput-rq-2_sNe.js": {
+    "file": "assets/TextInput-rq-2_sNe.js",
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+  "_TextInput-rq-2_sNe.js": {
+    "file": "assets/TextInput-rq-2_sNe.js",
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "TextInput",
     "imports": [
       "resources/js/app.jsx"
@@ -70,25 +160,53 @@
     "file": "assets/formarDate-BlP67w9g.js",
     "name": "formarDate"
   },
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
   "_transition-CPsx80Tx.js": {
     "file": "assets/transition-CPsx80Tx.js",
+========
+  "_transition-BgIRyZo8.js": {
+    "file": "assets/transition-BgIRyZo8.js",
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+  "_transition-BgIRyZo8.js": {
+    "file": "assets/transition-BgIRyZo8.js",
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "transition",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
   "resources/css/app.css": {
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
     "file": "assets/app-DhGlCMyM.css",
+========
+    "file": "assets/app-BaL094Z7.css",
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+    "file": "assets/app-BaL094Z7.css",
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/Pages/Auth/ConfirmPassword.jsx": {
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
     "file": "assets/ConfirmPassword-zxCDkg0G.js",
+========
+    "file": "assets/ConfirmPassword-D02z8iCP.js",
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+    "file": "assets/ConfirmPassword-D02z8iCP.js",
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "ConfirmPassword",
     "src": "resources/js/Pages/Auth/ConfirmPassword.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_GuestLayout-BfzE6vNF.js",
       "_InputError-BfsTzgla.js",
       "_InputLabel-BLA6HHAZ.js",
@@ -102,11 +220,33 @@
   },
   "resources/js/Pages/Auth/ForgotPassword.jsx": {
     "file": "assets/ForgotPassword-C8Gqi7nx.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_GuestLayout-BnblGjB4.js",
+      "_InputError-D4rQktw3.js",
+      "_InputLabel-BKquCTmL.js",
+      "_PrimaryButton-BJXaOI8p.js",
+      "_TextInput-rq-2_sNe.js",
+      "_ApplicationLogo-DjX9TE0R.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Auth/ForgotPassword.jsx": {
+    "file": "assets/ForgotPassword-B0L3_TG2.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "ForgotPassword",
     "src": "resources/js/Pages/Auth/ForgotPassword.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_GuestLayout-BfzE6vNF.js",
       "_InputError-BfsTzgla.js",
       "_PrimaryButton-KtFuHzGX.js",
@@ -119,11 +259,32 @@
   },
   "resources/js/Pages/Auth/Login.jsx": {
     "file": "assets/Login-BVVa6Qvt.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_GuestLayout-BnblGjB4.js",
+      "_InputError-D4rQktw3.js",
+      "_PrimaryButton-BJXaOI8p.js",
+      "_TextInput-rq-2_sNe.js",
+      "_ApplicationLogo-DjX9TE0R.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Auth/Login.jsx": {
+    "file": "assets/Login-Bu1QT2Cz.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "Login",
     "src": "resources/js/Pages/Auth/Login.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_GuestLayout-BfzE6vNF.js",
       "_InputError-BfsTzgla.js",
       "_InputLabel-BLA6HHAZ.js",
@@ -137,11 +298,33 @@
   },
   "resources/js/Pages/Auth/Register.jsx": {
     "file": "assets/Register-B_GO0MQ8.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_GuestLayout-BnblGjB4.js",
+      "_InputError-D4rQktw3.js",
+      "_InputLabel-BKquCTmL.js",
+      "_PrimaryButton-BJXaOI8p.js",
+      "_TextInput-rq-2_sNe.js",
+      "_ApplicationLogo-DjX9TE0R.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Auth/Register.jsx": {
+    "file": "assets/Register-DLDAYlBU.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "Register",
     "src": "resources/js/Pages/Auth/Register.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_GuestLayout-BfzE6vNF.js",
       "_InputError-BfsTzgla.js",
       "_InputLabel-BLA6HHAZ.js",
@@ -155,11 +338,33 @@
   },
   "resources/js/Pages/Auth/ResetPassword.jsx": {
     "file": "assets/ResetPassword-CrjSbOEx.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_GuestLayout-BnblGjB4.js",
+      "_InputError-D4rQktw3.js",
+      "_InputLabel-BKquCTmL.js",
+      "_PrimaryButton-BJXaOI8p.js",
+      "_TextInput-rq-2_sNe.js",
+      "_ApplicationLogo-DjX9TE0R.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Auth/ResetPassword.jsx": {
+    "file": "assets/ResetPassword-DggcVxVZ.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "ResetPassword",
     "src": "resources/js/Pages/Auth/ResetPassword.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_GuestLayout-BfzE6vNF.js",
       "_InputError-BfsTzgla.js",
       "_InputLabel-BLA6HHAZ.js",
@@ -173,11 +378,33 @@
   },
   "resources/js/Pages/Auth/VerifyEmail.jsx": {
     "file": "assets/VerifyEmail-CzOmftjO.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_GuestLayout-BnblGjB4.js",
+      "_InputError-D4rQktw3.js",
+      "_InputLabel-BKquCTmL.js",
+      "_PrimaryButton-BJXaOI8p.js",
+      "_TextInput-rq-2_sNe.js",
+      "_ApplicationLogo-DjX9TE0R.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Auth/VerifyEmail.jsx": {
+    "file": "assets/VerifyEmail-C3_NuCSx.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "VerifyEmail",
     "src": "resources/js/Pages/Auth/VerifyEmail.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_GuestLayout-BfzE6vNF.js",
       "_PrimaryButton-KtFuHzGX.js",
       "_ApplicationLogo---6mrIpj.js"
@@ -188,11 +415,30 @@
   },
   "resources/js/Pages/Dashboard.jsx": {
     "file": "assets/Dashboard-CCvTCSYd.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_GuestLayout-BnblGjB4.js",
+      "_PrimaryButton-BJXaOI8p.js",
+      "_ApplicationLogo-DjX9TE0R.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Dashboard.jsx": {
+    "file": "assets/Dashboard-q8_ovScZ.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "Dashboard",
     "src": "resources/js/Pages/Dashboard.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_DismissibleBanner-CaCrlVVn.js",
       "_TextInput-DoSLeRgk.js",
       "_AuthenticatedLayout-CiPKgsbr.js",
@@ -206,6 +452,26 @@
   },
   "resources/js/Pages/Errors/RateLimitExceeded.jsx": {
     "file": "assets/RateLimitExceeded-DyaKQqvF.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_DismissibleBanner-DB8e_ijc.js",
+      "_TextInput-rq-2_sNe.js",
+      "_AuthenticatedLayout-B9CrYmGt.js",
+      "_ApplicationLogo-DjX9TE0R.js",
+      "_transition-BgIRyZo8.js",
+      "_Footer-D96GKrcg.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Errors/RateLimitExceeded.jsx": {
+    "file": "assets/RateLimitExceeded-D9kaCz62.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "RateLimitExceeded",
     "src": "resources/js/Pages/Errors/RateLimitExceeded.jsx",
     "isDynamicEntry": true,
@@ -213,11 +479,25 @@
       "resources/js/app.jsx"
     ],
     "css": [
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "assets/app-DhGlCMyM.css"
     ]
   },
   "resources/js/Pages/PageNotFound.jsx": {
     "file": "assets/PageNotFound-nlkKE38I.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/PageNotFound.jsx": {
+    "file": "assets/PageNotFound-C4xdBlaq.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "PageNotFound",
     "src": "resources/js/Pages/PageNotFound.jsx",
     "isDynamicEntry": true,
@@ -225,16 +505,32 @@
       "resources/js/app.jsx"
     ],
     "css": [
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "assets/app-DhGlCMyM.css"
     ]
   },
   "resources/js/Pages/Passport/Index.jsx": {
     "file": "assets/Index-BRUxwLDK.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Passport/Index.jsx": {
+    "file": "assets/Index-DdfKB8SN.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "Index",
     "src": "resources/js/Pages/Passport/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_InputLabel-BLA6HHAZ.js",
       "_PrimaryButton-KtFuHzGX.js",
       "_TextInput-DoSLeRgk.js",
@@ -251,11 +547,36 @@
   },
   "resources/js/Pages/Passport/Show.jsx": {
     "file": "assets/Show-D-x7X9RF.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_InputLabel-BKquCTmL.js",
+      "_PrimaryButton-BJXaOI8p.js",
+      "_TextInput-rq-2_sNe.js",
+      "_AuthenticatedLayout-B9CrYmGt.js",
+      "_InputError-D4rQktw3.js",
+      "_DismissibleBanner-DB8e_ijc.js",
+      "_ApplicationLogo-DjX9TE0R.js",
+      "_transition-BgIRyZo8.js",
+      "_Footer-D96GKrcg.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Passport/Show.jsx": {
+    "file": "assets/Show-CNGaXKFo.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "Show",
     "src": "resources/js/Pages/Passport/Show.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_AuthenticatedLayout-CiPKgsbr.js",
       "_ApplicationLogo---6mrIpj.js",
       "_transition-CPsx80Tx.js",
@@ -267,11 +588,31 @@
   },
   "resources/js/Pages/Passport/ShowDetail.jsx": {
     "file": "assets/ShowDetail-BHKXrMOj.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_AuthenticatedLayout-B9CrYmGt.js",
+      "_ApplicationLogo-DjX9TE0R.js",
+      "_transition-BgIRyZo8.js",
+      "_Footer-D96GKrcg.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Passport/ShowDetail.jsx": {
+    "file": "assets/ShowDetail-DJwYP7TK.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "ShowDetail",
     "src": "resources/js/Pages/Passport/ShowDetail.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_AuthenticatedLayout-CiPKgsbr.js",
       "_formarDate-BlP67w9g.js",
       "_ApplicationLogo---6mrIpj.js",
@@ -284,11 +625,32 @@
   },
   "resources/js/Pages/Passport/TableView.jsx": {
     "file": "assets/TableView-CgQdBPS3.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_AuthenticatedLayout-B9CrYmGt.js",
+      "_formarDate-BlP67w9g.js",
+      "_ApplicationLogo-DjX9TE0R.js",
+      "_transition-BgIRyZo8.js",
+      "_Footer-D96GKrcg.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Passport/TableView.jsx": {
+    "file": "assets/TableView-CTsBvAnf.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "TableView",
     "src": "resources/js/Pages/Passport/TableView.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_AuthenticatedLayout-CiPKgsbr.js",
       "_formarDate-BlP67w9g.js",
       "_ApplicationLogo---6mrIpj.js",
@@ -301,11 +663,32 @@
   },
   "resources/js/Pages/Payment.jsx": {
     "file": "assets/Payment-SCEdQYrm.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_AuthenticatedLayout-B9CrYmGt.js",
+      "_formarDate-BlP67w9g.js",
+      "_ApplicationLogo-DjX9TE0R.js",
+      "_transition-BgIRyZo8.js",
+      "_Footer-D96GKrcg.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Payment.jsx": {
+    "file": "assets/Payment-Dgu6MGeC.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "Payment",
     "src": "resources/js/Pages/Payment.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_TextInput-DoSLeRgk.js",
       "_InputError-BfsTzgla.js",
       "_InputLabel-BLA6HHAZ.js",
@@ -317,11 +700,31 @@
   },
   "resources/js/Pages/Profile/Edit.jsx": {
     "file": "assets/Edit-l57IwI_R.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_TextInput-rq-2_sNe.js",
+      "_InputError-D4rQktw3.js",
+      "_InputLabel-BKquCTmL.js",
+      "_Footer-D96GKrcg.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Profile/Edit.jsx": {
+    "file": "assets/Edit-BVbPYpDv.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "Edit",
     "src": "resources/js/Pages/Profile/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_AuthenticatedLayout-CiPKgsbr.js",
       "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx",
       "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx",
@@ -340,11 +743,38 @@
   },
   "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx": {
     "file": "assets/DeleteUserForm-CHGObseF.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_AuthenticatedLayout-B9CrYmGt.js",
+      "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx",
+      "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx",
+      "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx",
+      "_ApplicationLogo-DjX9TE0R.js",
+      "_transition-BgIRyZo8.js",
+      "_Footer-D96GKrcg.js",
+      "_InputError-D4rQktw3.js",
+      "_InputLabel-BKquCTmL.js",
+      "_TextInput-rq-2_sNe.js",
+      "_PrimaryButton-BJXaOI8p.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx": {
+    "file": "assets/DeleteUserForm-LKrASUSG.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "DeleteUserForm",
     "src": "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_InputError-BfsTzgla.js",
       "_InputLabel-BLA6HHAZ.js",
       "_transition-CPsx80Tx.js",
@@ -356,11 +786,31 @@
   },
   "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx": {
     "file": "assets/UpdatePasswordForm-AqKdNM7F.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_InputError-D4rQktw3.js",
+      "_InputLabel-BKquCTmL.js",
+      "_transition-BgIRyZo8.js",
+      "_TextInput-rq-2_sNe.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx": {
+    "file": "assets/UpdatePasswordForm-DFy0suSQ.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "UpdatePasswordForm",
     "src": "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_InputError-BfsTzgla.js",
       "_InputLabel-BLA6HHAZ.js",
       "_PrimaryButton-KtFuHzGX.js",
@@ -373,11 +823,32 @@
   },
   "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx": {
     "file": "assets/UpdateProfileInformationForm-B5nSuet3.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_InputError-D4rQktw3.js",
+      "_InputLabel-BKquCTmL.js",
+      "_PrimaryButton-BJXaOI8p.js",
+      "_TextInput-rq-2_sNe.js",
+      "_transition-BgIRyZo8.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx": {
+    "file": "assets/UpdateProfileInformationForm-XUUeeIiX.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "UpdateProfileInformationForm",
     "src": "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_InputError-BfsTzgla.js",
       "_InputLabel-BLA6HHAZ.js",
       "_PrimaryButton-KtFuHzGX.js",
@@ -390,11 +861,32 @@
   },
   "resources/js/Pages/Subscription/Subscribe.jsx": {
     "file": "assets/Subscribe-_Yrno19i.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_InputError-D4rQktw3.js",
+      "_InputLabel-BKquCTmL.js",
+      "_PrimaryButton-BJXaOI8p.js",
+      "_TextInput-rq-2_sNe.js",
+      "_transition-BgIRyZo8.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Subscription/Subscribe.jsx": {
+    "file": "assets/Subscribe-BpqUrKSA.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "Subscribe",
     "src": "resources/js/Pages/Subscription/Subscribe.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_TextInput-DoSLeRgk.js",
       "_InputError-BfsTzgla.js",
       "_InputLabel-BLA6HHAZ.js"
@@ -405,11 +897,30 @@
   },
   "resources/js/Pages/Telegram/Index.jsx": {
     "file": "assets/Index-BNhq2aiQ.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_TextInput-rq-2_sNe.js",
+      "_InputError-D4rQktw3.js",
+      "_InputLabel-BKquCTmL.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Telegram/Index.jsx": {
+    "file": "assets/Index-CJbWIii4.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "Index",
     "src": "resources/js/Pages/Telegram/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_AuthenticatedLayout-CiPKgsbr.js",
       "_ApplicationLogo---6mrIpj.js",
       "_transition-CPsx80Tx.js",
@@ -421,11 +932,31 @@
   },
   "resources/js/Pages/Terms/PrivacyPolicy.jsx": {
     "file": "assets/PrivacyPolicy-SLEz7j2z.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_AuthenticatedLayout-B9CrYmGt.js",
+      "_ApplicationLogo-DjX9TE0R.js",
+      "_transition-BgIRyZo8.js",
+      "_Footer-D96GKrcg.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Terms/PrivacyPolicy.jsx": {
+    "file": "assets/PrivacyPolicy-Dj1HjSfA.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "PrivacyPolicy",
     "src": "resources/js/Pages/Terms/PrivacyPolicy.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_Footer-BlWkgruW.js",
       "_ApplicationLogo---6mrIpj.js"
     ],
@@ -435,11 +966,29 @@
   },
   "resources/js/Pages/Welcome.jsx": {
     "file": "assets/Welcome-wsKRSovL.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_Footer-D96GKrcg.js",
+      "_ApplicationLogo-DjX9TE0R.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/Pages/Welcome.jsx": {
+    "file": "assets/Welcome-B_BIDl3w.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "Welcome",
     "src": "resources/js/Pages/Welcome.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "_ApplicationLogo---6mrIpj.js",
       "_Footer-BlWkgruW.js"
     ],
@@ -449,6 +998,22 @@
   },
   "resources/js/app.jsx": {
     "file": "assets/app-CthZNEV9.js",
+========
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
+      "_ApplicationLogo-DjX9TE0R.js",
+      "_Footer-D96GKrcg.js"
+    ],
+    "css": [
+      "assets/app-BaL094Z7.css"
+    ]
+  },
+  "resources/js/app.jsx": {
+    "file": "assets/app-Ba_LFsXK.js",
+<<<<<<< HEAD
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
@@ -477,7 +1042,15 @@
       "resources/js/Pages/Welcome.jsx"
     ],
     "css": [
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/public/build/.vite/manifest.json
       "assets/app-DhGlCMyM.css"
+========
+      "assets/app-BaL094Z7.css"
+>>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de:src/public/build/manifest.json
+=======
+      "assets/app-BaL094Z7.css"
+>>>>>>> 094a341dfb9451326781c8950d7f49b5ed0764de
     ]
   }
 }

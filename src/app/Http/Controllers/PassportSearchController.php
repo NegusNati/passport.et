@@ -55,42 +55,27 @@ class PassportSearchController extends Controller
         $middleName = $request->input('middleName');
         $lastName = $request->input('lastName');
 
-        // Dynamically add conditions based on the presence of input values
-        // if (!empty($requestNumber)) {
-        //     $query->where('requestNumber', 'LIKE', '%'. $requestNumber. '%');
-        // }
-        // if (!empty($firstName)) {
-        //     $query->orWhere('firstName', 'LIKE', '%'. $firstName. '%');
-        // }
-        // if (!empty($middleName)) {
-        //     $query->orWhere('middleName', 'LIKE', '%'. $middleName. '%');
-        // }
-        // if (!empty($lastName)) {
-        //     $query->orWhere('lastName', 'LIKE', '%'. $lastName. '%');
-        // }
 
         // Check if requestNumber is provided
-        if (!empty($requestNumber)) {
-            $query->where('requestNumber', 'LIKE', '%' . $requestNumber . '%');
-        } else {
-            // If requestNumber is not provided, check for the name fields
-            if (!empty($firstName) || !empty($middleName) || !empty($lastName)) {
-                $query->where(function ($q) use ($firstName, $middleName, $lastName) {
-                    if (!empty($firstName)) {
-                        $q->where('firstName', 'LIKE', '%' . $firstName . '%');
-                    }
-                    if (!empty($middleName)) {
-                        $q->where('middleName', 'LIKE', '%' . $middleName . '%');
-                    }
-                    if (!empty($lastName)) {
-                        $q->where('lastName', 'LIKE', '%' . $lastName . '%');
-                    }
+        $query->when($requestNumber, function ($q) use ($requestNumber) {
+            return $q->where('requestNumber', 'LIKE', '%' . $requestNumber . '%');
+        })
+        ->when(!$requestNumber && ($firstName || $middleName || $lastName), function ($q) use ($firstName, $middleName, $lastName) {
+            return $q->where(function ($subQ) use ($firstName, $middleName, $lastName) {
+                $subQ->when($firstName, function ($q) use ($firstName) {
+                    return $q->where('firstName', 'LIKE', '%' . $firstName . '%');
+                })
+                ->when($middleName, function ($q) use ($middleName) {
+                    return $q->where('middleName', 'LIKE', '%' . $middleName . '%');
+                })
+                ->when($lastName, function ($q) use ($lastName) {
+                    return $q->where('lastName', 'LIKE', '%' . $lastName . '%');
                 });
-            }
-        }
+            });
+        });
 
-        // $passports = $query->get(); // Execute the query
-        $passports = $query->simplePaginate(100);
+        $passports = $query->limit(60)->get(); // Execute the query
+
 
         return Inertia::render(
             'Passport/Show',
