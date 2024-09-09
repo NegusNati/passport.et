@@ -90,7 +90,7 @@ class PassportSearchController extends Controller
         }
 
         // $passports = $query->get(); // Execute the query
-        $passports = $query->orderBy('requestNumber', 'desc')->simplePaginate(100);
+        $passports = $query->simplePaginate(100);
 
         return Inertia::render(
             'Passport/Show',
