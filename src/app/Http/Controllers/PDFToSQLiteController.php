@@ -23,7 +23,7 @@ class PDFToSQLiteController extends Controller
                 'pdf_file' => 'required|file|mimes:pdf|max:10240', // 10MB max
                 'date' => 'required|date',
                 'location' => 'required',
-                'linesToSkip' => 'required|integer',
+                'linesToSkip' => 'required',
             ]);
 
             $path = $request->file('pdf_file')->store('pdfs', 'public');
@@ -69,7 +69,7 @@ class PDFToSQLiteController extends Controller
 
 
 
-        
+
         // $request->validate([
         //     'pdf_file' => 'required|file|mimes:pdf',
         // ]);
