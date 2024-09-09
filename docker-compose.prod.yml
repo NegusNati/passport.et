@@ -11,16 +11,12 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
-      - "89:80"
+      - "80:80"
     volumes:
       - ./src:/var/www/html:delegated
-      - ./storage:/var/www/html/storage
-      - ./bootstrap/cache:/var/www/html/bootstrap/cache
-    command: sh -c "chown -R laravel:laravel /var/www/html && chmod -R 755 /var/www/html"
     depends_on:
       - php
       - mysql
-      - npm
     networks:
       - laravel
 
@@ -29,7 +25,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "3366:3306"
+      - "3306:3306"
     environment:
       MYSQL_DATABASE: homestead
       MYSQL_USER: homestead
@@ -50,7 +46,7 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
-      - "9001:9000"
+      - "9000:9000"
     volumes:
       - ./src:/var/www/html:delegated
     networks:
@@ -80,7 +76,7 @@ services:
       - "3001:3001"
       - "5173:5173"
     working_dir: /var/www/html
-    command: sh -c "npm install && npm run build"
+    entrypoint: [ 'npm' ]
     networks:
       - laravel
 
