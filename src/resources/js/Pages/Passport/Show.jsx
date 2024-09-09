@@ -3,6 +3,16 @@ import { Head, Link, useForm } from "@inertiajs/react";
 
 function Show({ auth, passports, search }) {
     const { requestNumber, firstName, middleName, lastName } = search;
+    let { data, links } = passports;
+
+    const handlePageChange = (newPage) => {
+        // Your logic to fetch new data based on the new page
+        // After fetching new data, toggle the transition class
+        setTransitionClass(
+            newPage === passports.current_page ? "" : "opacity-0"
+        );
+        setTimeout(() => setTransitionClass(""), 500); // Reset after the transition completes
+    };
     const formatDate = (dateString) => {
         const options = { year: "numeric", month: "long", day: "numeric" };
         const date = new Date(dateString);
@@ -118,6 +128,12 @@ function Show({ auth, passports, search }) {
                         </p>
                     </div>
                 )}
+                 <div className="p-4 m-4">
+                        <Pagination
+                            passports={passports}
+                            handlePageChange={handlePageChange}
+                        />
+                    </div>
             </main>
         </Authenticated>
     );
