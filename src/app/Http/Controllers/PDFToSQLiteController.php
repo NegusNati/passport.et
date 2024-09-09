@@ -39,8 +39,12 @@ class PDFToSQLiteController extends Controller
 
             return Redirect::to('/')->with('success', 'PDF uploaded and processing started.');
         } catch (\Exception $e) {
-            Log::error('PDF upload failed: ' . $e->getMessage());
-            return Redirect::back()->withErrors(['error' => 'Failed to upload PDF. Please try again.']);
+            Log::error('PDF upload failed: ' . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return Redirect::back()->withErrors(['error' => 'The pdf file failed to upload.']);
         }
         // $request->validate([
         //     'pdf_file' => 'required|file|mimes:pdf',
