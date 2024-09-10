@@ -1,5 +1,6 @@
 networks:
   laravel:
+  traefik:
 
 
 services:
@@ -33,7 +34,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.app.rule=Host(`passport.et`)"
       - "traefik.http.services.app.loadbalancer.server.port=80"
-      - "traefik.http.routers.app.entrypoints=web" 
+      - "traefik.http.routers.app.entrypoints=web"
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
