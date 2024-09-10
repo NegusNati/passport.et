@@ -9,14 +9,14 @@ services:
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
-      - "--entrypoints.web.address=:85"
-      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.address=:85" 
+      - "--entrypoints.websecure.address=:8443" 
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=natnaelbirhanu22@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.email=youremail@example.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
-      - "85:85"
-      - "443:443"
+      - "85:85"      
+      - "8443:8443"  
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./letsencrypt:/letsencrypt"
