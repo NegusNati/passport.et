@@ -3,6 +3,25 @@ networks:
 
 
 services:
+  traefik:
+    image: traefik:v2.5
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:85"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=natnaelbirhanu22@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "85:85"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt"
+    networks:
+      - laravel
+      - traefik
   app:
     build:
       context: ./dockerfiles
@@ -10,8 +29,11 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    ports:
-      - "85:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`yourdomain.com`)"
+      - "traefik.http.services.app.loadbalancer.server.port=80"
+      - "traefik.http.routers.app.entrypoints=web" 
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
