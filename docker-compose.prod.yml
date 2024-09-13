@@ -130,8 +130,6 @@ services:
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=myresolver"
       - "traefik.http.routers.traefik.service=api@internal"
-  
-  # this is just my personal portfolio, don't mind it lol
   natnael:
     image: nginx:alpine
     volumes:
