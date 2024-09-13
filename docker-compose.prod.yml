@@ -135,8 +135,6 @@ services:
     volumes:
       - ./src/natnael:/usr/share/nginx/html:ro
       - ./dockerfiles/nginx/natnael.conf:/etc/nginx/conf.d/default.conf:ro
-    networks:
-      - laravel
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.natnael.rule=Host(`natnael.passport.et`)"
@@ -144,3 +142,7 @@ services:
       - "traefik.http.services.natnael.loadbalancer.server.port=80"
       - "traefik.http.routers.natnael.tls=true"
       - "traefik.http.routers.natanel.tls.certresolver=myresolver"
+    depends_on:
+      - app
+    networks:
+      - laravel
