@@ -140,7 +140,9 @@ services:
     volumes:
       - ./src/natnael:/usr/share/nginx/html:ro
       - ./dockerfiles/nginx/natnael.conf:/etc/nginx/conf.d/default.conf:ro
-    entrypoint: [ "npm", "run", "build" ]
+    entrypoint: [ 'sh', '-c' ]
+    command: >
+      "npm install && npm run build"
     networks:
       - laravel
     labels:
