@@ -130,3 +130,18 @@ services:
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=myresolver"
       - "traefik.http.routers.traefik.service=api@internal"
+  
+  # this is just my personal portfolio, don't mind it lol
+  natanel:
+    image: nginx:alpine
+    volumes:
+      - ./src/natanel:/usr/share/nginx/html
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.natanel.rule=Host(`natanel.passport.et`)"
+      - "traefik.http.routers.natanel.entrypoints=websecure"
+      - "traefik.http.services.natanel.loadbalancer.server.port=80"
+      - "traefik.http.routers.natanel.tls=true"
+      - "traefik.http.routers.natanel.tls.certresolver=myresolver"
+    networks:
+      - laravel
