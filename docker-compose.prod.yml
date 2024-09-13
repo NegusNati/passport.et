@@ -135,7 +135,8 @@ services:
   natnael:
     image: nginx:alpine
     volumes:
-      - ./src/natnael:/usr/share/nginx/html
+      - ./src/natanel:/usr/share/nginx/html:ro
+      - ./dockerfiles/nginx/natnael.conf:/etc/nginx/conf.d/default.conf:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.natnael.rule=Host(`natnael.passport.et`)"
