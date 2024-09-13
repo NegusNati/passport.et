@@ -1,1 +1,0 @@
-export { DefaultContactSection } from "./DefaultContactSection";
