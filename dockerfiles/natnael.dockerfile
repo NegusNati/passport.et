@@ -29,7 +29,7 @@ RUN chmod -R 755 /var/www/html
 WORKDIR /usr/share/nginx/html
 
 # Install dependencies and build the project
-COPY src/natnael /usr/share/nginx/html
+COPY ~/src/natnael /usr/share/nginx/html
 RUN npm install
 RUN npm run build
 
