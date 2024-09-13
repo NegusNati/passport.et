@@ -131,7 +131,9 @@ services:
       - "traefik.http.routers.traefik.tls.certresolver=myresolver"
       - "traefik.http.routers.traefik.service=api@internal"
   natnael:
-    image: nginx:alpine
+    build:
+      context: ./dockerfiles
+      dockerfile: natnael.dockerfile
     volumes:
       - ./src/natnael/dist:/usr/share/nginx/html:ro  
       - ./dockerfiles/nginx/natnael.conf:/etc/nginx/conf.d/default.conf:ro
