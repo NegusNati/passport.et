@@ -11,10 +11,15 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
-      - "8080:80"
+      - "8082:80"
+    labels:
+      - "traefik.http.routers.app.rule=Host(`app.localhost`)"
+      - "traefik.http.routers.app.entrypoints=web"
+      - "traefik.http.services.app.loadbalancer.server.port=80"
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
+      - traefik
       - php
       - mysql
     networks:
@@ -77,7 +82,6 @@ services:
       - "3001:3001"
       - "5173:5173"
     working_dir: /var/www/html
-    # entrypoint: [ 'npm' ]
     command: >
       sh -c "npm run build &&
             cd /var/www/html/public/build/.vite/ &&
@@ -99,10 +103,15 @@ services:
     entrypoint: [ 'php', '/var/www/html/artisan' ]
     networks:
       - laravel
-  # mailhog:
-  #   image: mailhog/mailhog:latest
-  #   ports:
-  #     - "1025:1025"
-  #     - "8025:8025"
-  #   networks:
-  #     - laravel
+
+  traefik:
+    image: traefik:v3.1
+    command: --api.insecure=true --providers.docker --entrypoints.web.address=:80
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - laravel
+
