@@ -103,10 +103,10 @@ services:
       - laravel
   traefik:
     image: traefik:v3.1
-    command: --api.insecure=true --providers.docker --entrypoints.web.address=:8080
+    command: --api.insecure=true --providers.docker --entrypoints.web.address=:8081
     ports:
-      - "8080:8080"
       - "8081:8081"
+      - "8082:8082"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
