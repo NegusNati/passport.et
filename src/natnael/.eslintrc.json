@@ -1,0 +1,125 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "jest": true,
+    "node": true,
+    "amd": true
+  },
+  "plugins": ["@typescript-eslint", "simple-import-sort", "react-hooks", "prettier"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "prettier/prettier": ["error", {}, { "usePrettierrc": true }],
+    "react/react-in-jsx-scope": 0,
+    "react/display-name": 0,
+    "react/prop-types": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/explicit-member-accessibility": 0,
+    "@typescript-eslint/indent": 0,
+    "@typescript-eslint/member-delimiter-style": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/no-use-before-define": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "import/order": 0,
+    "@typescript-eslint/consistent-type-imports": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/no-unused-vars": [
+      2,
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-console": 0,
+    "prettier": 0
+  },
+  "overrides": [
+    {
+      "files": ["**/src/**"],
+      "rules": {
+        "@typescript-eslint/typedef": [
+          "error",
+          {
+            "parameter": true
+          }
+        ],
+        "no-console": ["error", { "allow": ["warn", "error"] }],
+        "simple-import-sort/imports": [
+          2,
+          {
+            "groups": [
+              ["^\\u0000"], // Side effects.
+              ["^react"], // Packages from node_modules. React-related packages will be first.
+              ["^[^.]"], // Absolute imports.
+              ["^\\."] // Relative imports.
+            ]
+          }
+        ],
+        "padding-line-between-statements": [
+          2,
+          // Always require blank lines before return statements.
+          { "blankLine": "always", "prev": "*", "next": "return" },
+
+          // Always require blank lines before and after class declaration, if, switch, try.
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": ["if", "class", "for", "switch", "try"]
+          },
+          {
+            "blankLine": "always",
+            "prev": ["if", "class", "for", "switch", "try"],
+            "next": "*"
+          },
+
+          // Always require blank lines before and after every sequence of variable declarations and export.
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": ["const", "let", "var", "export"]
+          },
+          {
+            "blankLine": "always",
+            "prev": ["const", "let", "var", "export"],
+            "next": "*"
+          },
+          {
+            "blankLine": "any",
+            "prev": ["const", "let", "var", "export"],
+            "next": ["const", "let", "var", "export"]
+          }
+        ],
+        "eol-last": "warn"
+      }
+    }
+  ]
+}
