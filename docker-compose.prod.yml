@@ -131,17 +131,17 @@ services:
       - "traefik.http.routers.traefik.tls.certresolver=myresolver"
       - "traefik.http.routers.traefik.service=api@internal"
   natnael:
-      build:
-        context: ./src/natnael
-        dockerfile: Dockerfile
-      volumes:
-        - ./src/natnael:/app
-      networks:
-        - laravel
-      labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.natnael.rule=Host(`natnael.passport.et`)"
-        - "traefik.http.routers.natnael.entrypoints=websecure"
-        - "traefik.http.services.natnael.loadbalancer.server.port=3000"
-        - "traefik.http.routers.natnael.tls=true"
-        - "traefik.http.routers.natnael.tls.certresolver=myresolver"
+    build:
+      context: ./src/natnael
+      dockerfile: Dockerfile
+    volumes:
+      - ./src/natnael/dist:/usr/share/nginx/html
+    networks:
+      - laravel
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portfolio.rule=Host(`natnael.passport.et`)"
+      - "traefik.http.routers.portfolio.entrypoints=websecure"
+      - "traefik.http.services.portfolio.loadbalancer.server.port=80"
+      - "traefik.http.routers.portfolio.tls=true"
+      - "traefik.http.routers.portfolio.tls.certresolver=myresolver"
