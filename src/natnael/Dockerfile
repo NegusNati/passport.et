@@ -13,8 +13,9 @@ COPY . .
 # Build the app
 RUN npm run build
 
-# Serve the app using a simple HTTP server
-RUN npm install -g serve
-CMD ["serve", "-s", "dist"]
+# Serve the app from the dist folder
+RUN npm install -g http-server
+CMD ["http-server", "dist"]
+
 
 EXPOSE 3000
