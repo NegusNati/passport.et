@@ -134,8 +134,8 @@ services:
     build:
       context: ./src/natnael
       dockerfile: Dockerfile
-    volumes:
-      - ./src/natnael/dist:/usr/share/nginx/html
+    # volumes:
+    #   - ./src/natnael/dist:/usr/share/nginx/html
     networks:
       - laravel
     labels:
