@@ -4,5 +4,8 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()]
+  plugins: [react(), tsconfigPaths()],
+  build: {
+    outDir: "dist" // Ensure the build output is set to "dist"
+  }
 });
