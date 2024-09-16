@@ -132,7 +132,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex  lg:items-center mb-20 ">
                             <div className="mx-auto max-w-xl text-center">
                                 <h1 className="text-3xl font-extrabold sm:text-5xl capitalize">
-                                    Is your Passport Ready?
+                                    Is your Passport Ready Yet?
                                     <strong className="font-extrabold text-red-700 sm:block">
                                         {" "}
                                         Find Out Now!{" "}
