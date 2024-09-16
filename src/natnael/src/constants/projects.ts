@@ -136,13 +136,35 @@ const typeGraphqlTech: ProjectTech = { tech: "TypeGraphQL", icon: DockerIcon };
 // const svelteTech: ProjectTech = { tech: "Svelte", icon: SvelteIcon };
 
 export const projects: Project[] = [
+    {
+        title: "Victor App/ERP",
+        description:
+          "Victor App is a project I am currently working on and \n actively maintaining. it is a role based system to orchestrate \n the buisness logic of one of the highest revenue generating company in Addis.with feature like\n  - Quotation & Agremment Generation \n - Ordering and Order tracking \n - Sales performance reports and integration with Installation system \n  - Deposit management & dedicated finance operations ",
+        image: PassportDashboardUrl,
+        url: "https://app.victor-door.com/",
+        githubUrl: "https://app.victor-door.com/",
+        techs: [
+          laravelTech,
+          reduxTech,
+          typeScriptTech,
+          postgressqlTech,
+          reactTech,
+          tailwindCssTech,
+          nodeTech,
+          tanStackQueryTech,
+          linuxTech,
+          dockerTech,
+
+        ],
+        isPinned: true
+      },
   {
     title: "PassportET",
     description:
       "A simple way to look if your passport is ready \n to collect and which day of the week you should collect. ✈️ \n It has multiple cool things underneath, like : \n - PDF parsing of official passport data published by Ethiopian gov. \n - Queues, i used Laravel Queues to assign background jobs of PDF parsing. \n - Rate Limiting : to prevent exessive requests. \n - Roles & Permission: a subscription system to allow users to access the system based on their role and permission. ",
     image: PassportDashboardUrl,
-    url: "https://github.com/NegusNati/passport-site",
-    githubUrl: "https://github.com/NegusNati/passport-site",
+    url: "https://passport.et/",
+    githubUrl: "https://github.com/NegusNati/passport.et",
     techs: [
       laravelTech,
       laravelHorizonTech,
@@ -204,7 +226,6 @@ export const projects: Project[] = [
       tailwindCssTech,
       javascriptTech
     ],
-    isPinned: true
   },
   {
     title: "Food Delivery Web App",
