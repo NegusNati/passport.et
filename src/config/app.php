@@ -54,8 +54,16 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://passport.et'),
-    'asset_url' => env('ASSET_URL', 'https://passport.et'),
+    //TODO: uncomment this when you push
+    // 'url' => env('APP_URL', 'https://passport.et'),
+    // 'asset_url' => env('ASSET_URL', 'https://passport.et'),
+
+
+
+    //TODO: commnet this when you push
+    'url' => env('APP_URL'),
+    'asset_url' => env('ASSET_URL'),
+
 
     /*
     |--------------------------------------------------------------------------
