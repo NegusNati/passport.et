@@ -43,15 +43,15 @@
     <meta property="og:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid">
     <meta property="og:description"
         content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
-    <meta property="og:image" content="{{ asset('favicon.svg') }}">
+    <meta property="og:image" content="{{ asset('pass_welcome.png') }}">
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="{{ asset('favicon.svg') }}">
+    <meta property="twitter:card" content="{{ asset('passport_et.svg') }}">
     <meta property="twitter:url" content="https://passport.et/">
     <meta property="twitter:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services">
     <meta property="twitter:description"
         content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
-    <meta property="twitter:image" content="{{ asset('favicon.svg') }}">
+    <meta property="twitter:image" content="{{ asset('pass_welcome.png') }}">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url('/') }}">
