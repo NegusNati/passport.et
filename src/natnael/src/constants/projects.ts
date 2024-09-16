@@ -6,6 +6,7 @@ import TheLabzUrl from "assets/projects/the-labz.jpg?url";
 import TwitterCloneUrl from "assets/projects/twitter-clone.png?url";
 import PassportWelcomerUrl from "assets/projects/passport.png?url";
 import PassportDashboardUrl from "assets/projects/pass_dashboardpng.png?url";
+import VictorAppUrl from "assets/projects/app_victor.png?url";
 import PassportTableUrl from "assets/projects/pass_table.png?url";
 import LoadBalancerUrl from "assets/projects/loadballancer.png?url";
 import MobileAppUrl from "assets/projects/mob.png?url";
@@ -140,7 +141,7 @@ export const projects: Project[] = [
         title: "Victor App/ERP",
         description:
           "Victor App is a project I am currently working on and \n actively maintaining. it is a role based system to orchestrate \n the buisness logic of one of the highest revenue generating company in Addis.with feature like\n  - Quotation & Agremment Generation \n - Ordering and Order tracking \n - Sales performance reports and integration with Installation system \n  - Deposit management & dedicated finance operations ",
-        image: PassportDashboardUrl,
+        image: VictorAppUrl,
         url: "https://app.victor-door.com/",
         githubUrl: "https://app.victor-door.com/",
         techs: [
