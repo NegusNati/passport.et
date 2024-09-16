@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', session()->get('locale', substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)) ?: config('app.locale')) }}">
+<html
+    lang="{{ str_replace('_', '-', session()->get('locale', substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)) ?: config('app.locale')) }}">
 
 <head>
     <!-- Google Tag Manager -->
@@ -20,25 +21,36 @@
         })(window, document, 'script', 'dataLayer', 'GTM-P7R4V8B3');
     </script>
     <!-- End Google Tag Manager -->
+
+    {{-- could flare analytics --}}
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+        data-cf-beacon='{"token": "a9bcb1d97b42448789842972c3848ebc"}'></script><!-- End Cloudflare Web Analytics -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid</title>
-    <meta name="description" content="Ethiopian Passport Services Aid portal. Information on how to Apply for, renew, or track your Ethiopian passport easily and securely.">
-    <meta name="keywords" content="Ethiopian passport, passport renewal, passport application, Ethiopia travel documents, visa services, Ethiopian immigration, track passport">
+    <meta name="description"
+        content="Ethiopian Passport Services Aid portal. Information on how to Apply for, renew, or track your Ethiopian passport easily and securely.">
+    <meta name="keywords"
+        content="Ethiopian passport, passport renewal, passport application, Ethiopia travel documents, visa services, Ethiopian immigration, track passport">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url"  content="https://passport.et/">
+    <meta property="og:url" content="https://passport.et/">
     <meta property="og:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid">
-    <meta property="og:description" content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
+    <meta property="og:description"
+        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
     <meta property="og:image" content="{{ asset('favicon.svg') }}">
 
     <!-- Twitter -->
-    <meta property="twitter:card"  content="{{ asset('favicon.svg') }}">
+    <meta property="twitter:card" content="{{ asset('favicon.svg') }}">
     <meta property="twitter:url" content="https://passport.et/">
     <meta property="twitter:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services">
-    <meta property="twitter:description" content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
+    <meta property="twitter:description"
+        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
     <meta property="twitter:image" content="{{ asset('favicon.svg') }}">
 
     <!-- Canonical URL -->
