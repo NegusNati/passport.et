@@ -1,0 +1,21 @@
+name: Deploy PassportET to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd ~/laraveldocker.prod/
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S git pull origin main
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
