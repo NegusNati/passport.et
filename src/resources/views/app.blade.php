@@ -23,7 +23,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid</title>
+    <meta name="description" content="Ethiopian Passport Services Aid portal. Information on how to Apply for, renew, or track your Ethiopian passport easily and securely.">
+    <meta name="keywords" content="Ethiopian passport, passport renewal, passport application, Ethiopia travel documents, visa services, Ethiopian immigration, track passport">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url"  content="https://passport.et/">
+    <meta property="og:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid">
+    <meta property="og:description" content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
+    <meta property="og:image" content="{{ asset('favicon.svg') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card"  content="{{ asset('favicon.svg') }}">
+    <meta property="twitter:url" content="https://passport.et/">
+    <meta property="twitter:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services">
+    <meta property="twitter:description" content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
+    <meta property="twitter:image" content="{{ asset('favicon.svg') }}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ url('/') }}">
+
+
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
