@@ -33,9 +33,9 @@
 
     <title>{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid</title>
     <meta name="description"
-        content="Ethiopian Passport Services Aid portal. Information on how to Apply for, renew, or track your Ethiopian passport easily and securely.">
+        content="Ethiopian Passport Services Aid portal. Check if your Ethiopian passport is ready, how to register for a new passport, and track the status of your application. Information on how to Apply for, renew, or track your Ethiopian passport easily and securely.">
     <meta name="keywords"
-        content="Ethiopian passport, passport renewal, passport application, Ethiopia travel documents, visa services, Ethiopian immigration, track passport">
+        content="Ethiopian passport,  passport application process, immigration services, passport renewal, passport registration, check passport status, passport application, Ethiopia travel documents, visa services, Ethiopian immigration, track passport">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
