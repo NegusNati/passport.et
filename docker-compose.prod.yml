@@ -22,7 +22,7 @@ services:
       - laravel
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`passport.et`)"
+      - "traefik.http.routers.app.rule=Host(`passport.et`) || Host(`www.passport.et`)"
       - "traefik.http.routers.app.entrypoints=websecure"
       - "traefik.http.services.app.loadbalancer.server.port=80"
       - "traefik.http.routers.app.tls=true"
@@ -140,7 +140,7 @@ services:
       - laravel
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portfolio.rule=Host(`natnael.passport.et`)"
+      - "traefik.http.routers.portfolio.rule=Host(`natnael.passport.et`) || Host(`www.natnael.passport.et`)"
       - "traefik.http.routers.portfolio.entrypoints=websecure"
       - "traefik.http.services.portfolio.loadbalancer.server.port=80"
       - "traefik.http.routers.portfolio.tls=true"
