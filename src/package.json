@@ -21,10 +21,7 @@
     },
     "dependencies": {
         "@heroicons/react": "^2.1.4",
-        "@tailwindcss/aspect-ratio": "^0.4.2"
+        "@tailwindcss/aspect-ratio": "^0.4.2",
+        "framer-motion": "^11.5.4"
     }
-
-
-
-
 }
