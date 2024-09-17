@@ -136,6 +136,8 @@ services:
       dockerfile: Dockerfile
     # volumes:
     #   - ./src/natnael/dist:/usr/share/nginx/html
+    depends_on:
+      - traefik
     networks:
       - laravel
     labels:
