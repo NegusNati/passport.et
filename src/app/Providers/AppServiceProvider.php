@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -43,6 +45,10 @@ class AppServiceProvider extends ServiceProvider
         //     // Default rate limit for unauthenticated users or users without a subscription
         //     return Limit::perHour(60)->by(optional($user)->id ?: $request->ip());
         // });
+
+        Gate::define('viewPulse', function (User $user) {
+            return $user->hasRole('admin');
+        });
 
         RateLimiter::for('rateLimiter', function ($request) {
             $user = Auth::user();
