@@ -21,6 +21,7 @@ function PrivacyPolicy({ auth }) {
                     id="background"
                     className="absolute -left-20 top-0 max-w-[1100px]"
                     src="https://laravel.com/assets/img/welcome/background.svg"
+                    alt="backgorund"
                 />
                 <div className="relative min-h-screen pt-4 px-1 pt-50 selection:bg-[#FF2D20] selection:text-white px-4 sm:px-6 lg:px-8">
                     {/* <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl"> */}

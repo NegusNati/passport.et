@@ -33,6 +33,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     id="background"
                     className="absolute -left-20 top-0 max-w-[1100px]"
                     src="https://laravel.com/assets/img/welcome/background.svg"
+                    alt="background image"
                 />
                 <div className="relative min-h-screen pt-4 px-1 pt-50 selection:bg-[#FF2D20] selection:text-white sm:px-4 lg:px-8">
                     {/* <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl"> */}
