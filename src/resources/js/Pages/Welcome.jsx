@@ -3,7 +3,7 @@ import Footer from "@/Components/Footer";
 import PricingSection from "@/Components/PricingSection";
 import { Link, Head } from "@inertiajs/react";
 import { motion } from "framer-motion";
-import { useState , useEffect, useRef} from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     const handleImageError = () => {
@@ -97,43 +97,86 @@ function HeroSection({ auth }) {
                         Find Out Now!
                     </strong>
                 </h1>
-                <p className="mt-4 sm:text-xl/relaxed">
+                <h2 className="mt-4 sm:text-xl/relaxed">
                     Check the{" "}
                     <span className="text-red-700 font-semibold">latest</span>{" "}
                     passport status published by the Ethiopian Immigration
                     Office.
-                </p>
+                </h2>
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
-                    <a
-                        className="block w-full rounded px-12 py-3 text-sm font-medium text-white shadow focus:outline-none focus:ring active:bg-red-500 sm:w-auto transition ease-in-out delay-100 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
-                        href="#pricing"
-                    >
-                        Check Passport Status
-                    </a>
-                    <a
+                    <div class="relative inline-flex  group">
+                        <div class="absolute transitiona-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"></div>
+                        <a
+                            href="#pricing"
+                            title="Check Passport Status"
+                            class="relative rounded inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all shadow focus:outline-none focus:ring active:bg-red-500 sm:w-auto transition ease-in-out delay-100 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
+                            role="button"
+                        >
+                            {" "}
+                            Check Passport Status
+                        </a>
+                    </div>
+
+                    {/* <a
                         className="block w-full rounded px-12 py-3 text-sm font-medium text-red-600 bg-gray-100 shadow focus:outline-none focus:ring active:text-red-500 sm:w-auto transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 hover:bg-red-700 hover:text-white duration-300"
                         href={route("login")}
                     >
                         {auth ? "Dashboard" : "Log In"}
-                    </a>
+                    </a> */}
                 </div>
             </div>
         </motion.div>
     );
 }
 
-
 function ServicesSection() {
     const scrollRef = useRef(null);
     const services = [
-        { title: "Passport Status Check", description: "Quickly check if your passport is ready for collection." },
-        { title: "Registration Information", description: "Learn how to register for a new passport or renew an existing one." },
-        { title: "Processing Time Updates", description: "Get the latest information on passport processing times." },
-        { title: "Document Requirements", description: "Find out what documents you need for your passport application." },
-        { title: "Online Application Assistance", description: "Step-by-step guidance for completing your online passport application." },
-        { title: "Expedited Service", description: "Information on how to expedite your passport processing for urgent travel needs." },
-        { title: "Lost Passport Support", description: "Guidance on what to do if your passport is lost or stolen." },
-        { title: "Visa Information", description: "Details on visa requirements for Ethiopian citizens traveling abroad." },
+        {
+            title: "Passport Status Check",
+            description:
+                "Quickly check if your passport is ready for collection.",
+        },
+        {
+            title: "Registration Information",
+            description:
+                "Learn how to register for a new passport or renew an existing one.",
+        },
+        {
+            title: "Processing Time Updates",
+            description:
+                "Get the latest information on passport processing times.",
+        },
+        {
+            title: "Passport Price Updates",
+            description:
+                "Get the latest information on how much a passport costs in Ethiopia.",
+        },
+        {
+            title: "Document Requirements",
+            description:
+                "Find out what documents you need for your passport application.",
+        },
+        {
+            title: "Online Application Assistance",
+            description:
+                "Step-by-step guidance for completing your online passport application.",
+        },
+        {
+            title: "Expedited Service",
+            description:
+                "Information on how to expedite your passport processing for urgent travel needs.",
+        },
+        {
+            title: "Lost Passport Support",
+            description:
+                "Guidance on what to do if your passport is lost or stolen.",
+        },
+        {
+            title: "Visa Information",
+            description:
+                "Details on visa requirements for Ethiopian citizens traveling abroad.",
+        },
     ];
 
     useEffect(() => {
@@ -161,21 +204,23 @@ function ServicesSection() {
                 <div className="relative">
                     <div ref={scrollRef} className="flex overflow-x-hidden">
                         <div className="flex animate-scroll">
-                            {[...services, ...services].map((service, index) => (
-                                <motion.div
-                                    key={index}
-                                    className="flex-shrink-0 w-64 mx-4 bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg"
-                                >
-                                    <div className="px-4 py-5 sm:p-6">
-                                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                                            {service.title}
-                                        </h3>
-                                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
-                                            {service.description}
-                                        </p>
-                                    </div>
-                                </motion.div>
-                            ))}
+                            {[...services, ...services].map(
+                                (service, index) => (
+                                    <motion.div
+                                        key={index}
+                                        className="flex-shrink-0 w-64 mx-4 bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg"
+                                    >
+                                        <div className="px-4 py-5 sm:p-6">
+                                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                                {service.title}
+                                            </h3>
+                                            <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
+                                                {service.description}
+                                            </p>
+                                        </div>
+                                    </motion.div>
+                                )
+                            )}
                         </div>
                     </div>
                 </div>
@@ -192,22 +237,22 @@ function ProcessSection() {
         },
         {
             title: "Pay Fees",
-            description: "Complete the payment for your passport application.",
+            description: "You must Complete the payment online through mobile banking or Telebirr within 3 hours of submitting the Application.",
         },
         {
-            title: "Document Verification",
-            description: "Officials will verify your submitted documents.",
+            title: "Document Verification Appointment  ",
+            description: "Officials will verify your submitted documents in person on your appointment day, take your thumbprint and will also take your passport picture that day.",
         },
         {
             title: "Passport Production",
-            description: "Your passport is produced and quality checked.",
+            description: "Your passport is produced and quality checked after your appointment day.",
         },
         {
             title: "Status Update",
-            description: "Check your passport status online using our system.",
+            description: "You can Check your passport status online using our system if it has been printed and is ready for pick up.",
         },
         {
-            title: "Collection",
+            title: "Passport Collection",
             description:
                 "Collect your passport from the designated office when ready.",
         },
@@ -274,7 +319,15 @@ function FAQSection() {
     const faqs = [
         {
             question: "How long does it take to get a passport in Ethiopia?",
-            answer: "The processing time for an Ethiopian passport typically ranges from 2 to 8 weeks, depending on the type of service requested and current workload.",
+            answer: "The processing time for an Ethiopian passport typically ranges from 1 to 2 months these days, depending on the type of service requested and current workload.",
+        },
+        {
+            question: "How much does an Ethiopian passport cost?",
+            answer: "The cost of an Ethiopian passport varies depending on the type of passport and processing speed. The range is from 5000 birr to 25,0000",
+        },
+        {
+            question: "How long does it take to get an Urgent passport in Ethiopia?",
+            answer: "The processing time for an Urgent Ethiopian passport typically ranges from 2 days to 5 days, depending on which service you paid for(25,000 birr or 20,000 birr), there are 3 tier from cheapest to most expensive.",
         },
         {
             question: "What documents do I need for a passport application?",
@@ -282,11 +335,11 @@ function FAQSection() {
         },
         {
             question: "Can I check my passport status online?",
-            answer: "Yes, you can check your passport status online using our system. You'll need your application number or other identifying information provided during the application process.",
+            answer: "Yes, you can check your passport status online using our system. You'll need your application number or just using your full name and you can see when exactly you can pick up your passport at the latest.",
         },
         {
-            question: "How much does an Ethiopian passport cost?",
-            answer: "The cost of an Ethiopian passport varies depending on the type of passport and processing speed. Please check our pricing section for the most up-to-date fees.",
+            question: "What documents do I need for a Lost/Stolen passport application?",
+            answer: "You'll need a completed application form, proof of citizenship (such as a birth certificate), valid ID, Police evidence letter, Copy of passport or information about the passport if you have, with 13000 Birr, and any additional documents specific to your situation..",
         },
     ];
 
@@ -358,13 +411,38 @@ function FAQSection() {
 function TestimonialsSection() {
     const scrollRef = useRef(null);
     const testimonials = [
-        { name: "Abebe Kebede", quote: "The online status check saved me so much time. I knew exactly when my passport was ready for collection!" },
-        { name: "Tigist Haile", quote: "The process was straightforward and the staff were very helpful. I got my passport faster than I expected." },
-        { name: "Dawit Mengistu", quote: "As a frequent traveler, I appreciate how efficient the passport renewal process has become." },
-        { name: "Frehiwot Tadesse", quote: "I was impressed by the user-friendly interface. It made checking my passport status a breeze." },
-        { name: "Yohannes Gebre", quote: "The SMS notification feature is fantastic. I didn't have to keep checking the website for updates." },
-        { name: "Meron Alemu", quote: "The customer support team was incredibly helpful when I had questions about my application." },
-        { name: "Bereket Tadesse", quote: "I appreciate the transparency in the process. The timeline provided was accurate and helpful." },
+        {
+            name: "Abebe Kebede",
+            quote: "The online status check saved me so much time. I knew exactly when my passport was ready for collection!",
+        },
+        {
+            name: "Tigist Haile",
+            quote: "The process was straightforward and the site wes very easy to use. I got my passport faster than I expected.",
+        },
+        {
+            name: "Dawit Mengistu",
+            quote: "As a frequent traveler, I appreciate how efficient the passport renewal process has become. and how easy it is to get informed here",
+        },
+        {
+            name: "Frehiwot Tadesse",
+            quote: "I was impressed by the user-friendly interface. It made checking my passport status a breeze.",
+        },
+        {
+            name: "Yohannes Gebre",
+            quote: "The SMS notification feature is fantastic. I didn't have to keep checking the website for updates.",
+        },
+        {
+            name: "Meron Alemu",
+            quote: "The customer support team on Telegram was incredibly helpful when I had questions about my application.",
+        },
+        {
+            name: "Bereket Tadesse",
+            quote: "I appreciate the transparency in the process. The timeline provided was accurate and helpful.",
+        },
+        {
+            name: "Natnael Tadesse",
+            quote: "I loved how easy it was to check my passport status. I appreciate the team's help and support.",
+        },
     ];
 
     useEffect(() => {
@@ -392,15 +470,21 @@ function TestimonialsSection() {
                 <div className="relative">
                     <div ref={scrollRef} className="flex overflow-x-hidden">
                         <div className="flex animate-scroll">
-                            {[...testimonials, ...testimonials].map((testimonial, index) => (
-                                <motion.div
-                                    key={index}
-                                    className="flex-shrink-0 w-80 mx-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6"
-                                >
-                                    <p className="text-gray-600 dark:text-gray-300 text-lg mb-4">"{testimonial.quote}"</p>
-                                    <p className="text-indigo-600 dark:text-indigo-400 font-semibold">- {testimonial.name}</p>
-                                </motion.div>
-                            ))}
+                            {[...testimonials, ...testimonials].map(
+                                (testimonial, index) => (
+                                    <motion.div
+                                        key={index}
+                                        className="flex-shrink-0 w-80 mx-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6"
+                                    >
+                                        <p className="text-gray-600 dark:text-gray-300 text-lg mb-4">
+                                            "{testimonial.quote}"
+                                        </p>
+                                        <p className="text-indigo-600 dark:text-indigo-400 font-semibold">
+                                            - {testimonial.name}
+                                        </p>
+                                    </motion.div>
+                                )
+                            )}
                         </div>
                     </div>
                 </div>

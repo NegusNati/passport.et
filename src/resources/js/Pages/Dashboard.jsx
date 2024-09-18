@@ -28,7 +28,7 @@ export default function Dashboard({ auth }) {
             }
         >
             <Head title="Dashboard" />
-            <DismissibleBanner />
+            <DismissibleBanner text="Welcome to PassportET, your one stop solution for checking your passport status" bgColor={'bg-indigo-400'}/>
 
             <div className="pt-12 py-12 pb-20 mb-40 bg-gradient-to-r from-slate-100 to-slate-300 dark:from-slate-700 dark:to-zinc-900 dark:text-white/90">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 ">

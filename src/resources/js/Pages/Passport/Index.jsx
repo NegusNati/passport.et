@@ -6,7 +6,6 @@ import TextInput from "@/Components/TextInput";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import InputError from "@/Components/InputError";
-import DismissibleBanner from "@/Components/DismissibleBanner";
 
 function Index({ auth }) {
     const { data, setData, post, processing, errors, reset } = useForm({

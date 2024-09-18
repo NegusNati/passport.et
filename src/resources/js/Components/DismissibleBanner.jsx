@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const DismissibleBanner = () => {
+const DismissibleBanner = ({ text, bgColor}) => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -18,13 +18,13 @@ const DismissibleBanner = () => {
     return (
         isVisible && (
             <div
-                className={`fixed top-0 left-0 right-0 bg-indigo-600 text-white p-4 flex justify-between items-center transition-transform duration-300 transform ${
+                className={`fixed top-0 left-0 right-0 ${bgColor} text-white p-4 flex justify-between items-center transition-transform duration-300 transform ${
                     isVisible ? 'translate-y-0' : '-translate-y-full'
                 }`}
                 style={{ zIndex: 1000 }} // Ensure it stays on top of other content
             >
                 <span className=' text-center'>
-                    This is a test banner. It will be removed when you close it.
+                    {text}
                 </span>
                 <button
                     onClick={handleDismiss}

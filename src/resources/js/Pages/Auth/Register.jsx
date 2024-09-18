@@ -5,6 +5,7 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm, usePage, router } from "@inertiajs/react";
+import DismissibleBanner from "@/Components/DismissibleBanner";
 
 export default function Register() {
     const { props } = usePage();
@@ -44,7 +45,7 @@ export default function Register() {
     return (
         <GuestLayout>
             <Head title="Register" />
-
+            <DismissibleBanner text="Register for a FREE account to check your passport status" bgColor={'bg-indigo-600'}/>
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="first_name" value="First Name" />
@@ -188,7 +189,7 @@ export default function Register() {
                     >
                         Already registered?
                     </Link>
-                     
+
 
                     <PrimaryButton className="ms-4" disabled={processing}>
                         Register

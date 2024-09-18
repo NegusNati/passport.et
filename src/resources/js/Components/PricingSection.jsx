@@ -56,10 +56,7 @@ const tiers = [
 
 export default function PricingSection() {
     return (
-        <section
-            className="bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 sm:py-24 rounded-xl"
-            id="pricing"
-        >
+        <section className="bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 sm:py-24 rounded-xl">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <motion.div
                     className="mx-auto max-w-4xl text-center"
@@ -67,12 +64,16 @@ export default function PricingSection() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <h2 className="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Pricing</h2>
+                    <h2 className="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">
+                        Pricing
+                    </h2>
                     <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
                         Choose the right plan for You
                     </p>
                     <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600 dark:text-gray-300">
-                        Choose an affordable plan that's packed with the best features for accessing the latest information about Passports, delivery dates, and more.
+                        Choose an affordable plan that's packed with the best
+                        features for accessing the latest information about
+                        Passports, delivery dates, and more.
                     </p>
                 </motion.div>
                 <motion.div
@@ -85,6 +86,7 @@ export default function PricingSection() {
                         <div
                             key={tier.name}
                             className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-8 shadow-lg transform hover:scale-105 transition duration-300"
+                            id="pricing"
                         >
                             <h3 className="text-2xl font-semibold leading-8 text-gray-900 dark:text-white">
                                 {tier.name}
@@ -94,14 +96,19 @@ export default function PricingSection() {
                             </p>
                             <p className="mt-6 flex items-baseline gap-x-1">
                                 <span className="text-5xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400">
-                                    {tier.price === "Free" ? "Free" : tier.price}
+                                    {tier.price === "Free"
+                                        ? "Free"
+                                        : tier.price}
                                 </span>
                                 <span className="text-sm font-semibold leading-6 text-gray-600 dark:text-gray-400">
                                     {tier.frequency}
                                 </span>
                             </p>
                             <p className="mt-1 flex items-baseline gap-x-1 line-through text-gray-500 dark:text-gray-400">
-                                <span className="text-blue-900 dark:text-blue-400 font-semibold">50</span> Birr per month
+                                <span className="text-blue-900 dark:text-blue-400 font-semibold">
+                                    50
+                                </span>{" "}
+                                Birr per month
                             </p>
                             <ul
                                 role="list"
@@ -116,13 +123,16 @@ export default function PricingSection() {
                                             className="h-6 w-5 flex-none text-indigo-600 dark:text-indigo-400"
                                             aria-hidden="true"
                                         />
-                                        <span className="capitalize">{feature}</span>
+                                        <span className="capitalize">
+                                            {feature}
+                                        </span>
                                     </li>
                                 ))}
                             </ul>
                             <a
                                 href={route("register")}
-                                className="mt-10 block w-full rounded-md bg-indigo-600 px-3.5 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition duration-300"
+                                className="mt-10 block w-full rounded-md bg-indigo-600 px-3.5 py-2 text-center text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:w-auto transition ease-in-out delay-100  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
+                                id="pricing"
                             >
                                 {tier.cta}
                             </a>
