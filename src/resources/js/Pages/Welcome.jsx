@@ -93,19 +93,19 @@ function HeroSection({ auth }) {
             <div className="mx-auto max-w-xl text-center">
                 <h1 className="text-3xl font-extrabold sm:text-5xl capitalize">
                     Is your Passport Ready?
-                    <strong className="font-extrabold text-red-700 sm:block">
+                    <strong className="font-extrabold text-red-700 sm:block dark:text-blue-400">
                         Find Out Now!
                     </strong>
                 </h1>
                 <h2 className="mt-4 sm:text-xl/relaxed">
                     Check the{" "}
-                    <span className="text-red-700 font-semibold">latest</span>{" "}
+                    <span className="text-red-700 font-semibold dark:text-blue-400">latest</span>{" "}
                     passport status published by the Ethiopian Immigration
                     Office.
                 </h2>
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
                     <div class="relative inline-flex  group">
-                        <div class="absolute transitiona-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"></div>
+                        <div class="absolute transitiona-all duration-1000 opacity-70-inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"></div>
                         <a
                             href="#pricing"
                             title="Check Passport Status"
