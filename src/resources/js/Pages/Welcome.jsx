@@ -198,9 +198,9 @@ function ServicesSection() {
     return (
         <section className="py-12 bg-gray-100 dark:bg-gray-800 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl mb-12">
+                <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl mb-12">
                     Our Services
-                </h2>
+                </h1>
                 <div className="relative">
                     <div ref={scrollRef} className="flex overflow-x-hidden">
                         <div className="flex animate-scroll">
@@ -211,9 +211,9 @@ function ServicesSection() {
                                         className="flex-shrink-0 w-64 mx-4 bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg"
                                     >
                                         <div className="px-4 py-5 sm:p-6">
-                                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                            <h2 className="text-lg font-medium text-gray-900 dark:text-white">
                                                 {service.title}
-                                            </h3>
+                                            </h2>
                                             <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
                                                 {service.description}
                                             </p>
@@ -265,9 +265,9 @@ function ProcessSection() {
     return (
         <section className="py-12 bg-white dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
-                    Passport Application Process
-                </h2>
+                <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+                    Passport Application Process & Status Check
+                </h1>
                 <div className="mt-10">
                     <div className="relative">
                         {steps.map((step, index) => (
@@ -301,9 +301,9 @@ function ProcessSection() {
                                         </span>
                                     </div>
                                     <div className="min-w-0 flex-1">
-                                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                        <h2 className="text-lg font-medium text-gray-900 dark:text-white">
                                             {step.title}
-                                        </h3>
+                                        </h2>
                                         <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
                                             {step.description}
                                         </p>
