@@ -93,13 +93,13 @@ function HeroSection({ auth }) {
             <div className="mx-auto max-w-xl text-center">
                 <h1 className="text-3xl font-extrabold sm:text-5xl capitalize">
                     Is your Passport Ready?
-                    <strong className="font-extrabold text-red-700 sm:block dark:text-blue-400">
+                    <strong className="font-extrabold  sm:block text-blue-400">
                         Find Out Now!
                     </strong>
                 </h1>
                 <h2 className="mt-4 sm:text-xl/relaxed">
                     Check the{" "}
-                    <span className="text-red-700 font-semibold dark:text-blue-400">latest</span>{" "}
+                    <span className=" font-semibold text-blue-400">latest</span>{" "}
                     passport status published by the Ethiopian Immigration
                     Office.
                 </h2>
@@ -237,19 +237,23 @@ function ProcessSection() {
         },
         {
             title: "Pay Fees",
-            description: "You must Complete the payment online through mobile banking or Telebirr within 3 hours of submitting the Application.",
+            description:
+                "You must Complete the payment online through mobile banking or Telebirr within 3 hours of submitting the Application.",
         },
         {
             title: "Document Verification Appointment  ",
-            description: "Officials will verify your submitted documents in person on your appointment day, take your thumbprint and will also take your passport picture that day.",
+            description:
+                "Officials will verify your submitted documents in person on your appointment day, take your thumbprint and will also take your passport picture that day.",
         },
         {
             title: "Passport Production",
-            description: "Your passport is produced and quality checked after your appointment day.",
+            description:
+                "Your passport is produced and quality checked after your appointment day.",
         },
         {
             title: "Status Update",
-            description: "You can Check your passport status online using our system if it has been printed and is ready for pick up.",
+            description:
+                "You can Check your passport status online using our system if it has been printed and is ready for pick up.",
         },
         {
             title: "Passport Collection",
@@ -326,7 +330,8 @@ function FAQSection() {
             answer: "The cost of an Ethiopian passport varies depending on the type of passport and processing speed. The range is from 5000 birr to 25,0000",
         },
         {
-            question: "How long does it take to get an Urgent passport in Ethiopia?",
+            question:
+                "How long does it take to get an Urgent passport in Ethiopia?",
             answer: "The processing time for an Urgent Ethiopian passport typically ranges from 2 days to 5 days, depending on which service you paid for(25,000 birr or 20,000 birr), there are 3 tier from cheapest to most expensive.",
         },
         {
@@ -338,7 +343,8 @@ function FAQSection() {
             answer: "Yes, you can check your passport status online using our system. You'll need your application number or just using your full name and you can see when exactly you can pick up your passport at the latest.",
         },
         {
-            question: "What documents do I need for a Lost/Stolen passport application?",
+            question:
+                "What documents do I need for a Lost/Stolen passport application?",
             answer: "You'll need a completed application form, proof of citizenship (such as a birth certificate), valid ID, Police evidence letter, Copy of passport or information about the passport if you have, with 13000 Birr, and any additional documents specific to your situation..",
         },
     ];
