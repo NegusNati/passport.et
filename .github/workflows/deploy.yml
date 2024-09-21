@@ -1,4 +1,4 @@
-name: Deploy PassportET to VPS
+name: Zero Downtime Deployment to VPS
 
 on:
   push:
@@ -8,7 +8,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
         with:
@@ -17,5 +21,22 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             cd ~/laraveldocker.prod/
+
+            # Step 1: Pull the latest code
             echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S git pull origin main
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
+
+            # Step 2: Build new images without removing old containers yet
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml build
+
+            # Step 3: Perform a rolling restart for zero downtime
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml up --scale app=2 -d --remove-orphans
+
+            # Wait for new containers to be healthy (optional)
+            sleep 10
+
+            # Step 4: Bring back the scaling to 1 (if needed, depending on your app load balancing setup)
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml up --scale app=1 -d
+
+            # Clean up orphan containers (optional)
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker system prune -f
+
