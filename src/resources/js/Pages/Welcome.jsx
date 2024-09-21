@@ -67,7 +67,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             )}
                         </nav>
                     </header>
-                    <main className="bg-transparent w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-20 rounded-xl">
+                    <main className="bg-transparent w-full px-2 sm:px-6 lg:px-8 py-12 sm:py-20 rounded-xl">
                         <HeroSection auth={auth} />
                         <div className="my-20"></div>
                         <ServicesSection />
