@@ -37,11 +37,11 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 />
                 <div className="relative min-h-screen pt-4 px-1 pt-50 selection:bg-[#FF2D20] selection:text-white sm:px-2 lg:px-4">
                     {/* <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl"> */}
-                    <header className="flex flex-wrap justify-between items-center gap-2 px-4 py-2 lg:px-8">
+                    <header className="flex flex-wrap justify-between items-center gap-2 px-1 py-2 lg:px-8">
                         <div className="mr-auto pt-2">
                             <ApplicationLogo />
                         </div>
-                        <nav className="ml-auto flex justify-between space-x-4 ">
+                        <nav className="ml-auto flex justify-between space-x-2 lg:space-x-4 ">
                             {auth.user ? (
                                 <Link
                                     href={route("dashboard")}
