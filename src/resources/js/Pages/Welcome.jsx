@@ -28,7 +28,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     return (
         <>
             <Head title="Welcome" />
-            <div className="bg-gradient-to-r from-slate-100 to-slate-300 dark:from-slate-700 dark:to-zinc-900 dark:text-white/90 rounded-xl pb-10">
+            <div className="bg-gradient-to-r from-slate-100 to-slate-300 dark:from-slate-700 dark:to-zinc-900 dark:text-white/90 rounded-xl pb-10 min-h-screen w-full overflow-x-hidden">
                 <img
                     id="background"
                     className="absolute -left-20 top-0 max-w-[1100px]"
@@ -37,7 +37,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 />
                 <div className="relative min-h-screen pt-4 px-1 pt-50 selection:bg-[#FF2D20] selection:text-white sm:px-4 lg:px-8">
                     {/* <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl"> */}
-                    <header className="flex justify-between space-x-8 items-center gap-2  lg:grid-cols-3 ">
+                    <header className="flex flex-wrap justify-between items-center gap-2 px-4 py-2 lg:px-8">
                         <div className="mr-auto pt-2">
                             <ApplicationLogo />
                         </div>
@@ -67,7 +67,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             )}
                         </nav>
                     </header>
-                    <main className="bg-transparent w-full/80% sm:py-20 lg:px-8">
+                    <main className="bg-transparent w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
                         <HeroSection auth={auth} />
                         <div className="my-20"></div>
                         <ServicesSection />
@@ -203,7 +203,10 @@ function ServicesSection() {
                     Our Services
                 </h1>
                 <div className="relative">
-                    <div ref={scrollRef} className="flex overflow-x-hidden">
+                    <div
+                        ref={scrollRef}
+                        className="flex overflow-x-auto pb-4 hide-scrollbar"
+                    >
                         <div className="flex animate-scroll">
                             {[...services, ...services].map(
                                 (service, index) => (
@@ -264,7 +267,7 @@ function ProcessSection() {
     ];
 
     return (
-        <section className="py-12 bg-white dark:bg-gray-900">
+        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
                     Passport Application Process & Status Check
@@ -351,7 +354,7 @@ function FAQSection() {
     ];
 
     return (
-        <section className="py-12 bg-gray-100 dark:bg-gray-800">
+        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl mb-8">
                     Frequently Asked Questions
@@ -469,13 +472,16 @@ function TestimonialsSection() {
     }, []);
 
     return (
-        <section className="py-12 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-800 dark:to-indigo-900 overflow-hidden">
+        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-800 dark:to-indigo-900 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 className="text-3xl font-extrabold text-white sm:text-4xl text-center mb-12">
                     What Our Users Say
                 </h2>
                 <div className="relative">
-                    <div ref={scrollRef} className="flex overflow-x-hidden">
+                    <div
+                        ref={scrollRef}
+                        className="flex overflow-x-auto pb-4 hide-scrollbar"
+                    >
                         <div className="flex animate-scroll">
                             {[...testimonials, ...testimonials].map(
                                 (testimonial, index) => (
