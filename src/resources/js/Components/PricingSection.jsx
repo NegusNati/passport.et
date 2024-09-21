@@ -56,7 +56,7 @@ const tiers = [
 
 export default function PricingSection() {
     return (
-        <section className="bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 sm:py-24">
+        <section className="bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 sm:py-24 ">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <motion.div
                     className="mx-auto max-w-4xl text-center"
