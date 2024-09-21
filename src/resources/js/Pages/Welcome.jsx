@@ -31,7 +31,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             <div className="bg-gradient-to-r from-slate-100 to-slate-300 dark:from-slate-700 dark:to-zinc-900 dark:text-white/90 rounded-xl pb-10 min-h-screen w-full overflow-x-hidden">
                 <img
                     id="background"
-                    className="absolute -left-20 top-0 max-w-[1100px]"
+                    className="absolute -left-20 top-0 max-w-[550px] sm:max-w-[1100px] "
                     src="https://laravel.com/assets/img/welcome/background.svg"
                     alt="background image"
                 />
