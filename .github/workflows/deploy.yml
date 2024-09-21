@@ -30,10 +30,10 @@ jobs:
             git pull origin main
 
             # Step 2: Build new Docker images
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker-compose -f $DOCKER_COMPOSE_FILE build
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f $DOCKER_COMPOSE_FILE build
 
             # Step 3: Start new app instance (blue-green approach)
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker-compose -f $DOCKER_COMPOSE_FILE up -d --scale app=2
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f $DOCKER_COMPOSE_FILE up -d --scale app=2
 
             # Step 4: Health check for the new instance
             for i in {1..10}; do
@@ -49,7 +49,7 @@ jobs:
             done
 
             # Step 5: Scale down the old instance, keep one running app
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker-compose -f $DOCKER_COMPOSE_FILE up -d --scale app=1
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f $DOCKER_COMPOSE_FILE up -d --scale app=1
 
             # Step 6: Clean up unused resources (optional)
             echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker system prune -f
