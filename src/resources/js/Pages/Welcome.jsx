@@ -28,7 +28,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     return (
         <>
             <Head title="Welcome" />
-            <div className="bg-gradient-to-r from-slate-100 to-slate-300 dark:from-slate-700 dark:to-zinc-900 dark:text-white/90 rounded-xl pb-10 min-h-screen w-full overflow-x-hidden">
+            <div className="bg-gradient-to-r from-slate-100 to-slate-300 dark:from-slate-700 dark:to-zinc-900 dark:text-white/90 pb-8 min-h-screen w-full overflow-x-hidden">
                 <img
                     id="background"
                     className="absolute -left-20 top-0 max-w-[1100px]  "
@@ -67,7 +67,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             )}
                         </nav>
                     </header>
-                    <main className="bg-transparent w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+                    <main className="bg-transparent w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-20 rounded-xl">
                         <HeroSection auth={auth} />
                         <div className="my-20"></div>
                         <ServicesSection />
