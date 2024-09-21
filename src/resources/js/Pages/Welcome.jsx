@@ -35,17 +35,17 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     src="https://laravel.com/assets/img/welcome/background.svg"
                     alt="background image"
                 />
-                <div className="relative min-h-screen pt-4 px-1 pt-50 selection:bg-[#FF2D20] selection:text-white sm:px-4 lg:px-8">
+                <div className="relative min-h-screen pt-4 px-2 sm:px-4 lg:px-8 selection:bg-[#FF2D20] selection:text-white">
                     {/* <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl"> */}
-                    <header className="flex flex-wrap justify-between items-center gap-2 px-4 py-2 lg:px-8">
-                        <div className="mr-auto pt-2">
-                            <ApplicationLogo />
+                    <header className="flex flex-wrap justify-between items-center gap-2 px-2 sm:px-4">
+                        <div className="w-full sm:w-auto mb-2 sm:mb-0">
+                            <ApplicationLogo className="w-20 h-auto" />
                         </div>
-                        <nav className="ml-auto flex justify-between space-x-4 ">
+                        <nav className="flex flex-wrap justify-end space-x-2 sm:space-x-4">
                             {auth.user ? (
                                 <Link
                                     href={route("dashboard")}
-                                    className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                    className="rounded-md px-3 py-2 text-sm text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                 >
                                     Dashboard
                                 </Link>
@@ -53,13 +53,13 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 <>
                                     <Link
                                         href={route("login")}
-                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                        className="rounded-md px-3 py-2 text-sm text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                     >
                                         Log in
                                     </Link>
                                     <Link
                                         href={route("register")}
-                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                        className="rounded-md px-3 py-2 text-sm text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                     >
                                         Register
                                     </Link>
