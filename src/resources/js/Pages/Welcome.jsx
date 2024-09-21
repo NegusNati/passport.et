@@ -95,7 +95,7 @@ function HeroSection({ auth }) {
                 <h1 className="text-3xl font-extrabold sm:text-5xl capitalize">
                     Is your Passport Ready?
                     <strong className="font-extrabold  sm:block text-blue-400">
-                        Find Out Now here!
+                        Find Out Now!
                     </strong>
                 </h1>
                 <h2 className="mt-4 sm:text-xl/relaxed">
