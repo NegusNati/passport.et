@@ -1,9 +1,13 @@
-name: Zero Downtime Deployment to VPS
+name: Simple Zero Downtime Deployment to VPS
 
 on:
   push:
     branches:
       - main
+
+env:
+  DOCKER_COMPOSE_FILE: docker-compose.prod.yml
+  HEALTH_CHECK_URL: http://localhost/health
 
 jobs:
   deploy:
@@ -23,20 +27,29 @@ jobs:
             cd ~/laraveldocker.prod/
 
             # Step 1: Pull the latest code
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S git pull origin main
+            git pull origin main
 
-            # Step 2: Build new images without removing old containers yet
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml build
+            # Step 2: Build new Docker images
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker-compose -f $DOCKER_COMPOSE_FILE build
 
-            # Step 3: Perform a rolling restart for zero downtime
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml up --scale app=2 -d --remove-orphans
+            # Step 3: Start new app instance (blue-green approach)
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker-compose -f $DOCKER_COMPOSE_FILE up -d --scale app=2
 
-            # Wait for new containers to be healthy (optional)
-            sleep 10
+            # Step 4: Health check for the new instance
+            for i in {1..10}; do
+              if curl -sSf $HEALTH_CHECK_URL >/dev/null 2>&1; then
+                echo "Health check passed"
+                break
+              fi
+              if [ $i -eq 10 ]; then
+                echo "Health check failed after 10 attempts. Exiting."
+                exit 1
+              fi
+              sleep 5
+            done
 
-            # Step 4: Bring back the scaling to 1 (if needed, depending on your app load balancing setup)
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml up --scale app=1 -d
+            # Step 5: Scale down the old instance, keep one running app
+            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker-compose -f $DOCKER_COMPOSE_FILE up -d --scale app=1
 
-            # Clean up orphan containers (optional)
+            # Step 6: Clean up unused resources (optional)
             echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker system prune -f
-
