@@ -32,7 +32,7 @@ jobs:
             echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml up --scale app=2 -d --remove-orphans
 
             # Wait for new containers to be healthy (optional)
-            sleep 10
+            sleep 20
 
             # Step 4: Bring back the scaling to 1 (if needed, depending on your app load balancing setup)
             echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml up --scale app=1 -d

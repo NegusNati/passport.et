@@ -58,7 +58,9 @@ export default function ApplicationLogo(props) {
 
         <svg
             {...props}
-            className="w-27 h-auto sm:w-33 md:w-45 lg:w-52 xl:w-60"
+            // className="w-27 h-auto sm:w-33 md:w-45 lg:w-52 xl:w-60"
+            className="w-60 xl:w-52 lg:w-45 md:w-33 sm:w-27 h-auto"
+
             viewBox="0 0 100 70"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
