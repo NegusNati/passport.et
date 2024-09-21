@@ -31,14 +31,14 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             <div className="bg-gradient-to-r from-slate-100 to-slate-300 dark:from-slate-700 dark:to-zinc-900 dark:text-white/90 rounded-xl pb-10 min-h-screen w-full overflow-x-hidden">
                 <img
                     id="background"
-                    className="absolute -left-20 top-0 max-w-[550px] sm:max-w-[1100px] "
+                    className="absolute -left-20 top-0 max-w-[1100px]  "
                     src="https://laravel.com/assets/img/welcome/background.svg"
                     alt="background image"
                 />
                 <div className="relative min-h-screen pt-4 px-1 pt-50 selection:bg-[#FF2D20] selection:text-white sm:px-2 lg:px-4">
                     {/* <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl"> */}
                     <header className="flex flex-wrap justify-between items-center gap-2 px-1 py-2 lg:px-8">
-                        <div className="mr-auto pt-2">
+                        <div className="mr-auto pt-2 w-32 sm:w-auto">
                             <ApplicationLogo />
                         </div>
                         <nav className="ml-auto flex justify-between space-x-2 lg:space-x-4 ">
