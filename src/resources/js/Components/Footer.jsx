@@ -226,7 +226,7 @@ function Footer() {
                 </div>
                 <div className="mt-8 text-sm text-gray-500 dark:text-gray-400 text-center">
                     &copy;
-                    {new Date().getFullYear()} Negus Nati. All rights reserved.
+                    {new Date().getFullYear()} Passport.ET. All rights reserved.
                 </div>
             </div>
         </footer>
