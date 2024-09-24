@@ -58,7 +58,7 @@ function Footer() {
                                 <div className="flex items-center m-auto justify-center ">
 
                             <a
-                                 href="https://t.me/official_passportET"
+                                 href="https://t.me/passportdotet_group"
                                 className="ttransition   bg-[#FF2D20]/20 dark:bg-[#FF2D20]/80 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 hover:text-white duration-300 p-2 rounded-lg flex items-center m-auto justify-center mx-2"
                             >
                                 <svg
@@ -226,7 +226,7 @@ function Footer() {
                 </div>
                 <div className="mt-8 text-sm text-gray-500 dark:text-gray-400 text-center">
                     &copy;
-                    {new Date().getFullYear()} Negus Nati. All rights reserved.
+                    {new Date().getFullYear()} Passport.ET. All rights reserved.
                 </div>
             </div>
         </footer>
