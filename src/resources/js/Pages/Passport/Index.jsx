@@ -4,6 +4,7 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
+import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import InputError from "@/Components/InputError";
 
@@ -27,7 +28,7 @@ function Index({ auth }) {
         post(route('passport.show'));
     };
     return (
-        <Authenticated
+        <AuthGuestLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight selection:bg-[#FF2D20] selection:text-white capitalize">
@@ -148,7 +149,7 @@ function Index({ auth }) {
                 </form>
             </main>
 
-        </Authenticated>
+        </AuthGuestLayout>
     );
 }
 

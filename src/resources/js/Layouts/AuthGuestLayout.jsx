@@ -8,7 +8,7 @@ import { Link } from "@inertiajs/react";
 import Footer from "@/Components/Footer";
 import LanguageSwitcher from "@/Components/LanguageSwitcher";
 
-export default function Authenticated({ user, header, children }) {
+export default function AuthGuestLayout({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
     const savedTheme = localStorage.getItem("theme") || "system";
