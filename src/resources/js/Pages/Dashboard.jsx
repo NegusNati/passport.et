@@ -2,6 +2,7 @@ import DismissibleBanner from "@/Components/DismissibleBanner";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 import { Head, Link } from "@inertiajs/react";
 import { React, useState } from "react";
 
@@ -19,7 +20,7 @@ export default function Dashboard({ auth }) {
     };
     // console.log(idValue);
     return (
-        <AuthenticatedLayout
+        <AuthGuestLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -54,7 +55,7 @@ export default function Dashboard({ auth }) {
 
                                     <div className="pt-3 sm:pt-5">
                                         <h2 className="text-xl font-semibold text-black dark:text-white">
-                                            Find your Passport
+                                            Search Passport
                                         </h2>
 
                                         <p className="mt-4 text-sm/relaxed ">
@@ -111,9 +112,8 @@ export default function Dashboard({ auth }) {
 
                                     <div className="pt-3 sm:pt-5">
                                         <h2 className="text-xl font-semibold text-black dark:text-white capitalize">
-                                        Passports for today
+                                        Today's Releases
                                         </h2>
-
                                         <p className="mt-4 text-sm/relaxed ">
                                            The latest daily updated passports, look through all passports ranging from 2 years back. you can take advantage this information to get your passport.
 
@@ -230,6 +230,6 @@ export default function Dashboard({ auth }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </AuthGuestLayout>
     );
 }

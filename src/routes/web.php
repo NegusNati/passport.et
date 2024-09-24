@@ -29,24 +29,47 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
-Route::middleware(['auth', 'throttle:rateLimiter'])->group(function () {
 
+
+//adde on sep 24/24
+Route::middleware(['throttle:rateLimiter'])->group(function () {
     Route::get('/passport', [PassportSearchController::class, 'index'])->name('passport');
     Route::get('/passport/search', [PassportSearchController::class, 'show'])->name('passport.show');
     Route::post('/passport', [PassportSearchController::class, 'show'])->name('passport.show');
     Route::get('/passport/{id}', [PassportSearchController::class, 'detail'])->name('passport.showDetail');
     Route::get('/all-passports', [PassportSearchController::class, 'all'])->name('passport.all');
-
-
-    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+// Keep the dashboard route as it is, since it should remain protected
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('dashboard');
+
+
+
+
+
+
+
+// on auth sep 24/24
+// Route::middleware(['auth', 'throttle:rateLimiter'])->group(function () {
+
+//     Route::get('/passport', [PassportSearchController::class, 'index'])->name('passport');
+//     Route::get('/passport/search', [PassportSearchController::class, 'show'])->name('passport.show');
+//     Route::post('/passport', [PassportSearchController::class, 'show'])->name('passport.show');
+//     Route::get('/passport/{id}', [PassportSearchController::class, 'detail'])->name('passport.showDetail');
+//     Route::get('/all-passports', [PassportSearchController::class, 'all'])->name('passport.all');
+
+
+//     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+
+
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {

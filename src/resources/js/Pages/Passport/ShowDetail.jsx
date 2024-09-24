@@ -1,4 +1,5 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
+import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import formatDate from "@/helpers/formarDate";
 
@@ -57,7 +58,7 @@ function ShowDetail({ auth, passport }) {
     }
 
     return (
-        <Authenticated
+        <AuthGuestLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight py-4">
@@ -123,7 +124,7 @@ function ShowDetail({ auth, passport }) {
                     </div>
                 </div>
             </main>
-        </Authenticated>
+        </AuthGuestLayout>
     );
 }
 
