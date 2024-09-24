@@ -57,7 +57,6 @@ services:
     networks:
       - laravel
 
-
   composer:
     build:
       context: ./dockerfiles
@@ -82,10 +81,9 @@ services:
       - "3001:3001"
       - "5173:5173"
     working_dir: /var/www/html
+    entrypoint: [ 'sh', '-c' ]
     command: >
-      sh -c "npm run build &&
-            cd /var/www/html/public/build/.vite/ &&
-            cp manifest.json ../"
+      "npm install && npm run build && cd /var/www/html/public/build/.vite/ && cp manifest.json ../"
     networks:
       - laravel
 
@@ -114,4 +112,3 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - laravel
-

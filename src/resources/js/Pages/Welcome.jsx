@@ -69,6 +69,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     </header>
                     <main className="bg-transparent w-full px-2 sm:px-6 lg:px-8 py-12 sm:py-20 rounded-xl">
                         <HeroSection auth={auth} />
+                        {/* <DashboardSection /> */}
                         <div className="my-20"></div>
                         <ServicesSection />
                         <ProcessSection />
@@ -499,6 +500,31 @@ function TestimonialsSection() {
                                 )
                             )}
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function DashboardSection() {
+    return (
+        <section className="py-12 bg-gray-100 dark:bg-gray-800">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center">
+                    <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+                        Access Your Dashboard
+                    </h2>
+                    <p className="mt-4 text-xl text-gray-600 dark:text-gray-300">
+                        Check your passport status and manage your applications.
+                    </p>
+                    <div className="mt-8">
+                        <Link
+                            href={route('dashboard')}
+                            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                        >
+                            Go to Dashboard
+                        </Link>
                     </div>
                 </div>
             </div>
