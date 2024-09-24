@@ -25,7 +25,7 @@ function Footer() {
                     <ul className="flex flex-wrap justify-center gap-4 text-xs lg:justify-end">
                         <li>
                             <a
-                                 href={route('privacy') + '#terms'}
+                                href={route("privacy") + "#terms"}
                                 className="text-gray-500 transition hover:opacity-75"
                             >
                                 {" "}
@@ -35,7 +35,7 @@ function Footer() {
 
                         <li>
                             <a
-                                href={route('privacy') + '#privacy'}
+                                href={route("privacy") + "#privacy"}
                                 className="text-gray-500 transition hover:opacity-75"
                             >
                                 {" "}
@@ -45,7 +45,7 @@ function Footer() {
 
                         <li>
                             <a
-                               href={route('privacy') + '#cookies'}
+                                href={route("privacy") + "#cookies"}
                                 className="text-gray-500 transition hover:opacity-75"
                             >
                                 {" "}
@@ -53,64 +53,63 @@ function Footer() {
                             </a>
                         </li>
                     </ul>
-                            <ul>
-                            <li>
-                                <div className="flex items-center m-auto justify-center ">
-
-                            <a
-                                 href="https://t.me/passportdotet_group"
-                                className="ttransition   bg-[#FF2D20]/20 dark:bg-[#FF2D20]/80 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 hover:text-white duration-300 p-2 rounded-lg flex items-center m-auto justify-center mx-2"
-                            >
-                                <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 240 240"
-                                            className="size-7 shrink-0 self-center stroke-[#FF2D20]"
-                                        >
-                                            <defs>
-                                                <linearGradient
-                                                    id="telegramGradient"
-                                                    x1="0.6667"
-                                                    y1="0.1667"
-                                                    x2="0.4167"
-                                                    y2="0.75"
-                                                >
-                                                    <stop
-                                                        stopColor="#37aee2"
-                                                        offset="0"
-                                                    />
-                                                    <stop
-                                                        stopColor="#1e96c8"
-                                                        offset="1"
-                                                    />
-                                                </linearGradient>
-                                            </defs>
-                                            <circle
-                                                cx="120"
-                                                cy="120"
-                                                r="120"
-                                                fill="url(#telegramGradient)"
-                                            />
-                                            <path
-                                                fill="#c8daea"
-                                                d="M98 175c-3.9 0-3.2-1.5-4.6-5.2L82 132.2l88-52.2"
-                                            />
-                                            <path
-                                                fill="#a9c9dd"
-                                                d="M98 175c3 0 4.3-1.4 6-3l16-15.6-20-12"
-                                            />
-                                            <path
-                                                fill="#fff"
-                                                d="M100 144.4l48.4 35.7c5.5 3 9.5 1.5 10.9-5.1l19.7-92.8c2-8-3.1-11.7-8.4-9.3L55 117.5c-7.9 3.2-7.8 7.6-1.4 9.5l29.7 9.3 68.7-43.3c3.2-2 6.2-.9 3.8 1.3"
-                                            />
-                                        </svg>
-                                {"  "}
-                                <span className="text-white font-bold mx-2">
-                                Get Support{" "}
-                                </span>
-                            </a>
+                    <ul>
+                        <li>
+                            <div className="flex items-center m-auto justify-center ">
+                                <a
+                                    href="https://t.me/passportdotet_group"
+                                    className="ttransition   bg-[#FF2D20]/20 dark:bg-[#FF2D20]/80 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 hover:text-white duration-300 p-2 rounded-lg flex items-center m-auto justify-center mx-2"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 240 240"
+                                        className="size-7 shrink-0 self-center stroke-[#FF2D20]"
+                                    >
+                                        <defs>
+                                            <linearGradient
+                                                id="telegramGradient"
+                                                x1="0.6667"
+                                                y1="0.1667"
+                                                x2="0.4167"
+                                                y2="0.75"
+                                            >
+                                                <stop
+                                                    stopColor="#37aee2"
+                                                    offset="0"
+                                                />
+                                                <stop
+                                                    stopColor="#1e96c8"
+                                                    offset="1"
+                                                />
+                                            </linearGradient>
+                                        </defs>
+                                        <circle
+                                            cx="120"
+                                            cy="120"
+                                            r="120"
+                                            fill="url(#telegramGradient)"
+                                        />
+                                        <path
+                                            fill="#c8daea"
+                                            d="M98 175c-3.9 0-3.2-1.5-4.6-5.2L82 132.2l88-52.2"
+                                        />
+                                        <path
+                                            fill="#a9c9dd"
+                                            d="M98 175c3 0 4.3-1.4 6-3l16-15.6-20-12"
+                                        />
+                                        <path
+                                            fill="#fff"
+                                            d="M100 144.4l48.4 35.7c5.5 3 9.5 1.5 10.9-5.1l19.7-92.8c2-8-3.1-11.7-8.4-9.3L55 117.5c-7.9 3.2-7.8 7.6-1.4 9.5l29.7 9.3 68.7-43.3c3.2-2 6.2-.9 3.8 1.3"
+                                        />
+                                    </svg>
+                                    {"  "}
+                                    <span className="text-white font-bold mx-2">
+                                        Get Support{" "}
+                                    </span>
+                                </a>
                             </div>
                         </li>
-                            </ul>
+                    </ul>
                     <ul className="mt-8 flex justify-center gap-6 sm:mt-0 lg:justify-end ">
                         <li className="hover:-translate-y-1 hover:scale-110  hover:text-white duration-300">
                             <a
@@ -134,7 +133,7 @@ function Footer() {
                             </a>
                         </li>
 
-                         <li className="hover:-translate-y-1 hover:scale-110  hover:text-white duration-300">
+                        <li className="hover:-translate-y-1 hover:scale-110  hover:text-white duration-300">
                             <a
                                 href="https://github.com/negusnati"
                                 rel="noreferrer"
@@ -158,7 +157,7 @@ function Footer() {
                             </a>
                         </li>
 
-                         <li className="hover:-translate-y-1 hover:scale-110  hover:text-white duration-300">
+                        <li className="hover:-translate-y-1 hover:scale-110  hover:text-white duration-300">
                             <a
                                 href="https://t.me/negusnati"
                                 rel="noreferrer"
@@ -179,7 +178,7 @@ function Footer() {
                                 </svg>
                             </a>
                         </li>
-                         <li className="hover:-translate-y-1 hover:scale-110  hover:text-white duration-300">
+                        <li className="hover:-translate-y-1 hover:scale-110  hover:text-white duration-300">
                             <a
                                 href="https://www.instagram.com/negusnati/"
                                 rel="noreferrer"
@@ -202,7 +201,7 @@ function Footer() {
                                 </svg>
                             </a>
                         </li>
-                         <li className="hover:-translate-y-1 hover:scale-110  hover:text-white duration-300">
+                        <li className="hover:-translate-y-1 hover:scale-110  hover:text-white duration-300">
                             <a
                                 href="https://www.linkedin.com/in/negusnati/"
                                 rel="noreferrer"
