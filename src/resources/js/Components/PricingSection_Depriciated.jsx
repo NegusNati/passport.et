@@ -222,7 +222,7 @@ function PricingSection_Depriciated() {
 
                                 <span className=" capitalize">
                                     {" "}
-                                    120 queries per hour{" "}
+                                    100 queries per hour{" "}
                                 </span>
                             </li>
 
