@@ -10,7 +10,7 @@ const tiers = [
         description: "Perfect for checking few time a day.",
         features: [
             "Latest passport information",
-            "120 queries per hour",
+            "100 queries per hour",
             "passport delivery date & time",
             "Detailed information",
             "Help center access",
