@@ -103,7 +103,7 @@ function HeroSection({ auth }) {
                     Check the{" "}
                     <span className=" font-semibold text-blue-400">latest</span>{" "}
                     passport status published by the Ethiopian Immigration
-                    Office.
+                    Office!
                 </h2>
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
                     <div class="relative inline-flex  group">
