@@ -1,7 +1,8 @@
+![Banner](https://github.com/user-attachments/assets/3e12d26c-e0ac-4f13-9c38-92223bbc6db8)
 # PassportET + Containerized Deployment 🐳
 
 
-A simple way to look if your passport is read to collect and which day of the week you should collect. it is Role & Permission based site with PDF to SQLite parsing, Queue operations for PDF parsing, Automated daily updates, Payment integration with [Chapa payment gateway](https://chapa.co)!
+A simple way to look if your passport is read to collect and which day of the week you should collect. it is Role & Permission based site with PDF to SQLite(MarianaDB for prod) parsing, Queued jubs for PDF parsing in the background, Automated daily updates, Payment integration with [Chapa payment gateway](https://chapa.co)!
 
 
 - Current Demo  
@@ -38,3 +39,37 @@ https://github.com/NegusNati/passport-site/assets/84500378/3564eea0-9faf-4a6a-b2
 
   - Paginated list of Latest Passport ready for pick up 
  <img src="https://github.com/NegusNati/Airbnb-Experiences-Clone/assets/84500378/ae3132ca-28f6-43cc-b342-1e2322eb18b7">
+
+
+
+## Contributing guideline to `passport.et`
+
+ Thank you for considering contributing to the passport.et project! By participating, you’re helping to improve this project, and your contributions are valued.
+ 
+### Getting Started
+##### 1. Fork the Repository
+Start by forking the repository to your GitHub account.
+
+##### 2. Clone Your Fork on your machine
+
+ ```bash
+    git clone https://github.com/NegusNati/passport.et.git
+```
+##### 3. Configure .env and docker-compose.yml file.
+##### 4. Then just build the images and containers 
+ ```bash
+    docker-compose up -d --build
+```
+##### 5. check it at `app.localhost` (if you didn't change it)
+##### 6. Submit a Pull Request
+Once you've pushed your changes, come back to this repository and submit a pull request. Make sure you include the following in your pull request:
+
+A detailed description of what the PR does.
+The issue number (if applicable).
+Any additional information that may help with the review process.
+
+### Code Style Guidelines
+Please follow the [PSR-12](https://www.php-fig.org/psr/psr-12/) coding standards for PHP code and use [ESLint](https://eslint.org/) rules for JavaScript code.
+
+### Bug Reports and Feature Requests
+If you encounter a bug or have a feature request, please open an issue on the repository. Provide as much detail as possible, including steps to reproduce the issue or a description of the requested feature.
