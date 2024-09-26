@@ -64,8 +64,8 @@ class ProfileController extends Controller
 
     public function assignAdminRole(Request $request)
     {
-        $user = User::find(1); // Assuming you want to find the user with ID 1
-        $user->assignRole('admin'); // Assigning the 'admin' role
+        $user = User::find(1); 
+        $user->assignRole('admin');
 
         return back()->with('success', 'Admin role assigned successfully.');
     }

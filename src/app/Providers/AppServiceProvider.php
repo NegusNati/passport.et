@@ -27,24 +27,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
+        
         if (env('APP_ENV') === 'production') {
             URL::forceScheme('https');
         }
-        // RateLimiter::for('rateLimiter', function ($request) {
-        //     $user = Auth::user();
-
-        //     if ($user && $user->subscription) {
-        //         $plan = $user->subscription->plan;
-
-        //         return $plan === 'premium'
-        //             ? Limit::perHour(1000)->by($user->id)
-        //             : Limit::perHour(10)->by($user->id);
-        //     }
-
-        //     // Default rate limit for unauthenticated users or users without a subscription
-        //     return Limit::perHour(60)->by(optional($user)->id ?: $request->ip());
-        // });
 
         Gate::define('viewPulse', function (User $user) {
             return $user->hasRole('admin');
@@ -62,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
                             'message' => 'You have exceeded the hourly rate limit for premium users.',
                         ])->toResponse(request())->setStatusCode(429);
                     })
-                : Limit::perHour(100)->by($user->id)->response(function () {  
+                : Limit::perHour(100)->by($user->id)->response(function () {
                         return Inertia::render('Errors/RateLimitExceeded', [
                             'message' => 'You have exceeded the hourly rate limit for standard users.',
                         ])->toResponse(request())->setStatusCode(429);
