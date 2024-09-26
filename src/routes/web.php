@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FilterByCityController;
 use App\Http\Controllers\PassportSearchController;
 use App\Http\Controllers\PDFToSQLiteController;
 use App\Http\Controllers\ProfileController;
@@ -38,6 +39,12 @@ Route::middleware(['throttle:rateLimiter'])->group(function () {
     Route::post('/passport', [PassportSearchController::class, 'show'])->name('passport.show');
     Route::get('/passport/{id}', [PassportSearchController::class, 'detail'])->name('passport.showDetail');
     Route::get('/all-passports', [PassportSearchController::class, 'all'])->name('passport.all');
+
+});
+
+Route::middleware(['throttle:rateLimiter'])->group(function () {
+    Route::get('/locations', [FilterByCityController::class, 'index'])->name('passport.locations');
+    Route::get('/location/{location}', [FilterByCityController::class, 'filterByLocation'])->name('passport.by-location');
 });
 
 // Keep the dashboard route as it is, since it should remain protected

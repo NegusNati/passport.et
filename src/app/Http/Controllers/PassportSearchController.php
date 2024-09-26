@@ -60,19 +60,19 @@ class PassportSearchController extends Controller
         $query->when($requestNumber, function ($q) use ($requestNumber) {
             return $q->where('requestNumber', 'LIKE', '%' . $requestNumber . '%');
         })
-        ->when(!$requestNumber && ($firstName || $middleName || $lastName), function ($q) use ($firstName, $middleName, $lastName) {
-            return $q->where(function ($subQ) use ($firstName, $middleName, $lastName) {
-                $subQ->when($firstName, function ($q) use ($firstName) {
-                    return $q->where('firstName', 'LIKE', '%' . $firstName . '%');
-                })
-                ->when($middleName, function ($q) use ($middleName) {
-                    return $q->where('middleName', 'LIKE', '%' . $middleName . '%');
-                })
-                ->when($lastName, function ($q) use ($lastName) {
-                    return $q->where('lastName', 'LIKE', '%' . $lastName . '%');
+            ->when(!$requestNumber && ($firstName || $middleName || $lastName), function ($q) use ($firstName, $middleName, $lastName) {
+                return $q->where(function ($subQ) use ($firstName, $middleName, $lastName) {
+                    $subQ->when($firstName, function ($q) use ($firstName) {
+                        return $q->where('firstName', 'LIKE', '%' . $firstName . '%');
+                    })
+                        ->when($middleName, function ($q) use ($middleName) {
+                            return $q->where('middleName', 'LIKE', '%' . $middleName . '%');
+                        })
+                        ->when($lastName, function ($q) use ($lastName) {
+                            return $q->where('lastName', 'LIKE', '%' . $lastName . '%');
+                        });
                 });
             });
-        });
 
         $passports = $query->limit(60)->get(); // Execute the query
 
@@ -141,10 +141,15 @@ class PassportSearchController extends Controller
         ]);
     }
 
+    // public function locations(Request $request){
+    //     $locations = PDFToSQLite::select('location')->distinct()->get();
+    //     return Inertia::render('Passport/ByLocation', [
+    //         'locations' => $locations,
+    //     ]);
+    // }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-    }
+    public function destroy(string $id) {}
 }
