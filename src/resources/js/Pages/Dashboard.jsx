@@ -23,13 +23,16 @@ export default function Dashboard({ auth }) {
         <AuthGuestLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                <h2 className="font-semibold text-lg sm:text-xl  text-gray-800 dark:text-gray-200 leading-tight">
                     Dashboard
                 </h2>
             }
         >
             <Head title="Dashboard" />
-            <DismissibleBanner text="Welcome to PassportET, your one stop solution for checking your passport status" bgColor={'bg-indigo-400'}/>
+            <DismissibleBanner
+                text="Welcome to PassportET, your one stop solution for checking your passport status"
+                bgColor={"bg-indigo-400"}
+            />
 
             <div className="pt-12 py-12 pb-20 mb-40 bg-gradient-to-r from-slate-100 to-slate-300 dark:from-slate-700 dark:to-zinc-900 dark:text-white/90">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
@@ -38,9 +41,9 @@ export default function Dashboard({ auth }) {
                             <div className="">
                                 <Link
                                     href={route("passport")}
-                                    className="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                                    className="flex items-start gap-2 sm:gap-4 rounded-lg bg-white p-4 sm:p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                                 >
-                                    <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
+                                    <div className="flex size-10 sm:size-12 md:size-16 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10">
                                         <svg
                                             className="size-5 sm:size-6"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -53,14 +56,15 @@ export default function Dashboard({ auth }) {
                                         </svg>
                                     </div>
 
-                                    <div className="pt-3 sm:pt-5">
-                                        <h2 className="text-xl font-semibold text-black dark:text-white">
+                                    <div className="pt-2 sm:pt-3 md:pt-5">
+                                        <h2 className="text-lg sm:text-xl  font-semibold text-black dark:text-white">
                                             Search Passport
                                         </h2>
 
-                                        <p className="mt-4 text-sm/relaxed ">
+                                        <p className="mt-2 sm:mt-4 text-xs sm:text-sm/relaxed ">
                                             Do you want to see if your Passport
-                                            is ready for pick up? shearch for it by NAME or Request ID.
+                                            is ready for pick up? shearch for it
+                                            by NAME or Request ID.
                                         </p>
                                     </div>
 
@@ -82,9 +86,9 @@ export default function Dashboard({ auth }) {
                             <div className="">
                                 <Link
                                     href={route("passport.all")}
-                                    className="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                                    className="flex items-start gap-2 sm:gap-4 rounded-lg bg-white p-4 sm:p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                                 >
-                                    <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
+                                    <div className="flex size-10 sm:size-12 md:size-16 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 ">
                                         {/* <svg
                                             className="size-5 sm:size-6"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -110,13 +114,16 @@ export default function Dashboard({ auth }) {
                                         </svg>
                                     </div>
 
-                                    <div className="pt-3 sm:pt-5">
-                                        <h2 className="text-xl font-semibold text-black dark:text-white capitalize">
-                                        Today's Releases
+                                    <div className="pt-2 sm:pt-3 md:pt-5">
+                                        <h2 className="text-lg sm:text-xl  font-semibold text-black dark:text-white capitalize">
+                                            Today's Releases
                                         </h2>
-                                        <p className="mt-4 text-sm/relaxed ">
-                                           The latest daily updated passports, look through all passports ranging from 2 years back. you can take advantage this information to get your passport.
-
+                                        <p className="mt-2 sm:mt-4 text-xs sm:text-sm/relaxed ">
+                                            The latest daily updated passports,
+                                            look through all passports ranging
+                                            from 2 years back. you can take
+                                            advantage this information to get
+                                            your passport.
                                         </p>
                                     </div>
 
@@ -139,9 +146,9 @@ export default function Dashboard({ auth }) {
                             <div className="">
                                 <Link
                                     href={route("telegram.index")}
-                                    className="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                                    className="flex items-start gap-2 sm:gap-4 rounded-lg bg-white p-4 sm:p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                                 >
-                                    <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
+                                    <div className="flex size-10 sm:size-12 md:size-16 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 ">
                                         {/* <svg
                                             className="size-5 sm:size-6"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -199,12 +206,12 @@ export default function Dashboard({ auth }) {
                                         </svg>
                                     </div>
 
-                                    <div className="pt-3 sm:pt-5">
-                                        <h2 className="text-xl font-semibold text-black dark:text-white capitalize">
+                                    <div className="pt-2 sm:pt-3 md:pt-5">
+                                        <h2 className="text-lg sm:text-xl  font-semibold text-black dark:text-white capitalize">
                                             Telegram Notification
                                         </h2>
 
-                                        <p className="mt-4 text-sm/relaxed ">
+                                        <p className="mt-2 sm:mt-4 text-xs sm:text-sm/relaxed ">
                                             Register for automatic notification
                                             in Telegram for when your passport
                                             is ready for pick up.

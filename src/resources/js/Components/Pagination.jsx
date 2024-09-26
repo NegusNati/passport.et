@@ -1,6 +1,7 @@
 import { Link } from "@inertiajs/react";
 
 const Pagination = ({ passports, handlePageChange }) => {
+    console.log("passport link path :",passports.path );
     return (
         passports.data.length > 0 && (
             <div className=" font-semibold text-sm text-gray-700  flex justify-between border-t border-gray-200 pt-6   px-4 dark:border-gray-700 dark:text-black/80">
