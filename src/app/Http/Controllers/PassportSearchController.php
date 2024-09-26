@@ -48,15 +48,12 @@ class PassportSearchController extends Controller
     public function show(Request $request)
     {
 
-        $query = PDFToSQLite::query(); // Start with a base query
-
+        $query = PDFToSQLite::query();
         $requestNumber = $request->input('requestNumber');
         $firstName = $request->input('firstName');
         $middleName = $request->input('middleName');
         $lastName = $request->input('lastName');
 
-
-        // Check if requestNumber is provided
         $query->when($requestNumber, function ($q) use ($requestNumber) {
             return $q->where('requestNumber', 'LIKE', '%' . $requestNumber . '%');
         })
@@ -74,32 +71,17 @@ class PassportSearchController extends Controller
                 });
             });
 
-        $passports = $query->limit(60)->get(); // Execute the query
+        $passports = $query->limit(60)->get();
 
 
         return Inertia::render(
             'Passport/Show',
             [
                 'passports' => $passports,
-                'search' => $request->all(), // Pass all search parameters back to the view
+                'search' => $request->all(),
 
             ]
         );
-
-
-        // $search = $request->input('applicationNumber');
-        // $passports = PDFToSQLite::where('applicationNumber', 'LIKE', '%' . $search . '%')->get();
-
-
-
-
-        // return Inertia::render(
-        //     'Passport/Show',
-        //     [
-        //         'passports' => $passports,
-        //         'search' => $search,
-        //     ]
-        // );
     }
     public function detail(Request $request, $id)
     {
@@ -130,7 +112,6 @@ class PassportSearchController extends Controller
     {
 
         // $passports = PDFToSQLite::latest()->simplePaginate(50)->fragment("fragment-id");
-        // $passports = PDFToSQLite::latest()->simplePaginate(30);
         $passports = PDFToSQLite::query()->orderBy('id', 'desc')->simplePaginate(50);
         $passports->setPath(url('/all-passports'));
 
@@ -140,13 +121,6 @@ class PassportSearchController extends Controller
 
         ]);
     }
-
-    // public function locations(Request $request){
-    //     $locations = PDFToSQLite::select('location')->distinct()->get();
-    //     return Inertia::render('Passport/ByLocation', [
-    //         'locations' => $locations,
-    //     ]);
-    // }
 
     /**
      * Remove the specified resource from storage.

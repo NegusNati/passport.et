@@ -23,73 +23,10 @@ function PrivacyPolicy({ auth }) {
                     src="https://laravel.com/assets/img/welcome/background.svg"
                     alt="backgorund"
                 />
-                <div className="relative min-h-screen pt-4 px-1 pt-50 selection:bg-[#FF2D20] selection:text-white px-4 sm:px-6 lg:px-8">
+                <div className="relative min-h-screen pt-4 pt-50 selection:bg-[#FF2D20] selection:text-white px-4 sm:px-6 lg:px-8">
                     {/* <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl"> */}
                     <header className="flex justify-between space-x-8 items-center gap-2  lg:grid-cols-3 ">
                         <div className="mr-auto pt-2">
-                            {/* <svg
-                                width="150"
-                                height="150"
-                                viewBox="0 0 100 70"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <rect
-                                    x="0"
-                                    y="0"
-                                    width="100"
-                                    height="70"
-                                    fill="#c71508"
-                                    rx="5"
-                                />
-                                <circle cx="50" cy="35" r="10" fill="#F8E231" />
-                                <path
-                                    d="M45 30 L55 30 L55 40 L45 40 Z"
-                                    fill="#F8E231"
-                                />
-                                <path
-                                    d="M50 27.5 L51.76 32.45 L56.97 32.45 L52.60 35.55 L54.36 40.5 L50 37.5 L45.64 40.5 L47.40 35.55 L43.03 32.45 L48.24 32.45 Z"
-                                    fill="none"
-                                    stroke="black"
-                                    strokeWidth="1"
-                                />
-                                <text
-                                    x="50"
-                                    y="15"
-                                    fontSize="6"
-                                    fontFamily="Arial"
-                                    fill="#FFFFFF"
-                                    textAnchor="middle"
-                                >
-                                    REPUBLIC OF ETHIOPIA
-                                </text>
-                                <text
-                                    x="50"
-                                    y="60"
-                                    fontSize="6"
-                                    fontFamily="Arial"
-                                    fill="#FFFFFF"
-                                    textAnchor="middle"
-                                >
-                                    PASSPORT
-                                </text>
-                                <line
-                                    x1="10"
-                                    y1="19"
-                                    x2="90"
-                                    y2="19"
-                                    stroke="#FFFFFF"
-                                    strokeWidth="2"
-                                />
-                                <line
-                                    x1="10"
-                                    y1="50"
-                                    x2="90"
-                                    y2="50"
-                                    stroke="#FFFFFF"
-                                    strokeWidth="2"
-                                />
-                            </svg> */}
 
                             <ApplicationLogo />
                         </div>

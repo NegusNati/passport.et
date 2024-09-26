@@ -14,7 +14,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         // Other middleware...
-        \App\Http\Middleware\HandleCors::class, // Add this line
+        \App\Http\Middleware\HandleCors::class,
         'ratelimit' => \App\Http\Middleware\RateLimitMiddleware::class,
     ];
 
@@ -29,9 +29,9 @@ class Kernel extends HttpKernel
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\LocaleMiddleware::class, // Add this line
+            \App\Http\Middleware\LocaleMiddleware::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\HandleCors::class, // Add this line
+            \App\Http\Middleware\HandleCors::class,
         ],
 
         'api' => [

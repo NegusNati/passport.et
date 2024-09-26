@@ -86,13 +86,13 @@ export default function AuthGuestLayout({ user, header, children }) {
                                 <div className="ms-3 relative">
                                     <Link
                                         href={route("login")}
-                                        className="text-sm text-gray-700 dark:text-gray-300 underline"
+                                        className="text-sm text-gray-700 dark:text-gray-300 "
                                     >
                                         Log in
                                     </Link>
                                     <Link
                                         href={route("register")}
-                                        className="ml-4 text-sm text-gray-700 dark:text-gray-300 underline"
+                                        className="ml-4 text-sm text-gray-700 dark:text-gray-300"
                                     >
                                         Register
                                     </Link>
