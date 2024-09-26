@@ -75,4 +75,6 @@ Please follow the [PSR-12](https://www.php-fig.org/psr/psr-12/) coding standards
 If you encounter a bug or have a feature request, please open an issue on the repository. Provide as much detail as possible, including steps to reproduce the issue or a description of the requested feature.
 
 
+## Follow me for updates
+ [Telegram](https://t.me/negusnatiChannel)
 
