@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -15,6 +15,7 @@ function Index({ auth }) {
         middleName: "",
         lastName: "",
     });
+    const [showRequestNumber, setShowRequestNumber] = useState(false);
 
     useEffect(() => {
         return () => {
@@ -25,7 +26,7 @@ function Index({ auth }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('passport.show'));
+        post(route("passport.show"));
     };
     return (
         <AuthGuestLayout
@@ -43,32 +44,8 @@ function Index({ auth }) {
                     onSubmit={submit}
                     className="py-12 px-2 sm:px-6 lg:px-8   "
                 >
-                    <div className="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
-                        <InputLabel
-                            htmlFor="requestNumber"
-                            value="Request Number"
-                        />
-
-                        <TextInput
-                            id="requestNumber"
-                            name="requestNumber"
-                            value={data.requestNumber}
-                            className="mt-1 block w-full"
-                            autoComplete="requestNumber"
-                            isFocused={true}
-                            placeholder="AAL3912660"
-                            onChange={(e) =>
-                                setData("requestNumber", e.target.value)
-                            }
-                        />
-
-                        <InputError
-                            message={errors.requestNumber}
-                            className="mt-2"
-                        />
-                    </div>
                     <div className=" my-4 mx-2">
-                        <p>Or Find By Name</p>
+                        <p>Input Your Name</p>
                     </div>
                     <div className="  sm:px-2 flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
                         <div className="mt-4">
@@ -81,6 +58,7 @@ function Index({ auth }) {
                                 id="firstName"
                                 name="firstName"
                                 value={data.firstName}
+                                isFocused={!showRequestNumber}
                                 className="mt-1 block w-full"
                                 autoComplete="firstName"
                                 placeholder="Natnael"
@@ -141,6 +119,47 @@ function Index({ auth }) {
                             />
                         </div>
                     </div>
+                    {/* <div className=" my-4 mx-2">
+                        <p>Or Find By Request Number</p>
+                    </div> */}
+
+                    <button
+                        type="button"
+                        onClick={() => setShowRequestNumber(!showRequestNumber)}
+                        className="my-4 p-2 rounded-xl hover:bg-white hover:text-black transition duration-300"
+                    >
+                        {showRequestNumber
+                            ? "Search By Name"
+                            : "Or Find By Request Number"}
+                    </button>
+                    {showRequestNumber ? (
+                        <div className="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20] animate-slide-in">
+                            <InputLabel
+                                htmlFor="requestNumber"
+                                value="Request Number"
+                            />
+
+                            <TextInput
+                                id="requestNumber"
+                                name="requestNumber"
+                                value={data.requestNumber}
+                                className="mt-1 block w-full"
+                                autoComplete="requestNumber"
+                                isFocused={showRequestNumber}
+                                placeholder="AAL3912660"
+                                onChange={(e) =>
+                                    setData("requestNumber", e.target.value)
+                                }
+                            />
+
+                            <InputError
+                                message={errors.requestNumber}
+                                className="mt-2"
+                            />
+                        </div>
+                    ) : (
+                        ""
+                    )}
                     <div className="flex items-center justify-end mt-4">
                         <PrimaryButton className="mt-4 transition ease-in-out delay-100 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-100">
                             Find Passport
@@ -148,7 +167,6 @@ function Index({ auth }) {
                     </div>
                 </form>
             </main>
-
         </AuthGuestLayout>
     );
 }

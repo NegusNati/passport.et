@@ -56,46 +56,8 @@ function LocationTableView({ auth, passports, location }) {
                 <div>
                     <div className="flex justify-center items-center">
                         <h2 className="font-bold text-3xl text-white dark:text-black leading-tight pb-4 capitalize   ">
-                            Latest Passports
+                            {location ? location : "Passports"}
                         </h2>
-                        {/* <div className="flex items-center">
-                            <select
-                                className="mr-4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                value={filterBy}
-                                onChange={(e) => setFilterBy(e.target.value)}
-                            >
-                                <option value="">Filter by</option>
-                                <option value="alphabet">Alphabet</option>
-                                <option value="time">Time</option>
-                            </select>
-                            {filterBy === "alphabet" && (
-                                <input
-                                    type="text"
-                                    className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Filter by name"
-                                    value={filterValue}
-                                    onChange={(e) =>
-                                        setFilterValue(e.target.value)
-                                    }
-                                />
-                            )}
-                            {filterBy === "time" && (
-                                <input
-                                    type="date"
-                                    className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    value={filterValue}
-                                    onChange={(e) =>
-                                        setFilterValue(e.target.value)
-                                    }
-                                />
-                            )}
-                            <button
-                                className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                                onClick={handleFilter}
-                            >
-                                Filter
-                            </button>
-                        </div> */}
                     </div>
                 </div>
                 <div className="overflow-x-auto ">
