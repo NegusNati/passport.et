@@ -5,31 +5,31 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
 
 
-    // server: {
-    //     host: "0.0.0.0",
-    //     port: 5173,
-    //     watch: {
-    //         usePolling: true,
-    //     },
-    //     hmr: {
-    //         host: "app.localhost",
-    //         protocol: "http",
-    //     },
-    // },
-
-    // TODO: uncommnet this on merge
     server: {
-        host: '0.0.0.0',
+        host: "0.0.0.0",
         port: 5173,
-        https: true,
         watch: {
-          usePolling: true,
+            usePolling: true,
         },
         hmr: {
-            host: 'passport.et',
-            protocol: 'https'
-          },
-      },
+            host: "app.localhost",
+            protocol: "http",
+        },
+    },
+
+    // TODO: uncommnet this on merge
+    // server: {
+    //     host: '0.0.0.0',
+    //     port: 5173,
+    //     https: true,
+    //     watch: {
+    //       usePolling: true,
+    //     },
+    //     hmr: {
+    //         host: 'passport.et',
+    //         protocol: 'https'
+    //       },
+    //   },
     plugins: [
         laravel({
             input:  [

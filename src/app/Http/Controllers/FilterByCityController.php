@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PDFToSQLite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class FilterByCityController extends Controller
@@ -13,8 +14,9 @@ class FilterByCityController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Passport/ByLocaion/ChooseLocation',        [
-            'cities' => PDFToSQLite::distinct()->pluck('location'),
+        Log::info("in FilterByCityController");
+        return Inertia::render('Passport/ByLocation/Index',  [
+            'cities' => PDFToSQLite::select('location')->distinct()->get(),
         ]);
     }
 
@@ -26,9 +28,10 @@ class FilterByCityController extends Controller
         //
     }
 
-    public function filterByLocation(Request $request)
+    public function filterByLocation($location)
     {
-        $location = $request->input('location');
+      
+        Log::info("location : $location");
         $query = PDFToSQLite::query();
 
         if ($location) {
@@ -36,10 +39,11 @@ class FilterByCityController extends Controller
         }
 
         $passports = $query->orderBy('id', 'desc')->simplePaginate(50);
+        $passports->setPath(url('/location/'.$location));
 
-        return Inertia::render('Passport/TableView', [
+        return Inertia::render('Passport/ByLocation/LocationTableView', [
             'passports' => $passports,
-            'filter' => ['location' => $location],
+            'location' => $location
         ]);
     }
     /**
