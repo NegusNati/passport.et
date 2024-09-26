@@ -58,7 +58,7 @@ function Index({ auth }) {
                                 id="firstName"
                                 name="firstName"
                                 value={data.firstName}
-                                isFocused={true}
+                                isFocused={!showRequestNumber}
                                 className="mt-1 block w-full"
                                 autoComplete="firstName"
                                 placeholder="Natnael"

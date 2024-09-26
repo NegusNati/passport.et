@@ -26,7 +26,7 @@ export default function Index({ auth, cities }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-lg sm:text-xl  text-gray-800 dark:text-gray-200 leading-tight">
-                    Locations
+                    ICS Branch Locations
                 </h2>
             }
         >
@@ -43,7 +43,9 @@ export default function Index({ auth, cities }) {
                             {cities.map((city, index) => (
                                 <Link
                                     key={index}
-                                    href={route('passport.by-location', { location: city.location })}
+                                    href={route("passport.by-location", {
+                                        location: city.location,
+                                    })}
                                     className="block mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300"
                                 >
                                     <h3 className="text-lg font-semibold">
