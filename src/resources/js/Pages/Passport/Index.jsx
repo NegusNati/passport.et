@@ -125,7 +125,7 @@ function Index({ auth }) {
                     <button
                         type="button"
                         onClick={() => setShowRequestNumber(!showRequestNumber)}
-                        className="my-4 p-4 hover:bg-white hover:text-black transition duration-300"
+                        className="my-4 p-2 rounded-xl bg-blue-500 hover:bg-blue-600 transition-colors duration-300 group"
                     >
                         {showRequestNumber
                             ? "Search by Name"
