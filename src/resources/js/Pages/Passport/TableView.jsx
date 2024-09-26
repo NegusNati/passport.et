@@ -56,7 +56,7 @@ function TableView({ auth, passports }) {
                 <div>
                     <div className="flex justify-center items-center">
                         <h2 className="font-bold text-3xl text-white dark:text-black leading-tight pb-4 capitalize   ">
-                            Latest Passports
+                            Latest Passport Arrivals
                         </h2>
                         {/* <div className="flex items-center">
                             <select
