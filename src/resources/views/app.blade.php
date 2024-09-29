@@ -3,6 +3,12 @@
     lang="{{ str_replace('_', '-', session()->get('locale', substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)) ?: config('app.locale')) }}">
 
 <head>
+
+    {{-- Google Ads --}}
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1062387645972505"
+        crossorigin="anonymous"></script>
+    <!-- End Google Ads -->
+
     <!-- Google Tag Manager -->
     <script>
         (function(w, d, s, l, i) {
