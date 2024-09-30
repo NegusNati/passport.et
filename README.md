@@ -2,7 +2,7 @@
 # [Passport.ET](https://passport.et/) + Containerized Deployment 🐳
 
 
-A simple way to look if your passport is read to collect and which day of the week you should collect. it is Role & Permission based site with PDF to SQLite(MarianaDB for prod) parsing, Queued jubs for PDF parsing in the background, Automated daily updates, Payment integration with [Chapa payment gateway](https://chapa.co)!
+A simple way to look if your passport is ready to collect and which day of the week you should collect. It is Role & Permission based site with PDF to SQLite(MarianaDB for prod) parsing, Queued jubs for PDF parsing in the background, Automated daily updates, Payment integration with [Chapa payment gateway](https://chapa.co)!
 
 
 - Current Demo  
