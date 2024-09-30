@@ -99,6 +99,7 @@ function HeroSection({ auth }) {
                         Find Out Now!
                     </strong>
                 </h1>
+              
                 <h2 className="mt-4 sm:text-xl/relaxed">
                     Check the{" "}
                     <span className=" font-semibold text-blue-400">latest</span>{" "}

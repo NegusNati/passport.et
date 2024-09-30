@@ -39,6 +39,8 @@ class GenerateSitemap extends Command
             ->add(Url::create('/passport'))
             ->add(Url::create('/passport/{id}'))
             ->add(Url::create('/all-passports'))
+            ->add(Url::create('/location'))
+            ->add(Url::create('/location/{location}'))
             ->add(Url::create('/login'))
             ->add(Url::create('/register'))
             ->add(Url::create('/privacy'))
