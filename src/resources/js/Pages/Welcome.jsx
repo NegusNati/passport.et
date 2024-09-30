@@ -2,10 +2,17 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import Footer from "@/Components/Footer";
 import PricingSection from "@/Components/PricingSection";
 import { Link, Head } from "@inertiajs/react";
-import { motion } from "framer-motion";
+import {
+    motion,
+    useMotionValue,
+    useTransform,
+    animate,
+    useSpring,
+    useAnimation,
+} from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
-export default function Welcome({ auth, laravelVersion, phpVersion }) {
+export default function Welcome({ auth, passportCount }) {
     const handleImageError = () => {
         document
             .getElementById("screenshot-container")
@@ -68,7 +75,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         </nav>
                     </header>
                     <main className="bg-transparent w-full px-2 sm:px-6 lg:px-8 py-12 sm:py-20 rounded-xl">
-                        <HeroSection auth={auth} />
+                        <HeroSection auth={auth} value={passportCount} />
                         {/* <DashboardSection /> */}
                         <div className="my-20"></div>
                         <ServicesSection />
@@ -84,7 +91,35 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     );
 }
 
-function HeroSection({ auth }) {
+function HeroSection({ auth, value }) {
+    const [number, setNumber] = useState(0);
+    const targetNumber = value;
+
+    // Create a spring animation for smoother transition
+    const springValue = useSpring(0, {
+        stiffness: 75, // Controls how fast it reaches the target
+        damping: 20, // Controls the bounciness
+    });
+
+    // Transform the spring value into an integer for display
+    const animatedValue = useTransform(springValue, (latest) =>
+        Math.floor(latest)
+    );
+
+    useEffect(() => {
+        springValue.set(targetNumber); // Animate from 0 to targetNumber
+    }, [springValue]);
+
+    useEffect(() => {
+        // Subscribe to the spring animation and update number
+        const unsubscribe = animatedValue.on("change", (latest) => {
+            setNumber(latest);
+        });
+
+        // Cleanup the subscription when component unmounts
+        return () => unsubscribe();
+    }, [animatedValue]);
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -99,19 +134,45 @@ function HeroSection({ auth }) {
                         Find Out Now!
                     </strong>
                 </h1>
-                <h2 className="mt-4 sm:text-xl/relaxed">
+
+                {/* <div>
+                    From <AnimatedNumber value={1000202} /> Passports
+                </div> */}
+                <div className="flex justify-center items-center">
+                    <p className="flex items-center">
+                        From over
+                        <span className="relative inline-block mx-2">
+                            <span className="absolute inset-0 bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg opacity-75"></span>
+                            <motion.span
+                                className="relative inline-block bg-red-400 text-white font-bold px-3 py-1 text-lg shadow-md cursor-pointer rounded-xl"
+                                whileHover={{ scale: 1.1, rotate: 3 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 400,
+                                    damping: 10,
+                                }}
+                            >
+                                {number.toLocaleString()}+
+                            </motion.span>
+                        </span>
+                        Passports
+                    </p>
+                </div>
+
+                <h2 className="mt-4 sm:text-lg/relaxed">
                     Check the{" "}
                     <span className=" font-semibold text-blue-400">latest</span>{" "}
                     passport status published by the Ethiopian Immigration
                     Office!
                 </h2>
+
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
                     <div class="relative inline-flex  group">
                         <div class="absolute transitiona-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"></div>
                         <a
-                           href={route("dashboard")}
+                            href={route("dashboard")}
                             title="Check Passport Status"
-                            class="relative rounded inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all shadow focus:outline-none focus:ring active:bg-red-500 sm:w-auto transition ease-in-out delay-100 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
+                            class="relative rounded inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white shadow focus:outline-none focus:ring active:bg-red-500 sm:w-auto transition ease-in-out delay-100 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
                             role="button"
                         >
                             {" "}
@@ -130,6 +191,22 @@ function HeroSection({ auth }) {
         </motion.div>
     );
 }
+
+const AnimatedNumber = ({ value }) => {
+    const count = useMotionValue(0);
+    const rounded = useTransform(count, (latest) => Math.round(latest));
+
+    useEffect(() => {
+        const controls = animate(count, value, {
+            duration: 2,
+            ease: "easeOut",
+        });
+
+        return controls.stop;
+    }, []);
+
+    return <motion.h2>{rounded}</motion.h2>;
+};
 
 function ServicesSection() {
     const scrollRef = useRef(null);
@@ -520,7 +597,7 @@ function DashboardSection() {
                     </p>
                     <div className="mt-8">
                         <Link
-                            href={route('dashboard')}
+                            href={route("dashboard")}
                             className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
                         >
                             Go to Dashboard
