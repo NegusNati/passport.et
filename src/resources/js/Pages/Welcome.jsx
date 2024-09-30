@@ -2,7 +2,14 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import Footer from "@/Components/Footer";
 import PricingSection from "@/Components/PricingSection";
 import { Link, Head } from "@inertiajs/react";
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import {
+    motion,
+    useMotionValue,
+    useTransform,
+    animate,
+    useSpring,
+    useAnimation,
+} from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
@@ -85,6 +92,34 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 }
 
 function HeroSection({ auth }) {
+    const [number, setNumber] = useState(0);
+    const targetNumber = 1000202;
+
+    // Create a spring animation for smoother transition
+    const springValue = useSpring(0, {
+        stiffness: 100, // Controls how fast it reaches the target
+        damping: 20, // Controls the bounciness
+    });
+
+    // Transform the spring value into an integer for display
+    const animatedValue = useTransform(springValue, (latest) =>
+        Math.floor(latest)
+    );
+
+    useEffect(() => {
+        springValue.set(targetNumber); // Animate from 0 to targetNumber
+    }, [springValue]);
+
+    useEffect(() => {
+        // Subscribe to the spring animation and update number
+        const unsubscribe = animatedValue.on("change", (latest) => {
+            setNumber(latest);
+        });
+
+        // Cleanup the subscription when component unmounts
+        return () => unsubscribe();
+    }, [animatedValue]);
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -100,10 +135,27 @@ function HeroSection({ auth }) {
                     </strong>
                 </h1>
 
-                <div>
+                {/* <div>
                     From <AnimatedNumber value={1000202} /> Passports
+                </div> */}
+                <div>
+                    <p className="">
+                        From{" "}
+                        <motion.span
+                            className="inline-block bg-red-500 text-white font-bold px-3 py-1 rounded-full text-lg shadow-md cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-110 hover:rotate-3"
+                            whileHover={{ scale: 1.1, rotate: 2 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 400,
+                                damping: 10,
+                            }}
+                        >
+                            {number.toLocaleString()}+
+                        </motion.span>{" "}
+                        Passports
+                        {/* Format number with commas */}
+                    </p>{" "}
                 </div>
-
                 <h2 className="mt-4 sm:text-xl/relaxed">
                     Check the{" "}
                     <span className=" font-semibold text-blue-400">latest</span>{" "}
