@@ -2,12 +2,8 @@ import Authenticated from "@/Layouts/AuthenticatedLayout";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import formatDate from "@/helpers/formarDate";
-import {
-    FaTelegramPlane,
-    FaFacebook,
-    FaTwitter,
-    FaInstagram,
-} from "react-icons/fa";
+
+import SocialShare from "@/Components/SocialShare";
 
 const days = [
     "monday",
@@ -63,13 +59,39 @@ function ShowDetail({ auth, passport }) {
         }
     }
 
-    const shareText = `My passport is ready! You can now receive your passport from the Main Department for Immigration & Nationality Affairs. Request Number: ${
-        passport.requestNumber
-    }, First Name: ${
-        passport.firstName
-    }. You can collect it starting on ${formatDate(passport.dateOfPublish)}.`;
+    // const shareText = `My passport is ready! You can now receive your passport from the Main Department for Immigration & Nationality Affairs. Request Number: ${
+    //     passport.requestNumber
+    // }, First Name: ${
+    //     passport.firstName
+    // }. You can collect it starting on ${formatDate(passport.dateOfPublish)}.`;
 
-    const shareUrl = `https://${config.APP_URL}/passport/${passport.requestNumber}`; // Your site's URL for the passport detail
+    // const shareUrl = `https://${config.APP_URL}/passport/${passport.requestNumber}`; // Your site's URL for the passport detail
+    let shareText = "";
+    let shareUrl = "";
+    let baseUrl = `https://www.passport.et`;
+    if (passport) {
+
+        shareUrl = `https://www.passport.et/passport/${passport.id}`;
+        shareText = `
+        🌐✈️ ${baseUrl} ✈️🌐
+        🎉🎉 My passport is ready! 🎉🎉
+
+        👤 Name: ${passport.firstName } ${passport.middleName}
+        📝 Request Number: ${passport.requestNumber}
+        🔑 Location ${passport.location}.
+        📅 Starting From : ${formatDate(
+            passport.dateOfPublish
+        )}.
+        🌞 On ${getDayOfWeek(passport.firstName)}
+
+        ----------------------------------------------------------------
+        Check it out here: 🔗 ${shareUrl} 📲
+        ----------------------------------------------------------------
+    `;
+    }
+
+    // const shareImageUrl = `https://${config.APP_URL}/public/passport_et.png`;
+    console.log(" the share" , shareText, shareUrl);
     return (
         <AuthGuestLayout
             user={auth.user}
@@ -83,50 +105,7 @@ function ShowDetail({ auth, passport }) {
             {/* <main className="mt-10 max-w-[990px] m-auto  mb-20 bg-white/80 dark:bg-black/80  rounded-2xl border border-transparent  hover:border-blue-500 transition-colors duration-300 group mt-8 py-8 selection:bg-[#FF2D20] selection:text-white relative "> */}
             <main className="relative mt-10 max-w-[990px] m-auto mb-20 bg-white/80 dark:bg-black/80 rounded-2xl border border-transparent hover:border-blue-500 transition-colors duration-300 group py-8 selection:bg-[#FF2D20] selection:text-white ">
                 {/* Social Media Share Icons */}
-                <div className="absolute top-4 right-4 flex space-x-2">
-                    {/* Telegram Share */}
-                    <a
-                        href={`https://telegram.me/share/url?url=${encodeURIComponent(
-                            shareUrl
-                        )}&text=${encodeURIComponent(shareText)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <FaTelegramPlane className="text-blue-400 w-5 h-5 hover:text-blue-600" />
-                    </a>
-
-                    {/* Facebook Share */}
-                    <a
-                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                            shareUrl
-                        )}&quote=${encodeURIComponent(shareText)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <FaFacebook className="text-blue-600 w-5 h-5 hover:text-blue-800" />
-                    </a>
-
-                    {/* X (Twitter) Share */}
-                    <a
-                        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                            shareUrl
-                        )}&text=${encodeURIComponent(shareText)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <FaTwitter className="text-blue-400 w-5 h-5 hover:text-blue-600" />
-                    </a>
-
-                    {/* Instagram (Instagram doesn't allow direct post via URL scheme, so guide users) */}
-                    <a
-                        href={`https://www.instagram.com/`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="Share this on Instagram!"
-                    >
-                        <FaInstagram className="text-pink-600 w-5 h-5 hover:text-pink-800" />
-                    </a>
-                </div>
+                <SocialShare shareText={shareText} shareUrl={shareUrl} />
 
                 <div className=" space-y-4 pb-2  flex flex-col space-x-2 justify-between py-6 ">
                     {/* <div className="flex items-center lg:w-[200px] ">

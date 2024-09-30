@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html
-    lang="{{ str_replace('_', '-', session()->get('locale', substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)) ?: config('app.locale')) }}">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
 <head>
 
@@ -46,13 +45,13 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://passport.et/">
-    <meta property="og:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid">
+    <meta property="og:title" content="{{ config('app.name', 'Passport.ET') }} - Ethiopian Passport Services Aid">
     <meta property="og:description"
         content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
     <meta property="og:image" content="{{ asset('pass_welcome.png') }}">
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="{{ asset('passport_et.svg') }}">
+    <meta property="twitter:card" content="summary_large_image" >
     <meta property="twitter:url" content="https://passport.et/">
     <meta property="twitter:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services">
     <meta property="twitter:description"
