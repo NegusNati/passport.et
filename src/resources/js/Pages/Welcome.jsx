@@ -97,7 +97,7 @@ function HeroSection({ auth }) {
 
     // Create a spring animation for smoother transition
     const springValue = useSpring(0, {
-        stiffness: 100, // Controls how fast it reaches the target
+        stiffness: 75, // Controls how fast it reaches the target
         damping: 20, // Controls the bounciness
     });
 
@@ -138,25 +138,28 @@ function HeroSection({ auth }) {
                 {/* <div>
                     From <AnimatedNumber value={1000202} /> Passports
                 </div> */}
-                <div>
-                    <p className="">
-                        From{" "}
-                        <motion.span
-                            className="inline-block bg-red-500 text-white font-bold px-3 py-1 rounded-full text-lg shadow-md cursor-pointer transform transition-transform duration-300 ease-in-out hover:scale-110 hover:rotate-3"
-                            whileHover={{ scale: 1.1, rotate: 2 }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 400,
-                                damping: 10,
-                            }}
-                        >
-                            {number.toLocaleString()}+
-                        </motion.span>{" "}
+                <div className="flex justify-center items-center">
+                    <p className="flex items-center">
+                        From over
+                        <span className="relative inline-block mx-2">
+                            <span className="absolute inset-0 bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg opacity-75"></span>
+                            <motion.span
+                                className="relative inline-block bg-red-400 text-white font-bold px-3 py-1 text-lg shadow-md cursor-pointer rounded-xl"
+                                whileHover={{ scale: 1.1, rotate: 3 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 400,
+                                    damping: 10,
+                                }}
+                            >
+                                {number.toLocaleString()}+
+                            </motion.span>
+                        </span>
                         Passports
-                        {/* Format number with commas */}
-                    </p>{" "}
+                    </p>
                 </div>
-                <h2 className="mt-4 sm:text-xl/relaxed">
+
+                <h2 className="mt-4 sm:text-lg/relaxed">
                     Check the{" "}
                     <span className=" font-semibold text-blue-400">latest</span>{" "}
                     passport status published by the Ethiopian Immigration
