@@ -12,7 +12,7 @@ import {
 } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
-export default function Welcome({ auth, laravelVersion, phpVersion }) {
+export default function Welcome({ auth, passportCount }) {
     const handleImageError = () => {
         document
             .getElementById("screenshot-container")
@@ -75,7 +75,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         </nav>
                     </header>
                     <main className="bg-transparent w-full px-2 sm:px-6 lg:px-8 py-12 sm:py-20 rounded-xl">
-                        <HeroSection auth={auth} />
+                        <HeroSection auth={auth} value={passportCount} />
                         {/* <DashboardSection /> */}
                         <div className="my-20"></div>
                         <ServicesSection />
@@ -91,9 +91,9 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     );
 }
 
-function HeroSection({ auth }) {
+function HeroSection({ auth, value }) {
     const [number, setNumber] = useState(0);
-    const targetNumber = 1000202;
+    const targetNumber = value;
 
     // Create a spring animation for smoother transition
     const springValue = useSpring(0, {
