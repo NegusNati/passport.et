@@ -138,7 +138,7 @@ function HeroSection({ auth, value }) {
                 {/* <div>
                     From <AnimatedNumber value={1000202} /> Passports
                 </div> */}
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center pt-2">
                     <p className="flex items-center">
                         From over
                         <span className="relative inline-block mx-2">
