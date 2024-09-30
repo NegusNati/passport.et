@@ -2,7 +2,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import Footer from "@/Components/Footer";
 import PricingSection from "@/Components/PricingSection";
 import { Link, Head } from "@inertiajs/react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
@@ -99,20 +99,25 @@ function HeroSection({ auth }) {
                         Find Out Now!
                     </strong>
                 </h1>
-              
+
+                <div>
+                    From <AnimatedNumber value={1000202} /> Passports
+                </div>
+
                 <h2 className="mt-4 sm:text-xl/relaxed">
                     Check the{" "}
                     <span className=" font-semibold text-blue-400">latest</span>{" "}
                     passport status published by the Ethiopian Immigration
                     Office!
                 </h2>
+
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
                     <div class="relative inline-flex  group">
                         <div class="absolute transitiona-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"></div>
                         <a
-                           href={route("dashboard")}
+                            href={route("dashboard")}
                             title="Check Passport Status"
-                            class="relative rounded inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all shadow focus:outline-none focus:ring active:bg-red-500 sm:w-auto transition ease-in-out delay-100 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
+                            class="relative rounded inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white shadow focus:outline-none focus:ring active:bg-red-500 sm:w-auto transition ease-in-out delay-100 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
                             role="button"
                         >
                             {" "}
@@ -131,6 +136,22 @@ function HeroSection({ auth }) {
         </motion.div>
     );
 }
+
+const AnimatedNumber = ({ value }) => {
+    const count = useMotionValue(0);
+    const rounded = useTransform(count, (latest) => Math.round(latest));
+
+    useEffect(() => {
+        const controls = animate(count, value, {
+            duration: 2,
+            ease: "easeOut",
+        });
+
+        return controls.stop;
+    }, []);
+
+    return <motion.h2>{rounded}</motion.h2>;
+};
 
 function ServicesSection() {
     const scrollRef = useRef(null);
@@ -521,7 +542,7 @@ function DashboardSection() {
                     </p>
                     <div className="mt-8">
                         <Link
-                            href={route('dashboard')}
+                            href={route("dashboard")}
                             className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
                         >
                             Go to Dashboard
