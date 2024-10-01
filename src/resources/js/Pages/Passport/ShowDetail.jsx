@@ -74,18 +74,18 @@ function ShowDetail({ auth, passport }) {
         shareUrl = `https://www.passport.et/passport/${passport.id}`;
         shareText = `
         🌐✈️ ${baseUrl} ✈️🌐
-        🎉🎉 My passport is ready! 🎉🎉
+        🎉🎉 My PASSPORT is READY! 🎉🎉
 
         👤 Name: ${passport.firstName } ${passport.middleName}
         📝 Request Number: ${passport.requestNumber}
-        🔑 Location ${passport.location}.
-        📅 Starting From : ${formatDate(
+        🔑 Location: ${passport.location}.
+        📅 Starting From: ${formatDate(
             passport.dateOfPublish
         )}.
-        🌞 On ${getDayOfWeek(passport.firstName)}
+        🌞 On: ${getDayOfWeek(passport.firstName)}
 
         ----------------------------------------------------------------
-        Check it out here: 🔗 ${shareUrl} 📲
+        Check it:🔗 ${shareUrl} 📲
         ----------------------------------------------------------------
     `;
     }

@@ -2,9 +2,11 @@
 import {
     FaTelegramPlane,
     FaFacebook,
+    FaWhatsapp,
     FaTwitter,
     FaInstagram,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 function SocialShare({ shareText, shareUrl }) {
     return (
@@ -20,12 +22,11 @@ function SocialShare({ shareText, shareUrl }) {
                 <FaTelegramPlane className="text-blue-400 w-5 h-5 hover:text-blue-600" />
             </a>
 
-            {/* Facebook Share */}
+            {/* Facebook Share (Feed Share instead of Story) */}
             <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`}
-                // href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                //     shareUrl
-                // )}&quote=${encodeURIComponent("My passport is ready!")}`}
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                    shareUrl
+                )}&quote=${encodeURIComponent(shareText)}`}
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -40,17 +41,33 @@ function SocialShare({ shareText, shareUrl }) {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <FaTwitter className="text-blue-400 w-5 h-5 hover:text-blue-600" />
+                <FaXTwitter className="text-blue-400 w-5 h-5 hover:text-blue-600" />
             </a>
 
-            {/* Instagram Share */}
+            {/* Instagram Share (Manual instruction for user) */}
             <a
-                href="https://www.instagram.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Share this on Instagram!"
+                href="#"
+                onClick={() => {
+                    navigator.clipboard.writeText(shareText);
+                    alert(
+                        "Text copied! Open Instagram and paste it manually in your story."
+                    );
+                    window.open("instagram://story-camera", "_blank");
+                }}
+                title="Copy to clipboard and share on Instagram!"
             >
                 <FaInstagram className="text-pink-600 w-5 h-5 hover:text-pink-800" />
+            </a>
+
+            {/* WhatsApp Share */}
+            <a
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                    shareText + " " + shareUrl
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <FaWhatsapp className="text-green-500 w-5 h-5 hover:text-green-700" />
             </a>
         </div>
     );
