@@ -31,12 +31,21 @@ function SocialShare({ shareText, shareUrl }) {
                 Icon={FaTelegramPlane}
                 name="Telegram"
             />
-            <SocialIcon
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+            {/* Facebook Share needs some seo and crawler bugs fixed */}
+            {/* <SocialIcon
+                href={`https://www.facebook.com/dialog/share?app_id=145634995501895&display=popup&href=${encodeURIComponent(
                     shareUrl
-                )}&quote=${encodeURIComponent(shareText)}`}
+                )}&redirect_uri=https://passport.et`}
+                // "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
                 Icon={FaFacebook}
                 name="Facebook"
+            /> */}
+            <SocialIcon
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                    shareText
+                )}`}
+                Icon={FaWhatsapp}
+                name="WhatsApp"
             />
             <SocialIcon
                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
@@ -44,14 +53,6 @@ function SocialShare({ shareText, shareUrl }) {
                 )}`}
                 Icon={FaXTwitter}
                 name="Twitter"
-            />
-            <SocialIcon href="#" Icon={FaInstagram} name="Instagram" />
-            <SocialIcon
-                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-                    shareText
-                )}`}
-                Icon={FaWhatsapp}
-                name="WhatsApp"
             />
         </div>
     );

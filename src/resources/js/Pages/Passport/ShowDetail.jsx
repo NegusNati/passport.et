@@ -72,7 +72,7 @@ function ShowDetail({ auth, passport }) {
     if (passport) {
 
         shareUrl = `https://www.passport.et/passport/${passport.id}`;
-        shareText = `
+        shareText =`
         🌐✈️ ${baseUrl} ✈️🌐
         🎉🎉 My PASSPORT is READY! 🎉🎉
 
@@ -86,8 +86,7 @@ function ShowDetail({ auth, passport }) {
 
         ----------------------------------------------------------------
         Check it:🔗 ${shareUrl} 📲
-        ----------------------------------------------------------------
-    `;
+        ----------------------------------------------------------------`;
     }
 
     // const shareImageUrl = `https://${config.APP_URL}/public/passport_et.png`;
