@@ -103,9 +103,9 @@ function ShowDetail({ auth, passport }) {
         >
             <Head title="Details" />
             {/* <main className="mt-10 max-w-[990px] m-auto  mb-20 bg-white/80 dark:bg-black/80  rounded-2xl border border-transparent  hover:border-blue-500 transition-colors duration-300 group mt-8 py-8 selection:bg-[#FF2D20] selection:text-white relative "> */}
-            <main className="relative mt-10 max-w-[990px] m-auto mb-20 bg-white/80 dark:bg-black/80 rounded-2xl border border-transparent hover:border-blue-500 transition-colors duration-300 group py-8 selection:bg-[#FF2D20] selection:text-white ">
+            <main className="relative mt-10 max-w-[990px] m-auto mb-20 bg-white/80 dark:bg-black/80 rounded-2xl border border-transparent hover:border-blue-500 transition-colors duration-300  py-8 selection:bg-[#FF2D20] selection:text-white ">
                 {/* Social Media Share Icons */}
-                <SocialShare shareText={shareText} />
+                <SocialShare shareText={shareText} shareUrl={shareUrl} />
 
                 <div className=" space-y-4 pb-2  flex flex-col space-x-2 justify-between py-6 ">
                     {/* <div className="flex items-center lg:w-[200px] ">
