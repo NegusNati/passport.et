@@ -8,14 +8,12 @@ import {
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
-function SocialShare({ shareText, shareUrl }) {
+function SocialShare({ shareText }) {
     return (
         <div className="absolute top-4 right-4 flex space-x-2">
             {/* Telegram Share */}
             <a
-                href={`https://telegram.me/share/url?url=${encodeURIComponent(
-                    shareUrl
-                )}&text=${encodeURIComponent(shareText)}`}
+                href={`https://telegram.me/share/url?text=${encodeURIComponent(shareText)}`}
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -24,9 +22,7 @@ function SocialShare({ shareText, shareUrl }) {
 
             {/* Facebook Share (Feed Share instead of Story) */}
             <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                    shareUrl
-                )}&quote=${encodeURIComponent(shareText)}`}
+                href={`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(shareText)}`}
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -35,9 +31,7 @@ function SocialShare({ shareText, shareUrl }) {
 
             {/* X (Twitter) Share */}
             <a
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                    shareUrl
-                )}&text=${encodeURIComponent(shareText)}`}
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`}
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -62,7 +56,7 @@ function SocialShare({ shareText, shareUrl }) {
             {/* WhatsApp Share */}
             <a
                 href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-                    shareText + " " + shareUrl
+                    shareText
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
