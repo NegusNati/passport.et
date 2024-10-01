@@ -1,7 +1,9 @@
-import Authenticated from "@/Layouts/AuthenticatedLayout";
+// import Authenticated from "@/Layouts/AuthenticatedLayout";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import formatDate from "@/helpers/formarDate";
+
+import SocialShare from "@/Components/SocialShare";
 
 const days = [
     "monday",
@@ -56,7 +58,28 @@ function ShowDetail({ auth, passport }) {
             return days.join(", ");
         }
     }
+    let shareText = "";
+    let shareUrl = "";
+    let baseUrl = `https://www.passport.et`;
+    if (passport) {
 
+        shareUrl = `https://www.passport.et/passport/${passport.id}`;
+        shareText =`
+        🌐✈️ ${baseUrl} ✈️🌐
+        🎉🎉 My PASSPORT is READY! 🎉🎉
+
+        👤 Name: ${passport.firstName } ${passport.middleName}
+        📝 Request Number: ${passport.requestNumber}
+        🔑 Location: ${passport.location}.
+        📅 Starting From: ${formatDate(
+            passport.dateOfPublish
+        )}.
+        🌞 On: ${getDayOfWeek(passport.firstName)}
+
+        ----------------------------------------------------------------
+        Check it:🔗 ${shareUrl} 📲
+        ----------------------------------------------------------------`;
+    }
     return (
         <AuthGuestLayout
             user={auth.user}
@@ -67,7 +90,9 @@ function ShowDetail({ auth, passport }) {
             }
         >
             <Head title="Details" />
-            <main className="mt-10 max-w-[990px] m-auto  mb-20 bg-white/80 dark:bg-black/80  rounded-2xl border border-transparent  hover:border-blue-500 transition-colors duration-300 group mt-8 py-8 selection:bg-[#FF2D20] selection:text-white ">
+            <main className="relative mt-10 max-w-[990px] m-auto mb-20 bg-white/80 dark:bg-black/80 rounded-2xl border border-transparent hover:border-blue-500 transition-colors duration-300  py-8 selection:bg-[#FF2D20] selection:text-white ">
+                <SocialShare shareText={shareText} shareUrl={shareUrl} />
+
                 <div className=" space-y-4 pb-2  flex flex-col space-x-2 justify-between py-6 ">
                     {/* <div className="flex items-center lg:w-[200px] ">
                                 <img src={`https://picsum.photos/seed/${Math.random(1,100)}/200`} width="50" className="rounded-xl w-10 h-10 object-cover " />
@@ -92,7 +117,8 @@ function ShowDetail({ auth, passport }) {
                             Last Name : <strong>{passport.lastName}</strong>
                         </p>
                         <p>
-                            Request Number :{" "} <strong>{passport.requestNumber}</strong>
+                            Request Number :{" "}
+                            <strong>{passport.requestNumber}</strong>
                         </p>
                         <p>
                             You Can Receive After :{" "}

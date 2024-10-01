@@ -1,14 +1,11 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Footer from "@/Components/Footer";
-import PricingSection from "@/Components/PricingSection";
+// import PricingSection from "@/Components/PricingSection";
 import { Link, Head } from "@inertiajs/react";
 import {
     motion,
-    useMotionValue,
     useTransform,
-    animate,
     useSpring,
-    useAnimation,
 } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
@@ -135,9 +132,6 @@ function HeroSection({ auth, value }) {
                     </strong>
                 </h1>
 
-                {/* <div>
-                    From <AnimatedNumber value={1000202} /> Passports
-                </div> */}
                 <div className="flex justify-center items-center pt-2">
                     <p className="flex items-center">
                         From over
@@ -192,21 +186,7 @@ function HeroSection({ auth, value }) {
     );
 }
 
-const AnimatedNumber = ({ value }) => {
-    const count = useMotionValue(0);
-    const rounded = useTransform(count, (latest) => Math.round(latest));
 
-    useEffect(() => {
-        const controls = animate(count, value, {
-            duration: 2,
-            ease: "easeOut",
-        });
-
-        return controls.stop;
-    }, []);
-
-    return <motion.h2>{rounded}</motion.h2>;
-};
 
 function ServicesSection() {
     const scrollRef = useRef(null);
