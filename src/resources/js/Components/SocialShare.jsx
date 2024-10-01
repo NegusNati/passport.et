@@ -1,10 +1,5 @@
 import React from "react";
-import {
-    FaTelegramPlane,
-    FaFacebook,
-    FaWhatsapp,
-    FaInstagram,
-} from "react-icons/fa";
+import { FaTelegramPlane, FaWhatsapp, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 function SocialShare({ shareText, shareUrl }) {
@@ -52,8 +47,16 @@ function SocialShare({ shareText, shareUrl }) {
                     shareText
                 )}`}
                 Icon={FaXTwitter}
-                name="Twitter"
+                name="Twitter/X"
             />
+             {/* LinkedIn Share needs some seo and crawler bugs fixed */}
+                {/* <SocialIcon
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                    shareUrl
+                )}`}
+                Icon={FaLinkedin}
+                name="LinkedIn"
+            /> */}
         </div>
     );
 }

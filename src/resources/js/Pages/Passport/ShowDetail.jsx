@@ -1,4 +1,4 @@
-import Authenticated from "@/Layouts/AuthenticatedLayout";
+// import Authenticated from "@/Layouts/AuthenticatedLayout";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import formatDate from "@/helpers/formarDate";
@@ -58,14 +58,6 @@ function ShowDetail({ auth, passport }) {
             return days.join(", ");
         }
     }
-
-    // const shareText = `My passport is ready! You can now receive your passport from the Main Department for Immigration & Nationality Affairs. Request Number: ${
-    //     passport.requestNumber
-    // }, First Name: ${
-    //     passport.firstName
-    // }. You can collect it starting on ${formatDate(passport.dateOfPublish)}.`;
-
-    // const shareUrl = `https://${config.APP_URL}/passport/${passport.requestNumber}`; // Your site's URL for the passport detail
     let shareText = "";
     let shareUrl = "";
     let baseUrl = `https://www.passport.et`;
@@ -88,9 +80,6 @@ function ShowDetail({ auth, passport }) {
         Check it:🔗 ${shareUrl} 📲
         ----------------------------------------------------------------`;
     }
-
-    // const shareImageUrl = `https://${config.APP_URL}/public/passport_et.png`;
-    console.log(" the share" , shareText, shareUrl);
     return (
         <AuthGuestLayout
             user={auth.user}
@@ -101,9 +90,7 @@ function ShowDetail({ auth, passport }) {
             }
         >
             <Head title="Details" />
-            {/* <main className="mt-10 max-w-[990px] m-auto  mb-20 bg-white/80 dark:bg-black/80  rounded-2xl border border-transparent  hover:border-blue-500 transition-colors duration-300 group mt-8 py-8 selection:bg-[#FF2D20] selection:text-white relative "> */}
             <main className="relative mt-10 max-w-[990px] m-auto mb-20 bg-white/80 dark:bg-black/80 rounded-2xl border border-transparent hover:border-blue-500 transition-colors duration-300  py-8 selection:bg-[#FF2D20] selection:text-white ">
-                {/* Social Media Share Icons */}
                 <SocialShare shareText={shareText} shareUrl={shareUrl} />
 
                 <div className=" space-y-4 pb-2  flex flex-col space-x-2 justify-between py-6 ">
@@ -162,20 +149,6 @@ function ShowDetail({ auth, passport }) {
                         <p>published on {formatDate(passport.created_at)}</p>
                     </div>
                 </div>
-                {/* <div className="absolute top-4 right-4 flex space-x-2">
-                    <a href="#" className="text-blue-500 hover:text-blue-600">
-                        <FaTelegram size={24} />
-                    </a>
-                    <a href="#" className="text-blue-600 hover:text-blue-700">
-                        <FaFacebookF size={24} />
-                    </a>
-                    <a href="#" className="text-black hover:text-gray-700">
-                        <FaTwitter size={24} />
-                    </a>
-                    <a href="#" className="text-pink-600 hover:text-pink-700">
-                        <FaInstagram size={24} />
-                    </a>
-                </div> */}
             </main>
         </AuthGuestLayout>
     );
