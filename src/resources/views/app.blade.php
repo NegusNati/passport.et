@@ -49,6 +49,7 @@
     <meta property="og:description"
         content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
     <meta property="og:image" content="{{ asset('pass_welcome.png') }}">
+    <meta property="og:image:alt" content="Passport.ET - Ethiopian Passport Services Aid">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" >
