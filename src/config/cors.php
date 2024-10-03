@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [ env('APP_URL') , '*'],
+    'allowed_origins' => [env('APP_URL'), 'https://pagead2.googlesyndication.com', 'https://www.googletagmanager.com'],
 
     'allowed_origins_patterns' => [],
 
@@ -29,6 +29,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];
