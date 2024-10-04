@@ -48,24 +48,24 @@ class AppServiceProvider extends ServiceProvider
                             'message' => 'You have exceeded the hourly rate limit for premium users.',
                         ])->toResponse(request())->setStatusCode(429);
                     })
-                : Limit::perHour(100)->by($user->id)->response(function () {
+                : Limit::perHour(200)->by($user->id)->response(function () {
                         return Inertia::render('Errors/RateLimitExceeded', [
-                            'message' => 'You have exceeded the hourly rate limit for standard users.',
+                            'message' => 'You have exceeded the hourly rate limit for standard users. we will add premium plan soon.',
                         ])->toResponse(request())->setStatusCode(429);
                     });
             }
 
             if (optional($user)->id) {
-                return Limit::perHour(60)->by($user->id)->response(function () {
+                return Limit::perHour(100)->by($user->id)->response(function () {
                     return Inertia::render('Errors/RateLimitExceeded', [
                         'message' => 'You have exceeded the hourly rate limit for authenticated users without a subscription.',
                     ])->toResponse(request())->setStatusCode(429);
                 });
             }
 
-            return Limit::perHour(60)->by(optional($user)->id ?: $request->ip())->response(function () {
+            return Limit::perHour(100)->by(optional($user)->id ?: $request->ip())->response(function () {
                 return Inertia::render('Errors/RateLimitExceeded', [
-                    'message' => 'You have exceeded the hourly rate limit for unauthenticated users.',
+                    'message' => 'You have exceeded the hourly rate limit for unauthenticated users. You should Log In to use it more. Or',
                 ])->toResponse(request())->setStatusCode(429);
             });
         });
