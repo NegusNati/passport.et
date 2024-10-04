@@ -6,9 +6,9 @@ function Index({ auth }) {
         <Authenticated
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                <h1 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                     Telegram Notification
-                </h2>
+                </h1>
             }
         >
             <Head title="Telegram Notification" />

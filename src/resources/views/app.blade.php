@@ -34,7 +34,7 @@
 
     <title>{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid</title>
     <meta name="description"
-        content="Ethiopian Passport Services Aid portal. Check the status of your Ethiopian passport, learn how to register for a new passport, and track the status of your application online before your go to ICS ">
+        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease. ">
     <meta name="keywords"
         content="Ethiopian passport,  check passport status, passport application process, immigration services, passport renewal, passport registration, passport application, Ethiopia travel documents, visa services, Ethiopian immigration, track passport">
 
@@ -43,7 +43,7 @@
     <meta property="og:url" content="https://passport.et/">
     <meta property="og:title" content="Passport.ET - Ethiopian Passport Services Aid">
     <meta property="og:description"
-        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
+        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease.">
     <meta property="og:image" content="{{ asset('pass_welcome.png') }}">
     <meta property="og:image:alt" content="Passport.ET - Ethiopian Passport Services Aid">
 
@@ -52,7 +52,7 @@
     <meta property="twitter:url" content="https://passport.et/">
     <meta property="twitter:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services">
     <meta property="twitter:description"
-        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport with ease.">
+        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease.">
     <meta property="twitter:image" content="{{ asset('pass_welcome.png') }}">
 
     <!-- Canonical URL -->

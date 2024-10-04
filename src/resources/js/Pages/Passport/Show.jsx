@@ -16,7 +16,7 @@ function Show({ auth, passports, search }) {
         <AuthGuestLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight py-4">
+                <h1 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight py-4">
                     {/* Display search parameters */}
                     {requestNumber && (
                         <div>Request Number: {requestNumber}</div>
@@ -42,7 +42,7 @@ function Show({ auth, passports, search }) {
                             </a>
                         </div>
                     )}
-                </h2>
+                </h1>
             }
         >
             <Head title="Results" />
