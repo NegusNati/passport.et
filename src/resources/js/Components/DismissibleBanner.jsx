@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 
 const DismissibleBanner = ({ text, bgColor }) => {
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
-        const isBannerDismissed = localStorage.getItem("bannerDismissed");
-        if (!isBannerDismissed) {
-            setIsVisible(true);
+        const isBannerDismissed = sessionStorage.getItem("bannerDismissed");
+        if (isBannerDismissed) {
+            setIsVisible(false);
         }
     }, []);
 
     const handleDismiss = () => {
         setIsVisible(false);
-        localStorage.setItem("bannerDismissed", "true");
+        sessionStorage.setItem("bannerDismissed", "true");
     };
 
     const options = {
