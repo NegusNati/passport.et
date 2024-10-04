@@ -3,10 +3,6 @@
 
 <head>
 
-    {{-- Google Ads --}}
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1062387645972505"
-        crossorigin="anonymous"></script>
-    <!-- End Google Ads -->
 
     <!-- Google Tag Manager -->
     <script>
@@ -76,6 +72,11 @@
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+
+    {{-- Google Ads --}}
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1062387645972505"
+        crossorigin="anonymous"></script>
+    <!-- End Google Ads -->
 </head>
 
 <body class="font-sans antialiased">
