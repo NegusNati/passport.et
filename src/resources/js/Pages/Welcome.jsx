@@ -257,9 +257,9 @@ function ServicesSection() {
     return (
         <section className="py-12 bg-gray-100 dark:bg-gray-800 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl mb-12">
+                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl mb-12">
                     Our Services
-                </h1>
+                </h2>
                 <div className="relative">
                     <div
                         ref={scrollRef}
@@ -327,9 +327,9 @@ function ProcessSection() {
     return (
         <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
                     Passport Application Process & Status Check
-                </h1>
+                </h2>
                 <div className="mt-10">
                     <div className="relative">
                         {steps.map((step, index) => (

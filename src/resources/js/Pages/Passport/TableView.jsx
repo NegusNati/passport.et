@@ -55,9 +55,9 @@ function TableView({ auth, passports }) {
             <main className="  max-w-[990px] m-auto  mb-20 bg-gray-200 rounded-2xl border border-transparent  hover:border-blue-500 transition-colors duration-300 group mt-8 py-8 selection:bg-[#FF2D20] selection:text-white bg-gradient-to-b from-slate-400 to-slate-100 dark:from-slate-400  dark:text-white/50 overflow-hidden shadow-sm sm:rounded-lg ">
                 <div>
                     <div className="flex justify-center items-center">
-                        <h2 className="font-bold text-3xl text-white dark:text-black leading-tight pb-4 capitalize   ">
+                        <h1 className="font-bold text-3xl text-white dark:text-black leading-tight pb-4 capitalize   ">
                             Latest Passport Arrivals
-                        </h2>
+                        </h1>
                         {/* <div className="flex items-center">
                             <select
                                 className="mr-4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"

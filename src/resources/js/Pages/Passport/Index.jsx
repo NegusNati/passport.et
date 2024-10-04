@@ -32,9 +32,9 @@ function Index({ auth }) {
         <AuthGuestLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight selection:bg-[#FF2D20] selection:text-white capitalize">
+                <h1 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight selection:bg-[#FF2D20] selection:text-white capitalize">
                     search for your passport
-                </h2>
+                </h1>
             }
         >
             <Head title="Find Passport" />
