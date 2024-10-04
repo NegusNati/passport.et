@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-const DismissibleBanner = ({ text, bgColor}) => {
+const DismissibleBanner = ({ text, bgColor }) => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const isBannerDismissed = localStorage.getItem('bannerDismissed');
+        const isBannerDismissed = localStorage.getItem("bannerDismissed");
         if (!isBannerDismissed) {
             setIsVisible(true);
         }
@@ -12,19 +12,30 @@ const DismissibleBanner = ({ text, bgColor}) => {
 
     const handleDismiss = () => {
         setIsVisible(false);
-        localStorage.setItem('bannerDismissed', 'true');
+        localStorage.setItem("bannerDismissed", "true");
     };
 
+    const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    };
+    const formattedDate = new Date()
+        .toLocaleDateString("en-US", options)
+        .replace(",", "/");
+    const output = `<p>Updated Today, ${formattedDate}</p>`;
     return (
         isVisible && (
             <div
                 className={`fixed top-0 left-0 right-0 ${bgColor} text-white p-4 flex justify-between items-center transition-transform duration-300 transform ${
-                    isVisible ? 'translate-y-0' : '-translate-y-full'
+                    isVisible ? "translate-y-0" : "-translate-y-full"
                 }`}
                 style={{ zIndex: 1000 }} // Ensure it stays on top of other content
             >
-                <span className=' text-center'>
+                <span className="text-center">
                     {text}
+                    <p>{output}</p>
                 </span>
                 <button
                     onClick={handleDismiss}
