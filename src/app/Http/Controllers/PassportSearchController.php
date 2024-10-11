@@ -72,6 +72,8 @@ class PassportSearchController extends Controller
                 });
             });
 
+            
+
         $passports = $query->limit(60)->get();
 
 
