@@ -21,6 +21,11 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->date('dateOfPublish');
             $table->timestamps();
+
+            // Indexes for faster search
+            $table->index(['location']);
+            $table->index(['firstName', 'middleName', 'lastName']);
+            $table->index('requestNumber');
         });
     }
 

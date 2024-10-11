@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\PDFToSQLite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Cache;
 
 use function Pest\Laravel\get;
 
@@ -55,21 +56,23 @@ class PassportSearchController extends Controller
         $lastName = $request->input('lastName');
 
         $query->when($requestNumber, function ($q) use ($requestNumber) {
-            return $q->where('requestNumber', 'LIKE', '%' . $requestNumber . '%');
+            return $q->where('requestNumber', 'LIKE', $requestNumber . '%');
         })
             ->when(!$requestNumber && ($firstName || $middleName || $lastName), function ($q) use ($firstName, $middleName, $lastName) {
                 return $q->where(function ($subQ) use ($firstName, $middleName, $lastName) {
                     $subQ->when($firstName, function ($q) use ($firstName) {
-                        return $q->where('firstName', 'LIKE', '%' . $firstName . '%');
+                        return $q->where('firstName', 'LIKE', $firstName . '%');
                     })
                         ->when($middleName, function ($q) use ($middleName) {
-                            return $q->where('middleName', 'LIKE', '%' . $middleName . '%');
+                            return $q->where('middleName', 'LIKE', $middleName . '%');
                         })
                         ->when($lastName, function ($q) use ($lastName) {
-                            return $q->where('lastName', 'LIKE', '%' . $lastName . '%');
+                            return $q->where('lastName', 'LIKE', $lastName . '%');
                         });
                 });
             });
+
+            
 
         $passports = $query->limit(60)->get();
 
@@ -112,7 +115,9 @@ class PassportSearchController extends Controller
     {
 
         // $passports = PDFToSQLite::latest()->simplePaginate(50)->fragment("fragment-id");
-        $passports = PDFToSQLite::query()->orderBy('id', 'desc')->simplePaginate(50);
+        $passports = Cache::remember('all_passports_page_' . $request->get('page', 1), 60, function () {
+            return PDFToSQLite::query()->orderBy('id', 'desc')->simplePaginate(50);
+        });
         $passports->setPath(url('/all-passports'));
 
 
