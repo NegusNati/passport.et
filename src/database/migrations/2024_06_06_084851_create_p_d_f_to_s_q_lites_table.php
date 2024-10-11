@@ -24,6 +24,7 @@ return new class extends Migration
 
             // Indexes for faster search
             $table->index(['location']);
+            $table->index('firstName');
             $table->index(['firstName', 'middleName', 'lastName']);
             $table->index('requestNumber');
         });
