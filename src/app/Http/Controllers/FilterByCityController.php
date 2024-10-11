@@ -51,7 +51,6 @@ class FilterByCityController extends Controller
                 ->simplePaginate(50);
         });
 
-        // $passports = $query->orderBy('id', 'desc')->simplePaginate(50);
         $passports->setPath(url('/location/' . $location));
 
         return Inertia::render('Passport/ByLocation/LocationTableView', [
