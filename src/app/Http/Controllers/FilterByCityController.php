@@ -39,13 +39,19 @@ class FilterByCityController extends Controller
     {
 
         Log::info("location : $location");
-        $query = PDFToSQLite::query();
+        // $query = PDFToSQLite::query();
 
-        if ($location) {
-            $query->where('location', 'LIKE', '%' . $location . '%');
-        }
+        // if ($location) {
+        //     $query->where('location', 'LIKE', '%' . $location . '%');
+        // }
 
-        $passports = $query->orderBy('id', 'desc')->simplePaginate(50);
+        $passports = Cache::remember("passports_location_{$location}_page_" . request('page', 1), 60, function () use ($location) {
+            return PDFToSQLite::where('location', $location)
+                ->orderBy('id', 'desc')
+                ->simplePaginate(50);
+        });
+
+        // $passports = $query->orderBy('id', 'desc')->simplePaginate(50);
         $passports->setPath(url('/location/' . $location));
 
         return Inertia::render('Passport/ByLocation/LocationTableView', [
