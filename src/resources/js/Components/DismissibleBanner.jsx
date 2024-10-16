@@ -51,7 +51,7 @@ const DismissibleBanner = ({ text, bgColor }) => {
                                 className="text-lg font-bold color-blue-500 hover:text-blue-700"
                                 href="https://www.passport.et/"
                             >
-                                Visit ICS's Official Website{" "}
+                                ICS's Official Website{" "}
                             </a>{" "}
                             for latest passport status
                         </p>
