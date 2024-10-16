@@ -51,7 +51,7 @@ function TableView({ auth, passports }) {
                     Updated Last on, October 11, 2024! please refer to{" "}
                     <a
                         className="text-lg font-bold color-blue-500 hover:text-blue-700"
-                        href="https://www.passport.et/"
+                        href="https://passport.ics.gov.et/"
                     >
                         ICS's Official Website{" "}
                     </a>{" "}
