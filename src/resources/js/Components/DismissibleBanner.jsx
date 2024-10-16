@@ -44,7 +44,17 @@ const DismissibleBanner = ({ text, bgColor }) => {
                     <div className="flex-grow"></div>
                     <span className="text-center flex-grow">
                         <p> {text}</p>
-                        <p className="text-sm font-bold">{`Updated Today, ${formattedDate}`}</p>
+                        <p className="text-sm font-bold">{`Updated Last on , October 11, 2024`}</p>
+                        <p>
+                            please refer to{" "}
+                            <a
+                                className="text-lg font-bold color-blue-500 hover:text-blue-700"
+                                href="https://www.passport.et/"
+                            >
+                                Visit ICS's Official Website{" "}
+                            </a>{" "}
+                            for latest passport status
+                        </p>
                     </span>
                     <div className="flex-grow flex justify-end">
                         <button

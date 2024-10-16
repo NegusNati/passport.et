@@ -30,7 +30,7 @@ export default function Dashboard({ auth }) {
         >
             <Head title="Dashboard" />
             <DismissibleBanner
-                text="Welcome to Passport.ET, your one stop solution for checking your passport status"
+                text="Welcome to Passport.ET, your one stop solution for all Ethiopian Passport information and insights"
                 bgColor={"bg-red-400"}
             />
 
