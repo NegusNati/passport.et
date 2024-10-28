@@ -3,6 +3,8 @@
 
 <head>
 
+{{-- umami script  --}}
+<script defer src="https://cloud.umami.is/script.js" data-website-id="c5a13314-68fb-4528-8f6a-b4edfb743294"></script>
 
     <!-- Google Tag Manager -->
     <script>
