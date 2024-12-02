@@ -47,15 +47,7 @@ function TableView({ auth, passports }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight py-4 capitalize">
-                    {/* daily updated Passports {formatDate(new Date())} */}
-                    Updated Last on, October 11, 2024! please refer to{" "}
-                    <a
-                        className="text-lg font-bold color-blue-500 hover:text-blue-700"
-                        href="https://passport.ics.gov.et/"
-                    >
-                        ICS's Official Website{" "}
-                    </a>{" "}
-                    for latest passport status
+                    daily updated Passports {formatDate(new Date())}
                 </h2>
             }
         >
