@@ -1,4 +1,4 @@
-![Banner](https://github.com/user-attachments/assets/3e12d26c-e0ac-4f13-9c38-92223bbc6db8)
+![Banner](https://github.com/user-attachments/assets/e5a8febc-887b-457f-a6fb-22151d658c31)
 # [Passport.ET](https://passport.et/) + Containerized Deployment 🐳
 
 
