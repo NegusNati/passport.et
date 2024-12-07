@@ -1,0 +1,5 @@
+{
+    "require": {
+        "voku/portable-ascii": "^2.0"
+    }
+}
