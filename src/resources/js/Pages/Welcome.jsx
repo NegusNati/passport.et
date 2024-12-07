@@ -146,7 +146,7 @@ function HeroSection({ auth, value }) {
                                 +
                             </motion.span>
                         </span>
-                        Passports
+                        Passports.
                     </p>
                 </div>
 
