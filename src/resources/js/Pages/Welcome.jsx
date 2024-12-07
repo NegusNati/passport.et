@@ -2,11 +2,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import Footer from "@/Components/Footer";
 // import PricingSection from "@/Components/PricingSection";
 import { Link, Head } from "@inertiajs/react";
-import {
-    motion,
-    useTransform,
-    useSpring,
-} from "framer-motion";
+import { motion, useTransform, useSpring } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
 export default function Welcome({ auth, passportCount }) {
@@ -146,7 +142,8 @@ function HeroSection({ auth, value }) {
                                     damping: 10,
                                 }}
                             >
-                                {number.toLocaleString()}+
+                                {(Math.ceil(number / 10) * 10).toLocaleString()}
+                                +
                             </motion.span>
                         </span>
                         Passports
@@ -185,8 +182,6 @@ function HeroSection({ auth, value }) {
         </motion.div>
     );
 }
-
-
 
 function ServicesSection() {
     const scrollRef = useRef(null);

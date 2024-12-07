@@ -20,7 +20,8 @@
         "spatie/laravel-permission": "^6.7",
         "spatie/laravel-sitemap": "^7.2",
         "spatie/pdf-to-text": "^1.52",
-        "tightenco/ziggy": "^2.0"
+        "tightenco/ziggy": "^2.0",
+        "voku/portable-ascii": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
