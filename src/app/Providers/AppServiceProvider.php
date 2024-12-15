@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        
+
         if (env('APP_ENV') === 'production') {
             URL::forceScheme('https');
         }
@@ -43,12 +43,12 @@ class AppServiceProvider extends ServiceProvider
                 $plan = $user->subscription->plan;
 
                 return $plan === 'premium'
-                    ? Limit::perHour(1000)->by($user->id)->response(function () {
+                    ? Limit::perHour(100000)->by($user->id)->response(function () {
                         return Inertia::render('Errors/RateLimitExceeded', [
                             'message' => 'You have exceeded the hourly rate limit for premium users.',
                         ])->toResponse(request())->setStatusCode(429);
                     })
-                : Limit::perHour(200)->by($user->id)->response(function () {
+                    : Limit::perHour(10000)->by($user->id)->response(function () {
                         return Inertia::render('Errors/RateLimitExceeded', [
                             'message' => 'You have exceeded the hourly rate limit for standard users. we will add premium plan soon.',
                         ])->toResponse(request())->setStatusCode(429);
@@ -56,14 +56,14 @@ class AppServiceProvider extends ServiceProvider
             }
 
             if (optional($user)->id) {
-                return Limit::perHour(100)->by($user->id)->response(function () {
+                return Limit::perHour(10000)->by($user->id)->response(function () {
                     return Inertia::render('Errors/RateLimitExceeded', [
                         'message' => 'You have exceeded the hourly rate limit for authenticated users without a subscription.',
                     ])->toResponse(request())->setStatusCode(429);
                 });
             }
 
-            return Limit::perHour(100)->by(optional($user)->id ?: $request->ip())->response(function () {
+            return Limit::perHour(10000)->by(optional($user)->id ?: $request->ip())->response(function () {
                 return Inertia::render('Errors/RateLimitExceeded', [
                     'message' => 'You have exceeded the hourly rate limit for unauthenticated users. You should Log In to use it more. Or',
                 ])->toResponse(request())->setStatusCode(429);
