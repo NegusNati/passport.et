@@ -42,6 +42,12 @@ export default function Welcome({ auth, passportCount }) {
                             <ApplicationLogo className="w-full h-auto" />
                         </div>
                         <nav className="ml-auto flex justify-between space-x-2 lg:space-x-4 ">
+                            <Link
+                                href={route("blogs.index")}
+                                className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                            >
+                                Blog
+                            </Link>
                             {auth.user ? (
                                 <Link
                                     href={route("dashboard")}

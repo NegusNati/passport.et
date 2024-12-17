@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\FilterByCityController;
 use App\Http\Controllers\PassportSearchController;
 use App\Http\Controllers\PDFToSQLiteController;
@@ -133,6 +134,11 @@ Route::get('callback/{reference}', 'App\Http\Controllers\ChapaController@callbac
 // Route::get('/set-webhook', [TelegramPDFController_depreciated::class, 'setWebhook']);
 // Route::post('/telegram/webhook', [TelegramPDFController_depreciated::class, 'handleWebhook']);
 // Route::post('/telegram/webhook', [TelegramPDFController::class, 'handleWebhook'])->middleware('throttle:rateLimiter');
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('blogs', BlogController::class);
+});
+
 
 
 Route::fallback(function () {
