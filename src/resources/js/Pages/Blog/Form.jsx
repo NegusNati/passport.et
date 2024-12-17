@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
+import InputError from "@/Components/InputError";
+import TextInput from "@/Components/TextInput";
 
 export default function Form({ blog = null }) {
     const { data, setData, post, put, processing, errors } = useForm({
@@ -25,16 +27,16 @@ export default function Form({ blog = null }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Title
+                            <label className="block text-sm font-medium text-white">
+                                Blog Title
                             </label>
-                            <input
+                            <TextInput
                                 type="text"
                                 value={data.title}
                                 onChange={(e) =>
                                     setData("title", e.target.value)
                                 }
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-blue-500"
                             />
                             {errors.title && (
                                 <div className="text-red-500 text-sm mt-1">
@@ -44,40 +46,44 @@ export default function Form({ blog = null }) {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">
+                            <label className="block text-sm font-medium text-black">
                                 Content
                             </label>
                             <textarea
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-blue-500"
+                                rows="8"
                                 value={data.content}
                                 onChange={(e) =>
                                     setData("content", e.target.value)
                                 }
-                                rows="10"
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                required
                             />
-                            {errors.content && (
-                                <div className="text-red-500 text-sm mt-1">
-                                    {errors.content}
-                                </div>
-                            )}
+                            <InputError
+                                message={errors.content}
+                                className="mt-2"
+                            />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">
+                            <label className="block text-sm font-medium text-black">
                                 Excerpt
                             </label>
                             <textarea
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-blue-500"
+                                rows="3"
                                 value={data.excerpt}
                                 onChange={(e) =>
                                     setData("excerpt", e.target.value)
                                 }
-                                rows="3"
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            />
+                            <InputError
+                                message={errors.excerpt}
+                                className="mt-2"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">
+                            <label className="block text-sm font-medium text-black">
                                 Featured Image
                             </label>
                             <input
@@ -85,7 +91,12 @@ export default function Form({ blog = null }) {
                                 onChange={(e) =>
                                     setData("featured_image", e.target.files[0])
                                 }
-                                className="mt-1 block w-full"
+                                className="mt-1 block w-full text-sm text-blue-500
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded-md file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-indigo-50 file:text-indigo-700
+                                        hover:file:bg-indigo-100"
                             />
                         </div>
 
@@ -104,4 +115,3 @@ export default function Form({ blog = null }) {
         </AuthGuestLayout>
     );
 }
-
