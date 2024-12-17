@@ -5,17 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
+
     public function index()
     {
         $blogs = Blog::with('user')
             ->latest('published_at')
             ->paginate(10);
-
+        Log::info("in BlogController index method");
+        Log::info($blogs);
         return Inertia::render('Blog/Index', [
             'blogs' => $blogs
         ]);
@@ -36,6 +39,10 @@ class BlogController extends Controller
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
+        if (Blog::where('slug', $validated['slug'])->exists()) {
+            return back()->withErrors(['slug' => 'Slug already exists.']);
+        }
+
         $validated['user_id'] = Auth::user()->id;
         $validated['published_at'] = now();
 

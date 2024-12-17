@@ -1,6 +1,6 @@
 import React from "react";
-import { useForm } from "@inertiajs/inertia-react";
-import AppLayout from "@/Layouts/AppLayout";
+import { useForm } from "@inertiajs/react";
+import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 
 export default function Form({ blog = null }) {
     const { data, setData, post, put, processing, errors } = useForm({
@@ -20,7 +20,7 @@ export default function Form({ blog = null }) {
     };
 
     return (
-        <AppLayout title={blog ? "Edit Blog Post" : "Create Blog Post"}>
+        <AuthGuestLayout title={blog ? "Edit Blog Post" : "Create Blog Post"}>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -101,7 +101,7 @@ export default function Form({ blog = null }) {
                     </form>
                 </div>
             </div>
-        </AppLayout>
+        </AuthGuestLayout>
     );
 }
 

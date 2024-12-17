@@ -1,6 +1,9 @@
 import React from 'react';
-import { Link, useForm } from '@inertiajs/inertia-react';
-import AppLayout from '@/Layouts/AppLayout';
+import { Link, useForm } from '@inertiajs/react';
+import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
+
+
+
 
 export default function Show({ blog }) {
     const { delete: destroy } = useForm();
@@ -12,7 +15,7 @@ export default function Show({ blog }) {
     };
 
     return (
-        <AppLayout title={blog.title}>
+        <AuthGuestLayout title={blog.title}>
             <div className="py-12">
                 <div className="max-w-4xl mx-auto sm:px-6 lg:px-8">
                     {blog.featured_image && (
@@ -68,6 +71,6 @@ export default function Show({ blog }) {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </AuthGuestLayout>
     );
 }

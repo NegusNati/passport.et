@@ -135,9 +135,8 @@ Route::get('callback/{reference}', 'App\Http\Controllers\ChapaController@callbac
 // Route::post('/telegram/webhook', [TelegramPDFController_depreciated::class, 'handleWebhook']);
 // Route::post('/telegram/webhook', [TelegramPDFController::class, 'handleWebhook'])->middleware('throttle:rateLimiter');
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('blogs', BlogController::class);
-});
+Route::resource('blogs', BlogController::class);
+    
 
 
 
