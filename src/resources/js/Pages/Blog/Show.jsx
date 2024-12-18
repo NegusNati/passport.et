@@ -89,7 +89,7 @@ export default function Show({ blog }) {
 
                     <div className="flex flex-col sm:flex-row items-start sm:items-center text-gray-600 mb-8 gap-2 sm:gap-4">
                         <span>
-                            By {blog.user.name ? `${blog.user.name}` : "Admin"}
+                            By {blog.user.first_name ? `${blog.user.first_name}` : "Admin"}
                         </span>
                         <span className="hidden sm:inline">•</span>
                         <span>

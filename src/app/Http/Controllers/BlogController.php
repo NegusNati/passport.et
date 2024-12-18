@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -46,7 +47,9 @@ class BlogController extends Controller
         while (Blog::where('slug', $validated['slug'])->exists()) {
             $validated['slug'] = $slug . '-' . $count++;
         }
-
+        if (!Auth::check()) {
+            return abort(403);
+        }
         $validated['user_id'] = Auth::user()->id;
         $validated['published_at'] = now();
 
@@ -56,7 +59,7 @@ class BlogController extends Controller
 
         if ($request->hasFile('og_image')) {
             $validated['og_image'] = $request->file('og_image')
-            ->store('blog-images/og', 'public');
+                ->store('blog-images/og', 'public');
         } else {
             // Use featured image as og_image if not provided
             $validated['og_image'] = $validated['featured_image'] ?? null;

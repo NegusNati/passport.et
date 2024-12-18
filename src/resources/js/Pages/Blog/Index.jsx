@@ -72,8 +72,8 @@ export default function Index({ blogs }) {
                                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm text-gray-500 gap-2">
                                             <span>
                                                 By{" "}
-                                                {blog.user.name
-                                                    ? `${blog.user.name}`
+                                                {blog.user.first_name
+                                                    ? `${blog.user.first_name}`
                                                     : "Admin"}
                                             </span>
                                             <span>
