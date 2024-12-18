@@ -5,10 +5,12 @@ import InputError from "@/Components/InputError";
 import TextInput from "@/Components/TextInput";
 
 export default function Form({ blog = null }) {
-    const { data, setData, post, put, processing, errors } = useForm({
+    const { data, setData } = useForm({
         title: blog?.title ?? "",
         content: blog?.content ?? "",
         excerpt: blog?.excerpt ?? "",
+        meta_description: blog?.meta_description ?? "",
+        meta_keywords: blog?.meta_keywords ?? "",
         featured_image: null,
     });
 
@@ -84,7 +86,37 @@ export default function Form({ blog = null }) {
                                         className="mt-2"
                                     />
                                 </div>
+                                <div>
+                                    <label>Meta Description (SEO)</label>
+                                    <textarea
+                                        value={data.meta_description}
+                                        onChange={(e) =>
+                                            setData(
+                                                "meta_description",
+                                                e.target.value
+                                            )
+                                        }
+                                        maxLength={160}
+                                        className="w-full rounded-md"
+                                        placeholder="Brief description for search engines"
+                                    />
+                                </div>
 
+                                <div>
+                                    <label>Meta Keywords (SEO)</label>
+                                    <textarea
+                                        value={data.meta_keywords}
+                                        onChange={(e) =>
+                                            setData(
+                                                "meta_keywords ",
+                                                e.target.value
+                                            )
+                                        }
+                                        maxLength={160}
+                                        className="w-full rounded-md"
+                                        placeholder="Key words for search engines"
+                                    />
+                                </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Featured Image

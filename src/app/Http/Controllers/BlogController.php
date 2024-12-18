@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
-
     public function index()
     {
         $blogs = Blog::with('user')
@@ -35,12 +34,16 @@ class BlogController extends Controller
             'title' => 'required|max:255',
             'content' => 'required',
             'excerpt' => 'nullable',
-            'featured_image' => 'nullable|image|max:2048'
+            'featured_image' => 'nullable|image|max:2048',
+            "meta_description" => "nullable|max:160",
+            "meta_keywords" => "nullable|max:255"
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
-        if (Blog::where('slug', $validated['slug'])->exists()) {
-            return back()->withErrors(['slug' => 'Slug already exists.']);
+        $slug = $validated['slug'];
+        $count = 1;
+        while (Blog::where('slug', $validated['slug'])->exists()) {
+            $validated['slug'] = $slug . '-' . $count++;
         }
 
         $validated['user_id'] = Auth::user()->id;

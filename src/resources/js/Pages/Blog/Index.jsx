@@ -1,10 +1,26 @@
 import React from "react";
-import { Link } from "@inertiajs/react";
+import { Link, Head } from "@inertiajs/react";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
+
 
 export default function Index({ blogs }) {
     return (
         <AuthGuestLayout title="Blog Posts">
+            <Head>
+                <title>Blog Posts | Passport.ET</title>
+                <meta
+                    name="description"
+                    content="Latest News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy"
+                />
+                <meta
+                    name="keywords"
+                    content="News, Ethiopian Immigration, Ethiopian Passport, Ethiopian Visa, Ethiopian Embassy, Blog"
+                />
+                <link
+                    rel="canonical"
+                    href={`${window.location.origin}/blogs`}
+                />
+            </Head>
             <div className="py-6 sm:py-12 px-4 sm:px-0">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
@@ -38,7 +54,10 @@ export default function Index({ blogs }) {
                                     <div className="p-4 sm:p-6 flex-1">
                                         <h2 className="text-xl font-semibold mb-2">
                                             <Link
-                                                href={route("blogs.show", blog.id)}
+                                                href={route(
+                                                    "blogs.show",
+                                                    blog.id
+                                                )}
                                                 className="hover:text-blue-600 transition"
                                             >
                                                 {blog.title}
@@ -49,7 +68,11 @@ export default function Index({ blogs }) {
                                         </p>
                                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm text-gray-500 gap-2">
                                             <span>By {blog.user.name}</span>
-                                            <span>{new Date(blog.published_at).toLocaleDateString()}</span>
+                                            <span>
+                                                {new Date(
+                                                    blog.published_at
+                                                ).toLocaleDateString()}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

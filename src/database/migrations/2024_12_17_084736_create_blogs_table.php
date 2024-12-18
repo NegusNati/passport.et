@@ -15,17 +15,17 @@ return new class extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string('title');
-            $table->string('slug')->nullable();
+            $table->string('slug');
             $table->text('content');
             $table->text('excerpt')->nullable();
+            $table->string('meta_description')->nullable();
+            $table->string('meta_keywords')->nullable();
             $table->string('featured_image')->nullable();
+            $table->string('og_image')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
-
-
-
     }
 
     /**
