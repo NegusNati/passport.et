@@ -5,13 +5,14 @@ import InputError from "@/Components/InputError";
 import TextInput from "@/Components/TextInput";
 
 export default function Form({ blog = null }) {
-    const { data, setData } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         title: blog?.title ?? "",
         content: blog?.content ?? "",
         excerpt: blog?.excerpt ?? "",
         meta_description: blog?.meta_description ?? "",
         meta_keywords: blog?.meta_keywords ?? "",
         featured_image: null,
+        og_image: null,
     });
 
     const handleSubmit = (e) => {
@@ -139,6 +140,31 @@ export default function Form({ blog = null }) {
                                     />
                                     <InputError
                                         message={errors.featured_image}
+                                        className="mt-2"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Social Media Image (OG Image)
+                                    </label>
+                                    <input
+                                        type="file"
+                                        onChange={(e) =>
+                                            setData(
+                                                "og_image",
+                                                e.target.files[0]
+                                            )
+                                        }
+                                        className="w-full text-sm text-gray-500
+                                                file:mr-4 file:py-2 file:px-4
+                                                file:rounded-md file:border-0
+                                                file:text-sm file:font-semibold
+                                                file:bg-blue-50 file:text-blue-700
+                                                hover:file:bg-blue-100
+                                                cursor-pointer"
+                                    />
+                                    <InputError
+                                        message={errors.og_image}
                                         className="mt-2"
                                     />
                                 </div>

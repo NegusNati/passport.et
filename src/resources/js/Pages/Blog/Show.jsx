@@ -21,7 +21,11 @@ export default function Show({ blog }) {
                 <meta property="og:description" content={blog.excerpt} />
                 <meta
                     property="og:image"
-                    content={`${window.location.origin}/storage/${blog.featured_image}`}
+                    content={
+                        blog.og_image
+                            ? `${window.location.origin}/storage/${blog.og_image}`
+                            : `${window.location.origin}/storage/${blog.featured_image}`
+                    }
                 />
 
                 <script type="application/ld+json">
@@ -29,7 +33,14 @@ export default function Show({ blog }) {
                         "@context": "https://schema.org",
                         "@type": "BlogPosting",
                         headline: blog.title,
-                        image: `${window.location.origin}/storage/${blog.featured_image}`,
+                        image: {
+                            "@type": "ImageObject",
+                            url: `${window.location.origin}/storage/${
+                                blog.og_image
+                                    ? blog.og_image
+                                    : blog.featured_image
+                            }`,
+                        },
                         datePublished: blog.published_at,
                         dateModified: blog.updated_at,
                         author: {
@@ -44,7 +55,11 @@ export default function Show({ blog }) {
                     {blog.featured_image && (
                         <div className="relative h-48 sm:h-64 md:h-96 mb-6">
                             <img
-                                src={`/storage/${blog.featured_image}`}
+                                src={
+                                    blog.featured_image
+                                        ? `/storage/${blog.featured_image}`
+                                        : "/pass_welcome.png"
+                                }
                                 alt={blog.title}
                                 className="w-full h-full object-cover rounded-lg"
                             />
@@ -73,7 +88,9 @@ export default function Show({ blog }) {
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-start sm:items-center text-gray-600 mb-8 gap-2 sm:gap-4">
-                        <span>By {blog.user.name}</span>
+                        <span>
+                            By {blog.user.name ? `${blog.user.name}` : "Admin"}
+                        </span>
                         <span className="hidden sm:inline">•</span>
                         <span>
                             {new Date(blog.published_at).toLocaleDateString()}

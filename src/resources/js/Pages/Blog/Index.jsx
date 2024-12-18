@@ -2,7 +2,6 @@ import React from "react";
 import { Link, Head } from "@inertiajs/react";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 
-
 export default function Index({ blogs }) {
     return (
         <AuthGuestLayout title="Blog Posts">
@@ -48,6 +47,10 @@ export default function Index({ blogs }) {
                                                 src={`/storage/${blog.featured_image}`}
                                                 alt={blog.title}
                                                 className="w-full h-48 sm:h-full object-cover"
+                                                onError={(e) => {
+                                                    e.target.src =
+                                                        "/pass_welcome.png";
+                                                }}
                                             />
                                         </div>
                                     )}
@@ -67,7 +70,12 @@ export default function Index({ blogs }) {
                                             {blog.excerpt}
                                         </p>
                                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm text-gray-500 gap-2">
-                                            <span>By {blog.user.name}</span>
+                                            <span>
+                                                By{" "}
+                                                {blog.user.name
+                                                    ? `${blog.user.name}`
+                                                    : "Admin"}
+                                            </span>
                                             <span>
                                                 {new Date(
                                                     blog.published_at

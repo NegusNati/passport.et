@@ -35,6 +35,7 @@ class BlogController extends Controller
             'content' => 'required',
             'excerpt' => 'nullable',
             'featured_image' => 'nullable|image|max:2048',
+            'og_image' => 'nullable|image|max:2048',
             "meta_description" => "nullable|max:160",
             "meta_keywords" => "nullable|max:255"
         ]);
@@ -50,9 +51,16 @@ class BlogController extends Controller
         $validated['published_at'] = now();
 
         if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')->store('blog-images', 'public');
+            $validated['featured_image'] = $request->file('featured_image')->store('blog-images/featured', 'public');
         }
 
+        if ($request->hasFile('og_image')) {
+            $validated['og_image'] = $request->file('og_image')
+            ->store('blog-images/og', 'public');
+        } else {
+            // Use featured image as og_image if not provided
+            $validated['og_image'] = $validated['featured_image'] ?? null;
+        }
         Blog::create($validated);
 
         return redirect()->route('blogs.index')->with('success', 'Blog post created successfully!');
