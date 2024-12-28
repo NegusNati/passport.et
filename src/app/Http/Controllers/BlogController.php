@@ -37,9 +37,15 @@ class BlogController extends Controller
             'excerpt' => 'nullable',
             'featured_image' => 'nullable|image|max:2048',
             'og_image' => 'nullable|image|max:2048',
-            "meta_description" => "nullable|max:160",
-            "meta_keywords" => "nullable|max:255"
+            "meta_description" => "nullable",
+            "meta_keywords" => "nullable"
         ]);
+        Log::info("in BlogController store method");
+        Log::info($request);
+        $validated['meta_description'] = $request['meta_description'];
+        $validated['meta_keywords'] = $request['meta_keywords'];
+
+
 
         $validated['slug'] = Str::slug($validated['title']);
         $slug = $validated['slug'];
@@ -50,7 +56,9 @@ class BlogController extends Controller
         if (!Auth::check()) {
             return abort(403);
         }
-        $validated['user_id'] = Auth::user()->id;
+
+
+        $validated['user_id'] = Auth::id();
         $validated['published_at'] = now();
 
         if ($request->hasFile('featured_image')) {
@@ -58,26 +66,29 @@ class BlogController extends Controller
         }
 
         if ($request->hasFile('og_image')) {
-            $validated['og_image'] = $request->file('og_image')
-                ->store('blog-images/og', 'public');
-        } else {
-            // Use featured image as og_image if not provided
-            $validated['og_image'] = $validated['featured_image'] ?? null;
+            $validated['og_image'] = $request->file('og_image')->store('blog-images/og', 'public');
         }
+        Log::info($validated);
         Blog::create($validated);
 
         return redirect()->route('blogs.index')->with('success', 'Blog post created successfully!');
     }
 
-    public function show(Blog $blog)
-    {
-        return Inertia::render('Blog/Show', [
-            'blog' => $blog->load('user')
-        ]);
-    }
+public function show(Blog $blog)
+{
+    return Inertia::render('Blog/Show', [
+        'blog' => $blog->load('user'),
+    ]);
+}
+
 
     public function edit(Blog $blog)
     {
+
+        if (!auth()->user()->can('upload-files')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return Inertia::render('Blog/Edit', [
             'blog' => $blog
         ]);

@@ -28,7 +28,7 @@ export default function Index({ blogs }) {
                         </h1>
                         <Link
                             href={route("blogs.create")}
-                            className="w-full sm:w-auto text-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                            className="w-full sm:w-auto text-center px-4 py-2 bg-blue-600 text-blue-400 rounded-md hover:bg-blue-700 transition"
                         >
                             Create New Post
                         </Link>
@@ -49,7 +49,7 @@ export default function Index({ blogs }) {
                                                 className="w-full h-48 sm:h-full object-cover"
                                                 onError={(e) => {
                                                     e.target.src =
-                                                        "/pass_welcome.png";
+                                                        "./pass_welcome.png";
                                                 }}
                                             />
                                         </div>

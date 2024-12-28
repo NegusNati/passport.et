@@ -2,65 +2,56 @@ import React from "react";
 import { Link, useForm, Head } from "@inertiajs/react";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 
-export default function Show({ blog }) {
+export default function Show({ blog, auth }) {
     const { delete: destroy } = useForm();
 
     const handleDelete = () => {
         if (confirm("Are you sure you want to delete this post?")) {
-            destroy(route("blogs.destroy", blog.id));
+            destroy(route("blogs.destroy", blog?.id));
         }
     };
 
-    return (
-        <AuthGuestLayout title={blog.title}>
-            <Head>
-                <title>{blog.title} | Your Site Name</title>
-                <meta name="description" content={blog.meta_description} />
-                <meta name="keywords" content={blog.meta_keywords} />
-                <meta property="og:title" content={blog.title} />
-                <meta property="og:description" content={blog.excerpt} />
-                <meta
-                    property="og:image"
-                    content={
-                        blog.og_image
-                            ? `${window.location.origin}/storage/${blog.og_image}`
-                            : `${window.location.origin}/storage/${blog.featured_image}`
-                    }
-                />
+    console.log(blog);
 
-                <script type="application/ld+json">
-                    {JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "BlogPosting",
-                        headline: blog.title,
-                        image: {
-                            "@type": "ImageObject",
-                            url: `${window.location.origin}/storage/${
-                                blog.og_image
-                                    ? blog.og_image
-                                    : blog.featured_image
-                            }`,
-                        },
-                        datePublished: blog.published_at,
-                        dateModified: blog.updated_at,
-                        author: {
-                            "@type": "Person",
-                            name: blog.user.name,
-                        },
-                    })}
-                </script>
+if (!blog || Object.keys(blog).length === 0) return <div>Loading...</div>;
+
+    const metaImage = blog?.og_image
+        ? `/storage/${blog.og_image}`
+        : blog?.featured_image
+        ? `/storage/${blog.featured_image}`
+        : "pass_welcome.png";
+
+    console.log("Meta Image:", metaImage);
+
+    return (
+        <AuthGuestLayout user={auth.user}>
+            {/* <Head title="tiii" />*/}
+
+
+     <Head>
+                <title>Blog Posts | Passport.ET</title>
+                <meta
+                    name="description"
+                    content="Latest News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy"
+                />
+                <meta
+                    name="keywords"
+                    content="News, Ethiopian Immigration, Ethiopian Passport, Ethiopian Visa, Ethiopian Embassy, Blog"
+                />
+                <link
+                    rel="canonical"
+                    href={`${window.location.origin}/blogs/${blog?.id}`}
+                />
             </Head>
+
+
             <div className="py-6 sm:py-12 px-4 sm:px-0">
                 <div className="max-w-4xl mx-auto">
-                    {blog.featured_image && (
+                    {blog?.featured_image && (
                         <div className="relative h-48 sm:h-64 md:h-96 mb-6">
                             <img
-                                src={
-                                    blog.featured_image
-                                        ? `/storage/${blog.featured_image}`
-                                        : "/pass_welcome.png"
-                                }
-                                alt={blog.title}
+                                src={`/storage/${blog.featured_image}`}
+                                alt={blog?.title || ""}
                                 className="w-full h-full object-cover rounded-lg"
                             />
                         </div>
@@ -68,16 +59,21 @@ export default function Show({ blog }) {
 
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
-                            {blog.title}
+                            {blog?.title}
                         </h1>
 
                         <div className="flex gap-2 w-full sm:w-auto">
-                            <Link
-                                href={route("blogs.edit", blog.id)}
-                                className="flex-1 sm:flex-none text-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                            >
-                                Edit
-                            </Link>
+                            {auth.user?.permissions?.includes(
+                                "upload-files"
+                            ) && (
+                                <Link
+                                    href={route("blogs.edit", blog?.id)}
+                                    className="flex-1 sm:flex-none text-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                                >
+                                    Edit
+                                </Link>
+                            )}
+
                             <button
                                 onClick={handleDelete}
                                 className="flex-1 sm:flex-none px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
@@ -88,23 +84,31 @@ export default function Show({ blog }) {
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-start sm:items-center text-gray-600 mb-8 gap-2 sm:gap-4">
-                        <span>
-                            By {blog.user.first_name ? `${blog.user.first_name}` : "Admin"}
-                        </span>
+                        {blog?.user && (
+                            <span>
+                                By{" "}
+                                {blog.user.first_name
+                                    ? blog.user.first_name
+                                    : "Admin"}
+                            </span>
+                        )}
                         <span className="hidden sm:inline">•</span>
                         <span>
-                            {new Date(blog.published_at).toLocaleDateString()}
+                            {blog?.published_at &&
+                                new Date(
+                                    blog.published_at
+                                ).toLocaleDateString()}
                         </span>
                     </div>
 
-                    {blog.excerpt && (
+                    {blog?.excerpt && (
                         <div className="text-base sm:text-lg text-gray-600 mb-8 italic">
                             {blog.excerpt}
                         </div>
                     )}
 
                     <div className="prose prose-sm sm:prose-lg max-w-none">
-                        {blog.content}
+                        {blog?.content}
                     </div>
 
                     <div className="mt-8 sm:mt-12 border-t pt-6 sm:pt-8">

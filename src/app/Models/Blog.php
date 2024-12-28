@@ -9,15 +9,8 @@ class Blog extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'content',
-        'slug',
-        'user_id',
-        'published_at',
-        'featured_image',
-        'excerpt'
-    ];
+    protected $guarded = [];
+
 
     protected $casts = [
         'published_at' => 'datetime'
@@ -25,6 +18,7 @@ class Blog extends Model
 
     public function user()
     {
+       
         return $this->belongsTo(User::class);
     }
 }

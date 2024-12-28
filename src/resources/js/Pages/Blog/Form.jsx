@@ -41,7 +41,7 @@ export default function Form({ blog = null }) {
                                         onChange={(e) =>
                                             setData("title", e.target.value)
                                         }
-                                        className="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                                        className="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500  text-blue-600"
                                         placeholder="Enter blog title"
                                     />
                                     <InputError
@@ -55,7 +55,7 @@ export default function Form({ blog = null }) {
                                         Content
                                     </label>
                                     <textarea
-                                        className="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 min-h-[200px]"
+                                        className="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 min-h-[200px] text-blue-600"
                                         value={data.content}
                                         onChange={(e) =>
                                             setData("content", e.target.value)
@@ -74,7 +74,7 @@ export default function Form({ blog = null }) {
                                         Excerpt
                                     </label>
                                     <textarea
-                                        className="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                                        className="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-blue-600"
                                         rows="3"
                                         value={data.excerpt}
                                         onChange={(e) =>
@@ -98,9 +98,14 @@ export default function Form({ blog = null }) {
                                             )
                                         }
                                         maxLength={160}
-                                        className="w-full rounded-md"
+                                        className="w-full rounded-md text-blue-600"
                                         placeholder="Brief description for search engines"
                                     />
+                                     <InputError
+                                        message={errors.meta_description}
+                                        className="mt-2"
+                                    />
+
                                 </div>
 
                                 <div>
@@ -109,13 +114,17 @@ export default function Form({ blog = null }) {
                                         value={data.meta_keywords}
                                         onChange={(e) =>
                                             setData(
-                                                "meta_keywords ",
+                                                "meta_keywords",
                                                 e.target.value
                                             )
                                         }
                                         maxLength={160}
-                                        className="w-full rounded-md"
+                                        className="w-full rounded-md  text-blue-600"
                                         placeholder="Key words for search engines"
+                                    />
+                                     <InputError
+                                        message={errors.meta_keywords}
+                                        className="mt-2"
                                     />
                                 </div>
                                 <div>
