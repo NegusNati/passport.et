@@ -9,7 +9,11 @@ import { ThemeProvider } from "./Components/ThemeContext";
 const appName = import.meta.env.VITE_APP_NAME || "Passport.ET";
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName} - Ethiopian Passport Services Aid`,
+    title: (title) =>
+        `${
+            title ? `${title} - ` : ""
+        }${appName} - Ethiopian Passport Services Aid`,
+
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.jsx`,
