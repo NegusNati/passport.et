@@ -132,9 +132,13 @@ export default function Show({ blog, auth }) {
                         </div>
                     )}
 
-                    <div className="prose prose-sm sm:prose-lg max-w-none">
+                    {/* <div className="prose prose-sm sm:prose-lg max-w-none">
                         {blog?.content}
-                    </div>
+                    </div> */}
+                    <div
+                        className="prose prose-sm sm:prose-lg max-w-none"
+                        dangerouslySetInnerHTML={{ __html: blog?.content }}
+                    />
 
                     <div className="mt-8 sm:mt-12 border-t pt-6 sm:pt-8">
                         <Link

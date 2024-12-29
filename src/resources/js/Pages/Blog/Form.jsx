@@ -3,6 +3,8 @@ import { useForm } from "@inertiajs/react";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 import InputError from "@/Components/InputError";
 import TextInput from "@/Components/TextInput";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 export default function Form({ blog = null }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -15,6 +17,18 @@ export default function Form({ blog = null }) {
         og_image: null,
     });
 
+    const modules = {
+        toolbar: [
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            ["bold", "italic", "underline", "strike"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ indent: "-1" }, { indent: "+1" }],
+            ["link", "image"],
+            ["clean"],
+            [{ color: [] }, { background: [] }],
+            [{ align: [] }],
+        ],
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
         if (blog) {
@@ -50,7 +64,7 @@ export default function Form({ blog = null }) {
                                     />
                                 </div>
 
-                                <div>
+                                {/* <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Content
                                     </label>
@@ -66,6 +80,24 @@ export default function Form({ blog = null }) {
                                     <InputError
                                         message={errors.content}
                                         className="mt-2"
+                                    />
+                                </div> */}
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Content
+                                    </label>
+                                    <ReactQuill
+                                        theme="snow"
+                                        value={data.content}
+                                        onChange={(content) =>
+                                            setData("content", content)
+                                        }
+                                        modules={modules}
+                                        className="h-64 mb-12 text-blue-600"
+                                    />
+                                    <InputError
+                                        message={errors.content}
+                                        className="mt-2 text-blue-600"
                                     />
                                 </div>
 
@@ -101,11 +133,10 @@ export default function Form({ blog = null }) {
                                         className="w-full rounded-md text-blue-600"
                                         placeholder="Brief description for search engines"
                                     />
-                                     <InputError
+                                    <InputError
                                         message={errors.meta_description}
                                         className="mt-2"
                                     />
-
                                 </div>
 
                                 <div>
@@ -122,7 +153,7 @@ export default function Form({ blog = null }) {
                                         className="w-full rounded-md  text-blue-600"
                                         placeholder="Key words for search engines"
                                     />
-                                     <InputError
+                                    <InputError
                                         message={errors.meta_keywords}
                                         className="mt-2"
                                     />

@@ -66,9 +66,20 @@ export default function Index({ blogs }) {
                                                 {blog.title}
                                             </Link>
                                         </h2>
-                                        <p className="text-gray-600 mb-4 line-clamp-3">
+                                        {/* <p className="text-gray-600 mb-4 line-clamp-3">
                                             {blog.excerpt}
-                                        </p>
+                                        </p> */}
+                                        <p
+                                            className="text-gray-600 mb-4 line-clamp-3"
+                                            dangerouslySetInnerHTML={{
+                                                __html:
+                                                    blog.excerpt ||
+                                                    blog.content.substring(
+                                                        0,
+                                                        150
+                                                    ) + "...",
+                                            }}
+                                        />
                                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm text-gray-500 gap-2">
                                             <span>
                                                 By{" "}

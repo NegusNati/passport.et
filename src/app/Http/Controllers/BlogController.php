@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\User as User;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ class BlogController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
-            'content' => 'required',
+            'content' => 'required|string',
             'excerpt' => 'nullable',
             'featured_image' => 'nullable|image|max:2048',
             'og_image' => 'nullable|image|max:2048',
@@ -74,19 +75,21 @@ class BlogController extends Controller
         return redirect()->route('blogs.index')->with('success', 'Blog post created successfully!');
     }
 
-public function show(Blog $blog)
-{
-    return Inertia::render('Blog/Show', [
-        'blog' => $blog->load('user'),
-    ]);
-}
+    public function show(Blog $blog)
+    {
+        return Inertia::render('Blog/Show', [
+            'blog' => $blog->load('user'),
+        ]);
+    }
 
 
     public function edit(Blog $blog)
     {
-
-        if (!auth()->user()->can('upload-files')) {
-            abort(403, 'Unauthorized action.');
+        $user = Auth::user();
+        if ($user !== null && $user instanceof User) {
+            if (!$user->can('upload-files')) {
+                abort(403, 'Unauthorized action.');
+            }
         }
 
         return Inertia::render('Blog/Edit', [
