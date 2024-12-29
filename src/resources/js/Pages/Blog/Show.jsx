@@ -13,15 +13,7 @@ export default function Show({ blog, auth }) {
 
     console.log(blog);
 
-    if (!blog || Object.keys(blog).length === 0) return <div>Loading...</div>;
-
-    // const metaImage = blog
-    //     ? blog?.og_image
-    //         ? `/storage/${blog.og_image}`
-    //         : blog?.featured_image
-    //         ? `/storage/${blog.featured_image}`
-    //         : "pass_welcome.png"
-    //     : "pass_welcome.png";
+    if (!blog || Object.keys(blog).length === 0) return <div>blog Unavailable</div>;
 
     const metaImage = blog
         ? blog.og_image || blog.featured_image
@@ -33,6 +25,7 @@ export default function Show({ blog, auth }) {
         <AuthGuestLayout user={auth.user}>
             <Head>
                 <title>{blog ? `${blog?.title}` : "Blog Post"}</title>
+
                 <meta property="og:site_name" content="Passport.ET" />
                 <meta
                     property="og:title"
