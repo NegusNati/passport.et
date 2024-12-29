@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useForm , Head} from "@inertiajs/react";
+import { Link, useForm, Head } from "@inertiajs/react";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 
 export default function Show({ blog, auth }) {
@@ -15,21 +15,24 @@ export default function Show({ blog, auth }) {
 
     if (!blog || Object.keys(blog).length === 0) return <div>Loading...</div>;
 
-    const metaImage = blog?.og_image
-        ? `/storage/${blog.og_image}`
-        : blog?.featured_image
-        ? `/storage/${blog.featured_image}`
+    // const metaImage = blog
+    //     ? blog?.og_image
+    //         ? `/storage/${blog.og_image}`
+    //         : blog?.featured_image
+    //         ? `/storage/${blog.featured_image}`
+    //         : "pass_welcome.png"
+    //     : "pass_welcome.png";
+
+    const metaImage = blog
+        ? blog.og_image || blog.featured_image
         : "pass_welcome.png";
 
     console.log("Meta Image:", metaImage);
 
     return (
         <AuthGuestLayout user={auth.user}>
-            <Head >
-                
-                <title>{ blog ? `${blog?.title || "Blog Posts"}` : " blog blog"}</title>
-
-
+            <Head>
+                <title>{blog ? `${blog?.title}` : "Blog Post"}</title>
                 <meta property="og:site_name" content="Passport.ET" />
                 <meta
                     property="og:title"
@@ -52,7 +55,8 @@ export default function Show({ blog, auth }) {
                             : "https://www.passport.et"
                     }
                 />
-                {/* <meta property="og:image" content={metaImage} /> */}
+                <meta property="og:image" content={metaImage} />
+
                 <meta
                     name="description"
                     content={
