@@ -34,7 +34,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid</title>
+    {{-- <title>{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid</title> --}}
     <meta name="description"
         content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease. ">
     <meta name="keywords"

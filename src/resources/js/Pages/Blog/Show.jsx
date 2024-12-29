@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useForm, Head } from "@inertiajs/react";
+import { Link, useForm , Head} from "@inertiajs/react";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 
 export default function Show({ blog, auth }) {
@@ -13,7 +13,7 @@ export default function Show({ blog, auth }) {
 
     console.log(blog);
 
-if (!blog || Object.keys(blog).length === 0) return <div>Loading...</div>;
+    if (!blog || Object.keys(blog).length === 0) return <div>Loading...</div>;
 
     const metaImage = blog?.og_image
         ? `/storage/${blog.og_image}`
@@ -25,18 +25,47 @@ if (!blog || Object.keys(blog).length === 0) return <div>Loading...</div>;
 
     return (
         <AuthGuestLayout user={auth.user}>
-            {/* <Head title="tiii" />*/}
+            <Head >
+                
+                <title>{ blog ? `${blog?.title || "Blog Posts"}` : " blog blog"}</title>
 
 
-     <Head>
-                <title>Blog Posts | Passport.ET</title>
+                <meta property="og:site_name" content="Passport.ET" />
+                <meta
+                    property="og:title"
+                    content={`${blog?.title || "Blog Posts"} | Passport.ET`}
+                />
+                <meta
+                    property="og:description"
+                    content={
+                        blog?.meta_description ||
+                        "Latest News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy"
+                    }
+                />
+                <meta property="og:type" content="website" />
+                <meta property="og:locale" content="en" />
+                <meta
+                    property="og:url"
+                    content={
+                        blog?.id
+                            ? `https://www.passport.et/blogs/${blog?.id}`
+                            : "https://www.passport.et"
+                    }
+                />
+                {/* <meta property="og:image" content={metaImage} /> */}
                 <meta
                     name="description"
-                    content="Latest News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy"
+                    content={
+                        blog?.meta_description ||
+                        "Latest News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy"
+                    }
                 />
                 <meta
                     name="keywords"
-                    content="News, Ethiopian Immigration, Ethiopian Passport, Ethiopian Visa, Ethiopian Embassy, Blog"
+                    content={
+                        blog?.meta_keywords ||
+                        "News, Ethiopian Immigration, Ethiopian Passport, Ethiopian Visa, Ethiopian Embassy, Blog"
+                    }
                 />
                 <link
                     rel="canonical"
@@ -44,14 +73,13 @@ if (!blog || Object.keys(blog).length === 0) return <div>Loading...</div>;
                 />
             </Head>
 
-
             <div className="py-6 sm:py-12 px-4 sm:px-0">
                 <div className="max-w-4xl mx-auto">
                     {blog?.featured_image && (
                         <div className="relative h-48 sm:h-64 md:h-96 mb-6">
                             <img
                                 src={`/storage/${blog.featured_image}`}
-                                alt={blog?.title || ""}
+                                alt={blog?.title || "passport.et news"}
                                 className="w-full h-full object-cover rounded-lg"
                             />
                         </div>

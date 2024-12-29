@@ -6,7 +6,7 @@ export default function Index({ blogs }) {
     return (
         <AuthGuestLayout title="Blog Posts">
             <Head>
-                <title>Blog Posts | Passport.ET</title>
+                <title>Blog Posts</title>
                 <meta
                     name="description"
                     content="Latest News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy"

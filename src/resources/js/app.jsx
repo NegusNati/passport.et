@@ -6,10 +6,10 @@ import { createInertiaApp } from "@inertiajs/react";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ThemeProvider } from "./Components/ThemeContext";
 
-const appName = import.meta.env.VITE_APP_NAME || "PassportET";
+const appName = import.meta.env.VITE_APP_NAME || "Passport.ET";
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${title} - ${appName} - Ethiopian Passport Services Aid`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.jsx`,
