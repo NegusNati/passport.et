@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useForm, Head } from "@inertiajs/react";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
+import SocialShare from "@/Components/SocialShare";
 
 export default function Show({ blog, auth, isAdmin }) {
     const { delete: destroy } = useForm();
@@ -11,8 +12,6 @@ export default function Show({ blog, auth, isAdmin }) {
         }
     };
 
-    console.log(blog);
-
     if (!blog || Object.keys(blog).length === 0)
         return <div>blog Unavailable</div>;
 
@@ -20,7 +19,19 @@ export default function Show({ blog, auth, isAdmin }) {
         ? blog.og_image || blog.featured_image
         : "pass_welcome.png";
 
-    console.log("Meta Image:", metaImage);
+    let shareText = "";
+    let shareUrl = "";
+
+    if (blog) {
+        shareUrl = `https://www.passport.et/blogs/${blog.id}`;
+        shareText = `
+        📰 ${blog.title}
+        
+        ${blog.excerpt || blog.content.substring(0, 150)}...
+        
+        Read more at: ${shareUrl}
+        `;
+    }
 
     return (
         <AuthGuestLayout user={auth.user}>
@@ -89,7 +100,7 @@ export default function Show({ blog, auth, isAdmin }) {
                         </h1>
 
                         <div className="flex gap-2 w-full sm:w-auto">
-                            {isAdmin && (
+                            {isAdmin ? (
                                 <>
                                     <Link
                                         href={route("blogs.edit", blog?.id)}
@@ -104,6 +115,11 @@ export default function Show({ blog, auth, isAdmin }) {
                                         Delete
                                     </button>
                                 </>
+                            ) : (
+                                <SocialShare
+                                    shareText={shareText}
+                                    shareUrl={shareUrl}
+                                />
                             )}
                         </div>
                     </div>
