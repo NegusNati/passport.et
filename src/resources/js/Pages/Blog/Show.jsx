@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useForm, Head } from "@inertiajs/react";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 
-export default function Show({ blog, auth }) {
+export default function Show({ blog, auth, isAdmin }) {
     const { delete: destroy } = useForm();
 
     const handleDelete = () => {
@@ -13,7 +13,8 @@ export default function Show({ blog, auth }) {
 
     console.log(blog);
 
-    if (!blog || Object.keys(blog).length === 0) return <div>blog Unavailable</div>;
+    if (!blog || Object.keys(blog).length === 0)
+        return <div>blog Unavailable</div>;
 
     const metaImage = blog
         ? blog.og_image || blog.featured_image
@@ -83,32 +84,31 @@ export default function Show({ blog, auth }) {
                     )}
 
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
+                        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
                             {blog?.title}
                         </h1>
 
                         <div className="flex gap-2 w-full sm:w-auto">
-                            {auth.user?.permissions?.includes(
-                                "upload-files"
-                            ) && (
-                                <Link
-                                    href={route("blogs.edit", blog?.id)}
-                                    className="flex-1 sm:flex-none text-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                                >
-                                    Edit
-                                </Link>
+                            {isAdmin && (
+                                <>
+                                    <Link
+                                        href={route("blogs.edit", blog?.id)}
+                                        className="flex-1 sm:flex-none text-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                                    >
+                                        Edit
+                                    </Link>
+                                    <button
+                                        onClick={handleDelete}
+                                        className="flex-1 sm:flex-none px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+                                    >
+                                        Delete
+                                    </button>
+                                </>
                             )}
-
-                            <button
-                                onClick={handleDelete}
-                                className="flex-1 sm:flex-none px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
-                            >
-                                Delete
-                            </button>
                         </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center text-gray-600 mb-8 gap-2 sm:gap-4">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center text-gray-600 dark:text-gray-300 mb-8 gap-2 sm:gap-4">
                         {blog?.user && (
                             <span>
                                 By{" "}
@@ -127,7 +127,7 @@ export default function Show({ blog, auth }) {
                     </div>
 
                     {blog?.excerpt && (
-                        <div className="text-base sm:text-lg text-gray-600 mb-8 italic">
+                        <div className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 italic">
                             {blog.excerpt}
                         </div>
                     )}
@@ -136,14 +136,14 @@ export default function Show({ blog, auth }) {
                         {blog?.content}
                     </div> */}
                     <div
-                        className="prose prose-sm sm:prose-lg max-w-none"
+                        className="prose prose-sm sm:prose-lg max-w-none dark:prose-invert"
                         dangerouslySetInnerHTML={{ __html: blog?.content }}
                     />
 
                     <div className="mt-8 sm:mt-12 border-t pt-6 sm:pt-8">
                         <Link
                             href={route("blogs.index")}
-                            className="inline-flex items-center text-blue-600 hover:text-blue-800 transition"
+                            className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition"
                         >
                             <span>←</span>
                             <span className="ml-2">Back to all posts</span>

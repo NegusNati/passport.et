@@ -21,7 +21,8 @@ class BlogController extends Controller
         Log::info("in BlogController index method");
         Log::info($blogs);
         return Inertia::render('Blog/Index', [
-            'blogs' => $blogs
+            'blogs' => $blogs,
+            'isAdmin' => auth()->user()?->can('upload-files') ?? false
         ]);
     }
 
@@ -79,6 +80,7 @@ class BlogController extends Controller
     {
         return Inertia::render('Blog/Show', [
             'blog' => $blog->load('user'),
+            'isAdmin' => auth()->user()?->can('upload-files') ?? false
         ]);
     }
 
