@@ -100,7 +100,7 @@ export default function Show({ blog, auth, isAdmin }) {
                         </h1>
 
                         <div className="flex gap-2 w-full sm:w-auto">
-                            {isAdmin ? (
+                            {isAdmin && (
                                 <>
                                     <Link
                                         href={route("blogs.edit", blog?.id)}
@@ -115,33 +115,38 @@ export default function Show({ blog, auth, isAdmin }) {
                                         Delete
                                     </button>
                                 </>
-                            ) : (
-                                <SocialShare
-                                    shareText={shareText}
-                                    shareUrl={shareUrl}
-                                />
                             )}
                         </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center text-gray-600 dark:text-gray-300 mb-8 gap-2 sm:gap-4">
-                        {blog?.user && (
-                            <span>
-                                By{" "}
-                                <span className="capitalize font-bold">
-                                    {blog.user.first_name
-                                        ? `${blog.user.first_name}`
-                                        : "Admin"}
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center text-gray-600 dark:text-gray-300 mb-8 gap-2 sm:gap-4 justify-between w-full">
+                        <div>
+                            {blog?.user && (
+                                <span>
+                                    By{" "}
+                                    <span className="capitalize font-bold">
+                                        {blog.user.first_name
+                                            ? `${blog.user.first_name}`
+                                            : "Admin"}
+                                    </span>
                                 </span>
+                            )}
+                            <span className="hidden sm:inline">{" "}•{" "}</span>
+                            <span>
+                                {blog?.published_at &&
+                                    new Date(
+                                        blog.published_at
+                                    ).toLocaleDateString()}
                             </span>
+                        </div>
+                        {!isAdmin && (
+                            <div className="relative">
+                                <SocialShare
+                                    shareText={shareText}
+                                    shareUrl={shareUrl}
+                                />
+                            </div>
                         )}
-                        <span className="hidden sm:inline">•</span>
-                        <span>
-                            {blog?.published_at &&
-                                new Date(
-                                    blog.published_at
-                                ).toLocaleDateString()}
-                        </span>
                     </div>
 
                     {blog?.excerpt && (
