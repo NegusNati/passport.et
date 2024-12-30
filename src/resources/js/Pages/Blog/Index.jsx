@@ -36,11 +36,11 @@ export default function Index({ blogs, auth, isAdmin }) {
                         )}
                     </div>
 
-                    <div className="grid grid-cols-1 gap-4 sm:gap-6">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 min-h-screen justify-between content-start">
                         {blogs.data.map((blog) => (
                             <div
                                 key={blog.id}
-                                className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg hover:shadow-md transition"
+                                className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg hover:shadow-md transition h-full"
                             >
                                 <div className="flex flex-col sm:flex-row">
                                     {blog.featured_image && (
@@ -56,37 +56,41 @@ export default function Index({ blogs, auth, isAdmin }) {
                                             />
                                         </div>
                                     )}
-                                    <div className="p-4 sm:p-6 flex-1">
-                                        <h2 className="text-xl font-semibold mb-2">
-                                            <Link
-                                                href={route(
-                                                    "blogs.show",
-                                                    blog.id
-                                                )}
-                                                className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition"
-                                            >
-                                                {blog.title}
-                                            </Link>
-                                        </h2>
-                                        <p
-                                            className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"
-                                            dangerouslySetInnerHTML={{
-                                                __html:
-                                                    blog.excerpt ||
-                                                    blog.content.substring(
-                                                        0,
-                                                        150
-                                                    ) + "...",
-                                            }}
-                                        />
+                                    <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between">
+                                        <div>
+                                            <h2 className="text-xl font-semibold mb-2">
+                                                <Link
+                                                    href={route(
+                                                        "blogs.show",
+                                                        blog.id
+                                                    )}
+                                                    className="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition capitalize font-extrabold"
+                                                >
+                                                    {blog.title}
+                                                </Link>
+                                            </h2>
+                                            <p
+                                                className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3"
+                                                dangerouslySetInnerHTML={{
+                                                    __html:
+                                                        blog.excerpt ||
+                                                        blog.content.substring(
+                                                            0,
+                                                            150
+                                                        ) + "...",
+                                                }}
+                                            />
+                                        </div>
                                         <div className="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400">
                                             <span>
                                                 By{" "}
-                                                {blog.user.first_name
-                                                    ? `${blog.user.first_name}`
-                                                    : "Admin"}
+                                                <span className="capitalize font-bold">
+                                                    {blog.user.first_name
+                                                        ? `${blog.user.first_name}`
+                                                        : "Admin"}
+                                                </span>
                                             </span>
-                                            <span>
+                                            <span className="font-bold">
                                                 {new Date(
                                                     blog.published_at
                                                 ).toLocaleDateString()}

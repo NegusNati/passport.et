@@ -84,7 +84,7 @@ export default function Show({ blog, auth, isAdmin }) {
                     )}
 
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+                        <h1 className="text-3xl sm:text-4xl text-gray-900 dark:text-white capitalize font-extrabold">
                             {blog?.title}
                         </h1>
 
@@ -112,9 +112,11 @@ export default function Show({ blog, auth, isAdmin }) {
                         {blog?.user && (
                             <span>
                                 By{" "}
-                                {blog.user.first_name
-                                    ? blog.user.first_name
-                                    : "Admin"}
+                                <span className="capitalize font-bold">
+                                    {blog.user.first_name
+                                        ? `${blog.user.first_name}`
+                                        : "Admin"}
+                                </span>
                             </span>
                         )}
                         <span className="hidden sm:inline">•</span>
@@ -127,7 +129,7 @@ export default function Show({ blog, auth, isAdmin }) {
                     </div>
 
                     {blog?.excerpt && (
-                        <div className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 italic">
+                        <div className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 italic font-light">
                             {blog.excerpt}
                         </div>
                     )}
