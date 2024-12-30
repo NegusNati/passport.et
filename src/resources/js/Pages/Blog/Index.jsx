@@ -2,9 +2,9 @@ import React from "react";
 import { Link, Head } from "@inertiajs/react";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 
-export default function Index({ blogs, isAdmin }) {
+export default function Index({ blogs, auth, isAdmin }) {
     return (
-        <AuthGuestLayout title="Blog Posts">
+        <AuthGuestLayout title="Blog Posts" user={auth.user}>
             <Head>
                 <title>Blog Posts</title>
                 <meta
