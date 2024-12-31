@@ -26,9 +26,9 @@ export default function Show({ blog, auth, isAdmin }) {
         shareUrl = `https://www.passport.et/blogs/${blog.id}`;
         shareText = `
         📰 ${blog.title}
-        
+
         ${blog.excerpt || blog.content.substring(0, 150)}...
-        
+
         Read more at: ${shareUrl}
         `;
     }
@@ -82,10 +82,10 @@ export default function Show({ blog, auth, isAdmin }) {
                 />
             </Head>
 
-            <div className="py-6 sm:py-12 px-4 sm:px-0">
+            <div className="py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto">
                     {blog?.featured_image && (
-                        <div className="relative h-48 sm:h-64 md:h-96 mb-6">
+                        <div className="relative h-48 sm:h-64 md:h-96 mb-6 w-full">
                             <img
                                 src={`/storage/${blog.featured_image}`}
                                 alt={blog?.title || "passport.et news"}
@@ -120,33 +120,35 @@ export default function Show({ blog, auth, isAdmin }) {
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-start sm:items-center text-gray-600 dark:text-gray-300 mb-8 gap-2 sm:gap-4 justify-between w-full">
-                        <div>
-                            {blog?.user && (
-                                <span>
-                                    By{" "}
-                                    <span className="capitalize font-bold">
-                                        {blog.user.first_name
-                                            ? `${blog.user.first_name}`
-                                            : "Admin"}
+                        <div className="w-full flex flex-row justify-between items-center">
+                            <div>
+                                {blog?.user && (
+                                    <span>
+                                        By{" "}
+                                        <span className="capitalize font-bold">
+                                            {blog.user.first_name
+                                                ? `${blog.user.first_name}`
+                                                : "Admin"}
+                                        </span>
                                     </span>
+                                )}
+                                <span className="hidden sm:inline"> • </span>
+                                <span>
+                                    {blog?.published_at &&
+                                        new Date(
+                                            blog.published_at
+                                        ).toLocaleDateString()}
                                 </span>
-                            )}
-                            <span className="hidden sm:inline">{" "}•{" "}</span>
-                            <span>
-                                {blog?.published_at &&
-                                    new Date(
-                                        blog.published_at
-                                    ).toLocaleDateString()}
-                            </span>
-                        </div>
-                        {!isAdmin && (
-                            <div className="relative">
-                                <SocialShare
-                                    shareText={shareText}
-                                    shareUrl={shareUrl}
-                                />
                             </div>
-                        )}
+                            {!isAdmin && (
+                                <div className="relative">
+                                    <SocialShare
+                                        shareText={shareText}
+                                        shareUrl={shareUrl}
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     {blog?.excerpt && (
@@ -158,10 +160,12 @@ export default function Show({ blog, auth, isAdmin }) {
                     {/* <div className="prose prose-sm sm:prose-lg max-w-none">
                         {blog?.content}
                     </div> */}
-                    <div
-                        className="prose prose-sm sm:prose-lg max-w-none dark:prose-invert"
-                        dangerouslySetInnerHTML={{ __html: blog?.content }}
-                    />
+                    <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none dark:prose-invert overflow-hidden">
+                        <div
+                            dangerouslySetInnerHTML={{ __html: blog?.content }}
+                            className="break-words"
+                        />
+                    </div>
 
                     <div className="mt-8 sm:mt-12 border-t pt-6 sm:pt-8">
                         <Link
