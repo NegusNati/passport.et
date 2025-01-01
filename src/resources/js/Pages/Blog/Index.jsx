@@ -4,16 +4,16 @@ import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 
 export default function Index({ blogs, auth, isAdmin }) {
     return (
-        <AuthGuestLayout title="Blog Posts" user={auth.user}>
+        <AuthGuestLayout user={auth.user}>
             <Head>
-                <title>Blog Posts</title>
+                <title>Latest Articles</title>
                 <meta
                     name="description"
-                    content="Latest News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy"
+                    content="Daily News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy & Ethiopian Airlines"
                 />
                 <meta
                     name="keywords"
-                    content="News, Ethiopian Immigration, Ethiopian Passport, Ethiopian Visa, Ethiopian Embassy, Blog"
+                    content="News, Ethiopian Immigration, Ethiopian Passport, Ethiopian Visa, Ethiopian Embassy, Blog, Article"
                 />
                 <link
                     rel="canonical"
@@ -24,14 +24,14 @@ export default function Index({ blogs, auth, isAdmin }) {
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white">
-                            Blog Posts
+                            Latest Articles
                         </h1>
                         {isAdmin && (
                             <Link
                                 href={route("blogs.create")}
                                 className="w-full sm:w-auto text-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
                             >
-                                Create New Post
+                                Create New Article
                             </Link>
                         )}
                     </div>
