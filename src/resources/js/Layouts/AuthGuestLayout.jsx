@@ -7,6 +7,7 @@ import ThemeSelector from "@/Components/ThemeSelector";
 import { Link } from "@inertiajs/react";
 import Footer from "@/Components/Footer";
 import LanguageSwitcher from "@/Components/LanguageSwitcher";
+import FloatingCoffeeButton from "@/Components/FlloattingBuyMeCoffeeBtn";
 
 export default function AuthGuestLayout({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -35,7 +36,7 @@ export default function AuthGuestLayout({ user, header, children }) {
                                 </NavLink>
                             </div>
                         </div>
-
+                        <FloatingCoffeeButton />
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
                             {user ? (
                                 <div className="ms-3 relative">

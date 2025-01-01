@@ -112,3 +112,11 @@ html {
 .banner-slide-out {
     animation: slideOutUp 0.5s ease-in;
 }
+
+.ql-editor {
+    min-height: 200px;
+}
+
+.ql-container {
+    font-size: 16px;
+}

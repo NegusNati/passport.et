@@ -1,24 +1,37 @@
 import React from "react";
-import { FaTelegramPlane, FaWhatsapp, FaLinkedin } from "react-icons/fa";
+import { FaTelegramPlane, FaWhatsapp, FaLink } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 function SocialShare({ shareText, shareUrl }) {
-    const SocialIcon = ({ href, Icon, name }) => (
+       const handleCopyLink = () => {
+           navigator.clipboard.writeText(shareUrl);
+       };
+    const SocialIcon = ({ href, Icon, name, onClick }) => (
         <a
             href={href}
+            onClick={onClick}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-block"
+            className="group relative inline-block hover:text-blue-600"
         >
             <Icon className={`w-5 h-5 hover:text-${name.toLowerCase()}-600`} />
             <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10 whitespace-nowrap">
-                Share to {name}
+                {name}
             </span>
         </a>
     );
 
     return (
         <div className="absolute top-4 right-4 flex space-x-2 z-20">
+            <SocialIcon
+                href="#"
+                Icon={FaLink}
+                name="Copy Link"
+                onClick={(e) => {
+                    e.preventDefault();
+                    handleCopyLink();
+                }}
+            />
             <SocialIcon
                 href={`https://telegram.me/share/url?url=${encodeURIComponent(
                     shareUrl
@@ -49,8 +62,8 @@ function SocialShare({ shareText, shareUrl }) {
                 Icon={FaXTwitter}
                 name="Twitter/X"
             />
-             {/* LinkedIn Share needs some seo and crawler bugs fixed */}
-                {/* <SocialIcon
+            {/* LinkedIn Share needs some seo and crawler bugs fixed */}
+            {/* <SocialIcon
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
                     shareUrl
                 )}`}
