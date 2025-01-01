@@ -13,7 +13,7 @@ export default function Show({ blog, auth, isAdmin }) {
     };
 
     if (!blog || Object.keys(blog).length === 0)
-        return <div>blog Unavailable</div>;
+        return <div>News Unavailable</div>;
 
     const metaImage = blog
         ? blog.og_image || blog.featured_image
@@ -132,7 +132,7 @@ export default function Show({ blog, auth, isAdmin }) {
                                         </span>
                                     </span>
                                 )}
-                                <span className="hidden sm:inline"> • </span>
+                                <span className="sm:inline"> • </span>
                                 <span>
                                     {blog?.published_at &&
                                         new Date(
@@ -150,16 +150,11 @@ export default function Show({ blog, auth, isAdmin }) {
                             )}
                         </div>
                     </div>
-
                     {blog?.excerpt && (
                         <div className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 italic font-light">
-                            {blog.excerpt}
+                            "{blog.excerpt}"
                         </div>
                     )}
-
-                    {/* <div className="prose prose-sm sm:prose-lg max-w-none">
-                        {blog?.content}
-                    </div> */}
                     <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none dark:prose-invert overflow-hidden">
                         <div
                             dangerouslySetInnerHTML={{ __html: blog?.content }}

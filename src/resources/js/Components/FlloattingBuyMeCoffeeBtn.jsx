@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const FloatingCoffeeButton = () => {
     const [isVisible, setIsVisible] = useState(true);
+    const coffeeLink = "https://ye-buna.com/PassportET";
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -20,10 +21,10 @@ const FloatingCoffeeButton = () => {
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: 100, opacity: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="fixed top-24 right-8 z-50" // Changed from bottom-8 to top-24
+                    className="fixed top-24 right-4 z-50" // Changed from bottom-8 to top-24
                 >
                     <a
-                        href="https://www.buymeacoffee.com/YOUR_USERNAME"
+                        href={coffeeLink ?? "https://ye-buna.com/PassportET"}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
