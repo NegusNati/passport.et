@@ -26,7 +26,7 @@ export default function Index({ blogs, auth, isAdmin }) {
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                         <h1 className="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-5xl">
                             Latest{" "}
-                            <span className="text-blue-600 dark:text-blue-400 capitalize text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+                            <span className="capitalize text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
                                 Articles
                             </span>
                         </h1>
