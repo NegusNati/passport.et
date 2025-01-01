@@ -13,7 +13,20 @@ export default function Show({ blog, auth, isAdmin }) {
     };
 
     if (!blog || Object.keys(blog).length === 0)
-        return <div>News Unavailable</div>;
+        return (
+            <div className="py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
+                <div>Article Unavailable for now</div>
+                <div className="mt-8 sm:mt-12 border-t pt-6 sm:pt-8">
+                    <Link
+                        href={route("blogs.index")}
+                        className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition"
+                    >
+                        <span>←</span>
+                        <span className="ml-2">Back to all articles</span>
+                    </Link>
+                </div>
+            </div>
+        );
 
     const metaImage = blog
         ? blog.og_image || blog.featured_image
@@ -36,18 +49,18 @@ export default function Show({ blog, auth, isAdmin }) {
     return (
         <AuthGuestLayout user={auth.user}>
             <Head>
-                <title>{blog ? `${blog?.title}` : "Blog Post"}</title>
+                <title>{blog ? `${blog?.title}` : "Article"}</title>
 
                 <meta property="og:site_name" content="Passport.ET" />
                 <meta
                     property="og:title"
-                    content={`${blog?.title || "Blog Posts"} | Passport.ET`}
+                    content={`${blog?.title || "Articles"} | Passport.ET`}
                 />
                 <meta
                     property="og:description"
                     content={
                         blog?.meta_description ||
-                        "Latest News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy"
+                        "Daily News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy and Ethiopian Airlines"
                     }
                 />
                 <meta property="og:type" content="website" />
@@ -66,14 +79,14 @@ export default function Show({ blog, auth, isAdmin }) {
                     name="description"
                     content={
                         blog?.meta_description ||
-                        "Latest News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy"
+                        "Daily News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy and Ethiopian Airlines"
                     }
                 />
                 <meta
                     name="keywords"
                     content={
                         blog?.meta_keywords ||
-                        "News, Ethiopian Immigration, Ethiopian Passport, Ethiopian Visa, Ethiopian Embassy, Blog"
+                        "News, Ethiopian Immigration, Ethiopian Passport, Ethiopian Visa, Ethiopian Embassy, Blog, Articles"
                     }
                 />
                 <link
@@ -168,7 +181,7 @@ export default function Show({ blog, auth, isAdmin }) {
                             className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition"
                         >
                             <span>←</span>
-                            <span className="ml-2">Back to all posts</span>
+                            <span className="ml-2">Back to all articles</span>
                         </Link>
                     </div>
                 </div>

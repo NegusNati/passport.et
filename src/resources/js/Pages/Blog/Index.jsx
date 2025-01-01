@@ -3,6 +3,7 @@ import { Link, Head } from "@inertiajs/react";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
 
 export default function Index({ blogs, auth, isAdmin }) {
+    console.log("in index", blogs.data);
     return (
         <AuthGuestLayout user={auth.user}>
             <Head>
@@ -23,8 +24,11 @@ export default function Index({ blogs, auth, isAdmin }) {
             <div className="py-6 sm:py-12 px-4 sm:px-0 ">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                        <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white">
-                            Latest Articles
+                        <h1 className="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-5xl">
+                            Latest{" "}
+                            <span className="text-blue-600 dark:text-blue-400 capitalize text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+                                Articles
+                            </span>
                         </h1>
                         {isAdmin && (
                             <Link
@@ -37,7 +41,12 @@ export default function Index({ blogs, auth, isAdmin }) {
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 sm:gap-6 min-h-screen justify-between content-start">
-                        {blogs.data.map((blog) => (
+                        {blogs.data?.length === 0 && (
+                            <div className="text-center text-gray-600 dark:text-gray-400">
+                                No articles found for now.
+                            </div>
+                        )}
+                        {blogs.data?.map((blog) => (
                             <div
                                 key={blog.id}
                                 className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg hover:shadow-md transition h-full"
