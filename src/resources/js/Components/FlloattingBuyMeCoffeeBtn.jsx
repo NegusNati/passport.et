@@ -21,7 +21,7 @@ const FloatingCoffeeButton = () => {
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: 100, opacity: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="fixed top-24 right-4 z-50" // Changed from bottom-8 to top-24
+                    className="fixed top-24 right-4 z-50" 
                 >
                     <a
                         href={coffeeLink ?? "https://ye-buna.com/PassportET"}
