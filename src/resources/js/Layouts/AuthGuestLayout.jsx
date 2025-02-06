@@ -23,7 +23,7 @@ export default function AuthGuestLayout({ user, header, children }) {
                             <div className="shrink-0 flex items-center">
                                 <Link href={route("dashboard")}>
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                                    {/* <ApplicationLogo  /> */}
+                                    
                                 </Link>
                             </div>
 
