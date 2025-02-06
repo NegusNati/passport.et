@@ -7,7 +7,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 export default function Form({ blog = null }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, put, processing, errors, reset } = useForm({
         title: blog?.title ?? "",
         content: blog?.content ?? "",
         excerpt: blog?.excerpt ?? "",

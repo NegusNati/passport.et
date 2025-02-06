@@ -94,7 +94,7 @@ class BlogController extends Controller
             }
         }
 
-        return Inertia::render('Blog/Edit', [
+        return Inertia::render('Blog/Form', [
             'blog' => $blog
         ]);
     }
