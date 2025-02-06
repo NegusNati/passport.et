@@ -37,8 +37,8 @@ class BlogController extends Controller
             'title' => 'required|max:255',
             'content' => 'required|string',
             'excerpt' => 'nullable',
-            'featured_image' => 'nullable|image|max:2048',
-            'og_image' => 'nullable|image|max:2048',
+            'featured_image' => 'nullable|image|max:5120',
+            'og_image' => 'nullable|image|max:5120',
             "meta_description" => "nullable",
             "meta_keywords" => "nullable"
         ]);
@@ -105,7 +105,7 @@ class BlogController extends Controller
             'title' => 'required|max:255',
             'content' => 'required',
             'excerpt' => 'nullable',
-            'featured_image' => 'nullable|image|max:2048'
+            'featured_image' => 'nullable|image|max:5120'
         ]);
 
         if ($request->hasFile('featured_image')) {
