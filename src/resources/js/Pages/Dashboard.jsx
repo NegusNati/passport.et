@@ -111,7 +111,7 @@ export default function Dashboard({ auth }) {
                                             <p className="mt-2 sm:mt-4 text-xs sm:text-sm/relaxed ">
                                                 The latest daily updated
                                                 passports, look through all
-                                                passports going back from 10+
+                                                passports going back from 12+
                                                 months back. you can take
                                                 advantage this information to
                                                 get your passport.
