@@ -80,8 +80,13 @@ class BlogController extends Controller
 
     public function show(Blog $blog)
     {
+
+        $cachedBlog = Cache::remember('blog_' . $blog->id, 24 * 3600, function () use ($blog) {
+            return $blog->load('user');
+        });
+
         return Inertia::render('Blog/Show', [
-            'blog' => $blog->load('user'),
+            'blog' => $cachedBlog,
             'isAdmin' => auth()->user()?->can('upload-files') ?? false
         ]);
     }

@@ -28,65 +28,72 @@ export default function Show({ blog, auth, isAdmin }) {
             </div>
         );
 
-    const metaImage = blog
-        ? blog.og_image || blog.featured_image
-        : "pass_welcome.png";
+    const metaImage = blog?.og_image
+        ? `/storage/${blog.og_image}`
+        : blog?.featured_image
+        ? `/storage/${blog.featured_image}`
+        : asset("PASSPORT1-webp.webp");
 
     let shareText = "";
     let shareUrl = "";
 
     if (blog) {
         shareUrl = `https://www.passport.et/blogs/${blog.id}`;
-        shareText = `
-        📰 ${blog.title}
-
-        ${blog.excerpt || blog.content.substring(0, 150)}...
-
-        Read more at: ${shareUrl}
-        `;
+        shareText = `📰 ${blog.title}\n\n${
+            blog.excerpt || blog.content.substring(0, 150)
+        }...\n\nRead more at: ${shareUrl}`;
     }
 
     return (
         <AuthGuestLayout user={auth.user}>
             <Head>
-                <title>{blog ? `${blog?.title}` : "Article"}</title>
-
+                <title>
+                    {blog
+                        ? `${blog?.title} | Passport.ET Articles`
+                        : "Article Not Found | Passport.ET"}
+                </title>
                 <meta property="og:site_name" content="Passport.ET" />
                 <meta
                     property="og:title"
-                    content={`${blog?.title || "Articles"} | Passport.ET`}
+                    content={`${
+                        blog?.title || "Latest Articles"
+                    } | Passport.ET`}
                 />
                 <meta
                     property="og:description"
                     content={
                         blog?.meta_description ||
-                        "Daily News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy and Ethiopian Airlines"
+                        "Read the latest articles and news about Ethiopian Passport, Visa, Immigration, and travel information on Passport.ET."
                     }
                 />
-                <meta property="og:type" content="website" />
-                <meta property="og:locale" content="en" />
+                <meta property="og:type" content="article" />
+                <meta property="og:locale" content="en_US" />
                 <meta
                     property="og:url"
                     content={
                         blog?.id
-                            ? `https://www.passport.et/blogs/${blog?.id}`
-                            : "https://www.passport.et"
+                            ? `https://www.passport.et/blogs/${blog?.id}` // Correctly construct OG URL
+                            : "https://www.passport.et/blogs" // Fallback URL if no blog
                     }
                 />
                 <meta property="og:image" content={metaImage} />
+                <meta
+                    property="og:image:alt"
+                    content={`${blog?.title} - Passport.ET Articles`}
+                />
 
                 <meta
                     name="description"
                     content={
                         blog?.meta_description ||
-                        "Daily News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy and Ethiopian Airlines"
+                        "Read daily news and information about Ethiopian Immigration, Ethiopian Visa, Ethiopian Passport, Ethiopian Embassy, and Ethiopian Airlines on Passport.ET."
                     }
                 />
                 <meta
                     name="keywords"
                     content={
                         blog?.meta_keywords ||
-                        "News, Ethiopian Immigration, Ethiopian Passport, Ethiopian Visa, Ethiopian Embassy, Blog, Articles"
+                        "Ethiopian Immigration News, Ethiopian Passport, Ethiopian Visa, Ethiopian Embassy, Travel Blog, Articles, Ethiopia"
                     }
                 />
                 <link
@@ -100,7 +107,7 @@ export default function Show({ blog, auth, isAdmin }) {
                     {blog?.featured_image && (
                         <div className="relative h-48 sm:h-64 md:h-96 mb-6 w-full">
                             <img
-                                src={`/storage/${blog.featured_image}`}
+                                src={`/storage/${blog?.featured_image}`}
                                 alt={blog?.title || "passport.et news"}
                                 className="w-full h-full object-cover rounded-lg"
                             />
