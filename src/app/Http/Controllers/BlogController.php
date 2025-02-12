@@ -7,6 +7,7 @@ use App\Models\User as User;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -15,11 +16,12 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::with('user')
-            ->latest('published_at')
-            ->paginate(10);
-        Log::info("in BlogController index method");
-        Log::info($blogs);
+        $blogs = Cache::remember('blog_index_page', 3600, function () {
+            return Blog::with('user')
+                ->latest('published_at')
+                ->paginate(10);
+        });
+
         return Inertia::render('Blog/Index', [
             'blogs' => $blogs,
             'isAdmin' => auth()->user()?->can('upload-files') ?? false
@@ -116,11 +118,11 @@ class BlogController extends Controller
             'meta_keywords' => 'nullable'
         ]);
 
-         $validated['meta_description'] = $request['meta_description'];
+        $validated['meta_description'] = $request['meta_description'];
         $validated['meta_keywords'] = $request['meta_keywords'];
 
 
-                if (!Auth::check()) {
+        if (!Auth::check()) {
             return abort(403);
         }
 
