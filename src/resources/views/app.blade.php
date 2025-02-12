@@ -10,7 +10,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Urgent & Regular Ethiopian Passport Services | Quick Status Check | ፈጣን እና መደበኛ ፓስፖርት | Paaspoortii Ariifachiisaa - Passport.ET</title>
+    <title>Urgent & Regular Ethiopian Passport Services | Quick Status Check | ፈጣን እና መደበኛ ፓስፖርት | Paaspoortii
+        Ariifachiisaa - Passport.ET</title>
     <!-- Title: Added "Urgent & Regular", "ፈጣን እና መደበኛ", "Paaspoortii Ariifachiisaa" -->
 
     <meta name="description"
@@ -24,24 +25,27 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://passport.et/">
-    <meta property="og:title" content="Passport.ET - Urgent & Regular የኢትዮጵያ ፓስፖርት አገልግሎት | Ethiopian Passport Services Aid">
+    <meta property="og:title"
+        content="Passport.ET - Urgent & Regular የኢትዮጵያ ፓስፖርት አገልግሎት | Ethiopian Passport Services Aid">
     <!-- OG Title: Included "Urgent & Regular" in multilingual title -->
     <meta property="og:description"
         content="Official portal for urgent and regular Ethiopian Passport Services Aid. Apply, renew, track status easily. ፈጣን እና መደበኛ የፓስፖርት አገልግሎት። ፓስፖርትዎን በቀላሉ ያመልክቱ፣ ያድሱ እና ሁኔታውን ይከታተሉ።">
     <!-- OG Description:  Mentioned "urgent and regular" services in multilingual description -->
-    <meta property="og:image" content="{{ asset('PASSPORT1.jpg') }}">
-    <meta property="og:image:alt" content="Passport.ET - Urgent & Regular Ethiopian Passport Services Aid | ፈጣን እና መደበኛ የኢትዮጵያ ፓስፖርት">
+    <meta property="og:image" content="{{ asset('PASSPORT1-webp.webp') }}">
+    <meta property="og:image:alt"
+        content="Passport.ET - Urgent & Regular Ethiopian Passport Services Aid | ፈጣን እና መደበኛ የኢትዮጵያ ፓስፖርት">
     <!-- OG Image Alt: Included "Urgent & Regular" in multilingual alt text -->
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://passport.et/">
-    <meta property="twitter:title" content="Passport.ET - Urgent & Regular Ethiopian Passport Services | Paaspoortii Ariifachiisaa">
+    <meta property="twitter:title"
+        content="Passport.ET - Urgent & Regular Ethiopian Passport Services | Paaspoortii Ariifachiisaa">
     <!-- Twitter Title: Included "Urgent & Regular" in multilingual title -->
     <meta property="twitter:description"
         content="Official Ethiopian Passport Services portal - Urgent & Regular options. Get information on application, renewal, and status checking. ፈጣን እና መደበኛ አማራጮች። መረጃ ያግኙ ስለ ፓስፖርት አፕሊኬሽን, እድሳት እና የሁኔታ ፍተሻ።">
     <!-- Twitter Description:  Mentioned "urgent and regular options" in multilingual description -->
-    <meta property="twitter:image" content="{{ asset('PASSPORT1.jpg') }}">
+    <meta property="twitter:image" content="{{ asset('PASSPORT1-webp.webp') }}">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url('/') }}">
