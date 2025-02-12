@@ -8,19 +8,49 @@ export default function Index({ blogs, auth, isAdmin }) {
         <AuthGuestLayout user={auth.user}>
             <Head>
                 <title>Latest Articles</title>
-                <link rel="preconnect" href="/storage" />
-                <link rel="dns-prefetch" href="/storage" />
+
+                <meta property="og:type" content="website" />
                 <meta
-                    name="description"
-                    content="Daily News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy & Ethiopian Airlines"
+                    property="og:url"
+                    content={`${window.location.origin}/blogs`}
                 />
                 <meta
-                    name="keywords"
-                    content="News, Ethiopian Immigration, Ethiopian Passport, Ethiopian Visa, Ethiopian Embassy, Blog, Article"
+                    property="og:title"
+                    content="Latest Articles | Ethiopian Immigration & Passport News - Passport.ET Blog"
                 />
-                <link
-                    rel="canonical"
-                    href={`${window.location.origin}/blogs`}
+                <meta
+                    property="og:description"
+                    content="Stay informed with daily news and articles about Ethiopian Immigration, Visa, Passport, Embassy services, and Ethiopian Airlines. Your source for up-to-date information."
+                />
+                <meta property="og:site_name" content="Passport.ET" />
+                <meta property="og:locale" content="en_US" />
+                <meta
+                    property="og:image"
+                    content={asset("PASSPORT1-webp.webp")}
+                />
+                <meta
+                    property="og:image:alt"
+                    content="Passport.ET Blog - Latest Articles on Ethiopian Immigration and Passport Services"
+                />
+
+                {/* now for X */}
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta
+                    name="twitter:url"
+                    content={`${window.location.origin}/blogs`}
+                />
+                <meta
+                    name="twitter:title"
+                    content="Latest Articles | Ethiopian Immigration & Passport News - Passport.ET Blog"
+                />
+                <meta
+                    name="twitter:description"
+                    content="Stay informed with daily news and articles about Ethiopian Immigration, Visa, Passport, Embassy services, and Ethiopian Airlines. Your source for up-to-date information."
+                />
+                <meta
+                    name="twitter:image"
+                    content={asset("PASSPORT1-webp.webp")}
                 />
             </Head>
             <div className="py-6 sm:py-12 px-4 sm:px-0 ">
