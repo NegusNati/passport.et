@@ -26,7 +26,7 @@ export default function Index({ blogs, auth, isAdmin }) {
                 <meta property="og:locale" content="en_US" />
                 <meta
                     property="og:image"
-                    content={asset("PASSPORT1-webp.webp")}
+                    content={`${window.location.origin}/PASSPORT1-webp.webp`}
                 />
                 <meta
                     property="og:image:alt"
@@ -50,7 +50,7 @@ export default function Index({ blogs, auth, isAdmin }) {
                 />
                 <meta
                     name="twitter:image"
-                    content={asset("PASSPORT1-webp.webp")}
+                    content={`${window.location.origin}/PASSPORT1-webp.webp`}
                 />
             </Head>
             <div className="py-6 sm:py-12 px-4 sm:px-0 ">
