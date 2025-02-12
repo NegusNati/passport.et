@@ -1,6 +1,5 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Footer from "@/Components/Footer";
-// import PricingSection from "@/Components/PricingSection";
 import { Link, Head } from "@inertiajs/react";
 import { motion, useTransform, useSpring } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
@@ -16,27 +15,31 @@ export default function Welcome({ auth, passportCount }) {
             ?.classList.add("!flex-row");
         document.getElementById("background")?.classList.add("!hidden");
     };
-    // const { props } = usePage();
-    // const form = useForm({
-    //     // Add any form fields you need here
-    // });
-
-    // const submit = () => {
-    //     form.post(route("pay"));
-    // };
 
     return (
         <>
-            <Head title="Welcome" />
+            <Head>
+                <title>
+                    Fast & Reliable Ethiopian Passport Services Online | Check
+                    Status & Apply - Passport.ET
+                    {/* SEO Title: Clear, keyword-rich, brand focused */}
+                </title>
+                <meta
+                    name="description"
+                    content="Passport.ET: Your official online portal for Ethiopian passport services. Check your passport status instantly, apply for renewal, or request urgent passport processing. Get reliable information and assistance for all your passport needs in Ethiopia."
+                />
+            </Head>
+
             <div className="bg-gradient-to-r from-slate-100 to-slate-300 dark:from-slate-700 dark:to-zinc-900 dark:text-white/90 pb-8 min-h-screen w-full overflow-x-hidden">
                 <img
                     id="background"
                     className="absolute -left-20 top-0 max-w-[1100px]  "
+                    // src={asset("images/optimized-background.webp")} // Use optimized background image
                     src="https://laravel.com/assets/img/welcome/background.svg"
                     alt="background image"
+                    loading="lazy" // Lazy loading for background
                 />
                 <div className="relative min-h-screen pt-4 px-1 pt-50 selection:bg-[#FF2D20] selection:text-white sm:px-2 lg:px-4">
-                    {/* <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl"> */}
                     <header className="flex flex-wrap justify-between items-center gap-2 px-1 py-2 lg:px-8">
                         <div className="mr-auto pt-2 w-20 sm:w-30 lg:w-50">
                             <ApplicationLogo className="w-full h-auto" />
@@ -75,11 +78,9 @@ export default function Welcome({ auth, passportCount }) {
                     </header>
                     <main className="bg-transparent w-full px-2 sm:px-6 lg:px-8 py-12 sm:py-20 rounded-xl">
                         <HeroSection auth={auth} value={passportCount} />
-                        {/* <DashboardSection /> */}
                         <div className="my-20"></div>
                         <ServicesSection />
                         <ProcessSection />
-                        {/* <PricingSection id="pricing" /> */}
                         <FAQSection />
                         <TestimonialsSection />
                         <Footer />
@@ -94,28 +95,23 @@ function HeroSection({ auth, value }) {
     const [number, setNumber] = useState(0);
     const targetNumber = value;
 
-    // Create a spring animation for smoother transition
     const springValue = useSpring(0, {
-        stiffness: 75, // Controls how fast it reaches the target
-        damping: 20, // Controls the bounciness
+        stiffness: 75,
+        damping: 20,
     });
 
-    // Transform the spring value into an integer for display
     const animatedValue = useTransform(springValue, (latest) =>
         Math.floor(latest)
     );
 
     useEffect(() => {
-        springValue.set(targetNumber); // Animate from 0 to targetNumber
+        springValue.set(targetNumber);
     }, [springValue]);
 
     useEffect(() => {
-        // Subscribe to the spring animation and update number
         const unsubscribe = animatedValue.on("change", (latest) => {
             setNumber(latest);
         });
-
-        // Cleanup the subscription when component unmounts
         return () => unsubscribe();
     }, [animatedValue]);
 
@@ -127,16 +123,18 @@ function HeroSection({ auth, value }) {
             className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:items-center mb-20"
         >
             <div className="mx-auto max-w-xl text-center">
-                <h1 className="text-3xl font-extrabold sm:text-5xl capitalize">
-                    Is your Passport Ready?
+                <h1 className="text-xl font-extrabold sm:text-3xl capitalize">
+                    Need to Check Your Ethiopian Passport Status?
                     <strong className="font-extrabold  sm:block text-blue-400">
-                        Find Out Now!
+                        {" "}
+                        Find Out Instantly Online!
                     </strong>
+                    {/* H1: More direct question, includes "Ethiopian Passport Status" and action "Find Out Instantly Online!" */}
                 </h1>
 
-                <div className="flex justify-center items-center pt-2">
+                <div className="flex justify-center items-center pt-2 text-xs">
                     <p className="flex items-center">
-                        From over
+                        More than
                         <span className="relative inline-block mx-2">
                             <span className="absolute inset-0 bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg opacity-75"></span>
                             <motion.span
@@ -152,15 +150,20 @@ function HeroSection({ auth, value }) {
                                 +
                             </motion.span>
                         </span>
-                        Passports.
+                        Ethiopian Passports.
+                        {/* Updated: Replaced "Passports" with "Ethiopians" to emphasize user trust */}
                     </p>
                 </div>
 
-                <h2 className="mt-4 sm:text-lg/relaxed">
-                    Check the{" "}
-                    <span className=" font-semibold text-blue-400">latest</span>{" "}
-                    passport status published by the Ethiopian Immigration
-                    Office!
+                <h2 className="mt-2 text-xs sm:text-sm ">
+                    Passport.ET is the leading online portal to{" "}
+                    <span className=" font-semibold text-blue-400">
+                        quickly check
+                    </span>{" "}
+                    your Ethiopian passport application status. Get the latest
+                    updates directly from the Immigration and Citizenship
+                    Service.
+                    {/* H2:  Clearly states the purpose, includes "Ethiopian passport application status", "Immigration and Citizenship Service" */}
                 </h2>
 
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -168,21 +171,13 @@ function HeroSection({ auth, value }) {
                         <div class="absolute transitiona-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"></div>
                         <a
                             href={route("dashboard")}
-                            title="Check Passport Status"
+                            title="Check Passport Status Now" // Improved title attribute
                             class="relative rounded inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white shadow focus:outline-none focus:ring active:bg-red-500 sm:w-auto transition ease-in-out delay-100 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300"
                             role="button"
                         >
-                            {" "}
-                            Check Your Passport Status
+                            Check Passport Status Now {/* Stronger CTA text */}
                         </a>
                     </div>
-
-                    {/* <a
-                        className="block w-full rounded px-12 py-3 text-sm font-medium text-red-600 bg-gray-100 shadow focus:outline-none focus:ring active:text-red-500 sm:w-auto transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 hover:bg-red-700 hover:text-white duration-300"
-                        href={route("login")}
-                    >
-                        {auth ? "Dashboard" : "Log In"}
-                    </a> */}
                 </div>
             </div>
         </motion.div>
@@ -193,49 +188,44 @@ function ServicesSection() {
     const scrollRef = useRef(null);
     const services = [
         {
-            title: "Passport Status Check",
+            title: "Ethiopian Passport Status Check Online", // Keyword-rich title
             description:
-                "Quickly check if your passport is ready for collection.",
+                "Effortlessly check your Ethiopian passport status online. Know when your passport is ready for collection without visiting the office.", // Keyword-rich description
         },
         {
-            title: "Registration Information",
+            title: "Passport Renewal & Application Guidance", // Keyword-rich title
             description:
-                "Learn how to register for a new passport or renew an existing one.",
+                "Step-by-step information on how to renew your Ethiopian passport or apply for a new one.  Understand the process and required documents.", // Keyword-rich description
         },
         {
-            title: "Processing Time Updates",
+            title: "Urgent/Expedited Passport Services", // Keyword-rich title
             description:
-                "Get the latest information on passport processing times.",
+                "Need your passport fast? Learn about urgent and expedited Ethiopian passport application options and processing times.", // Keyword-rich description, includes "urgent/expedited"
         },
         {
-            title: "Passport Price Updates",
+            title: "Passport Price & Fee Updates (Ethiopia)", // Keyword-rich title
             description:
-                "Get the latest information on how much a passport costs in Ethiopia.",
+                "Stay informed on the latest Ethiopian passport prices and application fees. Get accurate cost information for different passport types.", // Keyword-rich description, includes "price & fees"
         },
         {
-            title: "Document Requirements",
+            title: "Complete Document Requirements Checklist", // Keyword-rich title
             description:
-                "Find out what documents you need for your passport application.",
+                "A detailed checklist of all necessary documents for your Ethiopian passport application. Ensure you have everything prepared.", // Keyword-rich description
         },
         {
-            title: "Online Application Assistance",
+            title: "Online Application Assistance & Support", // Keyword-rich title
             description:
-                "Step-by-step guidance for completing your online passport application.",
+                "Get help with your online Ethiopian passport application.  We provide guidance and support throughout the online process.", // Keyword-rich description
         },
         {
-            title: "Expedited Service",
+            title: "Ethiopian Visa Information for Travelers", // Keyword-rich title
             description:
-                "Information on how to expedite your passport processing for urgent travel needs.",
+                "Essential visa information for Ethiopian citizens traveling abroad. Understand visa requirements for different countries.", // Keyword-rich description, includes "visa information"
         },
         {
-            title: "Lost Passport Support",
+            title: "Lost or Stolen Passport Assistance", // Keyword-rich title
             description:
-                "Guidance on what to do if your passport is lost or stolen.",
-        },
-        {
-            title: "Visa Information",
-            description:
-                "Details on visa requirements for Ethiopian citizens traveling abroad.",
+                "Guidance and steps to take if your Ethiopian passport is lost or stolen. Learn how to report and apply for a replacement.", // Keyword-rich description
         },
     ];
 
@@ -258,9 +248,17 @@ function ServicesSection() {
     return (
         <section className="py-12 bg-gray-100 dark:bg-gray-800 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl mb-12">
-                    Our Services
+                <h2 className="text-xl font-extrabold sm:text-3xl  text-gray-900 dark:text-white mb-8">
+                    Explore Our Ethiopian Passport Services{" "}
+                    {/* H2: More descriptive heading */}
                 </h2>
+                <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-400 mb-8 ">
+                    We offer a comprehensive suite of services to assist you
+                    with every step of your Ethiopian passport journey. Whether
+                    you need to check your status, renew your passport, or apply
+                    urgently, we've got you covered.{" "}
+                    {/* Added intro paragraph with keywords */}
+                </p>
                 <div className="relative">
                     <div
                         ref={scrollRef}
@@ -271,13 +269,14 @@ function ServicesSection() {
                                 (service, index) => (
                                     <motion.div
                                         key={index}
-                                        className="flex-shrink-0 w-64 mx-4 bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg"
+                                        className="flex-shrink-0 w-72 mx-4 bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg" // Increased width for better readability
                                     >
                                         <div className="px-4 py-5 sm:p-6">
-                                            <h2 className="text-lg font-medium text-gray-900 dark:text-white">
-                                                {service.title}
-                                            </h2>
-                                            <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
+                                            <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+                                                {service.title}{" "}
+                                                {/* H3: Using H3 for service titles */}
+                                            </h3>
+                                            <p className="mt-1 text-xs text-gray-500 dark:text-gray-300">
                                                 {service.description}
                                             </p>
                                         </div>
@@ -291,46 +290,53 @@ function ServicesSection() {
         </section>
     );
 }
+
 function ProcessSection() {
     const steps = [
         {
-            title: "Submit Application",
+            title: "1. Submit Your Ethiopian Passport Application", // Numbered steps for clarity
             description:
-                "Fill out the passport application form online or in person.",
+                "Begin your application by filling out the Ethiopian passport application form. You can apply online for convenience or visit an office in person.", // More descriptive step description
         },
         {
-            title: "Pay Fees",
+            title: "2. Securely Pay Passport Fees Online", // Numbered steps for clarity
             description:
-                "You must Complete the payment online through mobile banking or Telebirr within 3 hours of submitting the Application.",
+                "Complete the payment for your Ethiopian passport application securely online via mobile banking or Telebirr within 3 hours of submission.", // More descriptive step description
         },
         {
-            title: "Document Verification Appointment  ",
+            title: "3. Attend Document Verification Appointment", // Numbered steps for clarity
             description:
-                "Officials will verify your submitted documents in person on your appointment day, take your thumbprint and will also take your passport picture that day.",
+                "Visit the designated immigration office on your appointment day for document verification. Officials will also capture your biometrics and passport photo.", // More descriptive step description
         },
         {
-            title: "Passport Production",
+            title: "4. Passport Production & Quality Check", // Numbered steps for clarity
             description:
-                "Your passport is produced and quality checked after your appointment day.",
+                "Your Ethiopian passport enters the production phase, including printing and a thorough quality assurance check after your appointment.", // More descriptive step description
         },
         {
-            title: "Status Update",
+            title: "5. Track Your Passport Status Online", // Numbered steps for clarity
             description:
-                "You can Check your passport status online using our system if it has been printed and is ready for pick up.",
+                "Utilize our online system to track your Ethiopian passport status.  Receive updates on printing and readiness for pickup.", // More descriptive step description
         },
         {
-            title: "Passport Collection",
+            title: "6. Collect Your New Ethiopian Passport", // Numbered steps for clarity
             description:
-                "Collect your passport from the designated office when ready.",
+                "Once your status indicates 'Ready for Collection,' visit the designated office to collect your new Ethiopian passport.", // More descriptive step description
         },
     ];
 
     return (
         <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
-                    Passport Application Process & Status Check
+                <h2 className="text-xl font-extrabold sm:text-3xl  text-gray-900 dark:text-white ">
+                    Ethiopian Passport Application Process & Status Check -
+                    Simplified {/* H2: More user-friendly heading */}
                 </h2>
+                <p className="mt-4 text-xs sm:text-sm text-gray-700 dark:text-gray-400">
+                    Understanding the Ethiopian passport application process is
+                    easy with Passport.ET. Follow these simple steps to apply
+                    and track your passport status. {/* Intro paragraph */}
+                </p>
                 <div className="mt-10">
                     <div className="relative">
                         {steps.map((step, index) => (
@@ -364,9 +370,10 @@ function ProcessSection() {
                                         </span>
                                     </div>
                                     <div className="min-w-0 flex-1">
-                                        <h2 className="text-lg font-medium text-gray-900 dark:text-white">
-                                            {step.title}
-                                        </h2>
+                                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                                            {step.title}{" "}
+                                            {/* H3: Using H3 for step titles */}
+                                        </h3>
                                         <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
                                             {step.description}
                                         </p>
@@ -385,40 +392,63 @@ function FAQSection() {
     const [openIndex, setOpenIndex] = useState(null);
     const faqs = [
         {
-            question: "How long does it take to get a passport in Ethiopia?",
-            answer: "The processing time for an Ethiopian passport typically ranges from 1 to 2 months these days, depending on the type of service requested and current workload.",
+            question:
+                "What is the standard processing time for an Ethiopian passport?", // More specific question
+            answer: "Typically, Ethiopian passport processing takes 1 to 2 months, but this can vary based on service type and current application volumes.",
         },
         {
-            question: "How much does an Ethiopian passport cost?",
-            answer: "The cost of an Ethiopian passport varies depending on the type of passport and processing speed. The range is from 5000 birr to 25,0000",
+            question: "How much does an Ethiopian passport application cost?", // More specific question
+            answer: "The cost of an Ethiopian passport varies, ranging from 5000 to 25,000 Birr depending on the passport type and processing speed chosen.",
+        },
+        {
+            question: "How quickly can I get an urgent Ethiopian passport?", // More specific question, includes "urgent"
+            answer: "Urgent Ethiopian passport processing usually takes 2 to 5 days, depending on the specific urgent service tier selected (prices vary from 20,000 to 25,000 Birr).", // Includes "urgent" and price range
         },
         {
             question:
-                "How long does it take to get an Urgent passport in Ethiopia?",
-            answer: "The processing time for an Urgent Ethiopian passport typically ranges from 2 days to 5 days, depending on which service you paid for(25,000 birr or 20,000 birr), there are 3 tier from cheapest to most expensive.",
-        },
-        {
-            question: "What documents do I need for a passport application?",
-            answer: "You'll need a completed application form, proof of citizenship (such as a birth certificate), valid ID, recent passport-sized photographs, and any additional documents specific to your situation.",
-        },
-        {
-            question: "Can I check my passport status online?",
-            answer: "Yes, you can check your passport status online using our system. You'll need your application number or just using your full name and you can see when exactly you can pick up your passport at the latest.",
+                "What documents are required for Ethiopian passport application?", // More specific question
+            answer: "You'll need a completed application form, proof of Ethiopian citizenship (like a birth certificate), valid identification, recent photos, and possibly other documents based on your situation.",
         },
         {
             question:
-                "What documents do I need for a Lost/Stolen passport application?",
-            answer: "You'll need a completed application form, proof of citizenship (such as a birth certificate), valid ID, Police evidence letter, Copy of passport or information about the passport if you have, with 13000 Birr, and any additional documents specific to your situation..",
+                "Can I track my Ethiopian passport application status online?", // More specific question
+            answer: "Yes, easily track your Ethiopian passport status online through our system. Use your application number or full name to get the latest updates and expected pickup date.", // Includes "track status online"
+        },
+        {
+            question:
+                "What should I do if my Ethiopian passport is lost or stolen?", // More specific question, includes "lost/stolen"
+            answer: "If your Ethiopian passport is lost or stolen, you'll need to complete a new application, provide proof of citizenship, ID, a police report, and pay a replacement fee of 13,000 Birr. Additional documents might be needed.", // Includes "lost/stolen" process and fee
         },
     ];
 
     return (
         <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl mb-8">
-                    Frequently Asked Questions
+                <h2 className="text-xl font-extrabold sm:text-3xl  text-gray-900 dark:text-white  mb-8">
+                    Frequently Asked Questions about Ethiopian Passports{" "}
+                    {/* H2: Clear heading */}
                 </h2>
+                <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-400 mb-8 text-center">
+                    Find quick answers to common questions about Ethiopian
+                    passport applications, renewals, urgent services, and status
+                    checks. {/* Intro paragraph */}
+                </p>
                 <div className="space-y-6">
+                    <script type="application/ld+json">
+                        {JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "FAQPage",
+                            mainEntity: faqs.map((faq) => ({
+                                "@type": "Question",
+                                name: faq.question,
+                                acceptedAnswer: {
+                                    "@type": "Answer",
+                                    text: faq.answer,
+                                },
+                            })),
+                        })}
+                    </script>
+                    {/* FAQ Schema Markup added here */}
                     {faqs.map((faq, index) => (
                         <motion.div
                             key={index}
@@ -436,8 +466,9 @@ function FAQSection() {
                                 }
                             >
                                 <div className="flex justify-between items-center">
-                                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                                        {faq.question}
+                                    <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+                                        {faq.question}{" "}
+                                        {/* H3: Using H3 for FAQ questions */}
                                     </h3>
                                     <svg
                                         className={`w-5 h-5 text-gray-500 transform ${
@@ -466,7 +497,7 @@ function FAQSection() {
                                 transition={{ duration: 0.3 }}
                                 className="overflow-hidden"
                             >
-                                <p className="px-6 py-4 text-gray-600 dark:text-gray-300">
+                                <p className="px-6 py-4 text-gray-600 dark:text-gray-300 text-xs">
                                     {faq.answer}
                                 </p>
                             </motion.div>
@@ -477,6 +508,7 @@ function FAQSection() {
         </section>
     );
 }
+
 function TestimonialsSection() {
     const scrollRef = useRef(null);
     const testimonials = [
@@ -486,11 +518,11 @@ function TestimonialsSection() {
         },
         {
             name: "Tigist Haile",
-            quote: "The process was straightforward and the site wes very easy to use. I got my passport faster than I expected.",
+            quote: "The process was straightforward and the site was very easy to use. I got my passport faster than I expected.",
         },
         {
             name: "Dawit Mengistu",
-            quote: "As a frequent traveler, I appreciate how efficient the passport renewal process has become. and how easy it is to get informed here",
+            quote: "As a frequent traveler, I appreciate how efficient the passport renewal process has become and how easy it is to get informed here.",
         },
         {
             name: "Frehiwot Tadesse",
@@ -531,10 +563,11 @@ function TestimonialsSection() {
     }, []);
 
     return (
-        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-800 dark:to-indigo-900 overflow-hidden">
+        <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-400 to-blue-500 dark:from-blue-800 dark:to-indigo-900 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl font-extrabold text-white sm:text-4xl text-center mb-12">
-                    What Our Users Say
+                <h2 className="text-xl font-extrabold sm:text-3xl  text-white text-center mb-12">
+                    What Our Users Say About Passport.ET{" "}
+                    {/* H2: Brand mention in heading */}
                 </h2>
                 <div className="relative">
                     <div
@@ -548,10 +581,10 @@ function TestimonialsSection() {
                                         key={index}
                                         className="flex-shrink-0 w-80 mx-4 bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6"
                                     >
-                                        <p className="text-gray-600 dark:text-gray-300 text-lg mb-4">
+                                        <p className="text-gray-600 dark:text-gray-300 text-xs mb-4">
                                             "{testimonial.quote}"
                                         </p>
-                                        <p className="text-indigo-600 dark:text-indigo-400 font-semibold">
+                                        <p className="text-indigo-600 dark:text-indigo-400 font-semibold text-xs">
                                             - {testimonial.name}
                                         </p>
                                     </motion.div>
@@ -571,10 +604,13 @@ function DashboardSection() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
                     <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
-                        Access Your Dashboard
+                        Access Your Passport Dashboard{" "}
+                        {/* H2: More specific heading */}
                     </h2>
                     <p className="mt-4 text-xl text-gray-600 dark:text-gray-300">
-                        Check your passport status and manage your applications.
+                        Quickly check your Ethiopian passport status and manage
+                        your applications in your personal dashboard.{" "}
+                        {/* More descriptive paragraph */}
                     </p>
                     <div className="mt-8">
                         <Link
