@@ -24,8 +24,11 @@ Route::post('/pdf-to-sqlite',  [PDFToSQLiteController::class, 'store'])->name('p
 Route::get('/pdf-to-sqlite',  [PDFToSQLiteController::class, 'create'])->can('upload-files');
 
 Route::get('/', function () {
+    $passportCount = Cache::remember('passport_count', 3600, function () { // Cache for 1 hour
+        return DB::table('p_d_f_to_s_q_lites')->count();
+    });
 
-    $passportCount = DB::table('p_d_f_to_s_q_lites')->count();
+    // $passportCount = DB::table('p_d_f_to_s_q_lites')->count();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -136,7 +139,7 @@ Route::get('callback/{reference}', 'App\Http\Controllers\ChapaController@callbac
 // Route::post('/telegram/webhook', [TelegramPDFController::class, 'handleWebhook'])->middleware('throttle:rateLimiter');
 
 Route::resource('blogs', BlogController::class);
-    
+
 
 
 

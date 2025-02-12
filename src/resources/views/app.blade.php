@@ -1,31 +1,8 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
 <head>
 
     {{-- umami script  --}}
     <script defer src="https://cloud.umami.is/script.js" data-website-id="c5a13314-68fb-4528-8f6a-b4edfb743294"></script>
-
-    <!-- Google Tag Manager -->
-    {{-- <script>
-        (function(w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({
-                'gtm.start': new Date().getTime(),
-                event: 'gtm.js'
-            });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != 'dataLayer' ? '&l=' + l : '';
-            j.async = true;
-            j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-P7R4V8B3');
-    </script> --}}
-    <!-- End Google Tag Manager -->
-
-    {{-- could flare analytics --}}
 
     <!-- Cloudflare Web Analytics -->
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
@@ -34,33 +11,41 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{-- <title>{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid</title> --}}
+    <title>Ethiopian Passport Services & Status Check | ፓስፖርት ኢትዮጵያ | Paaspoortii Itoophiyaa - Passport.ET</title>
+    <!-- Optimized Title: Concise, multilingual, includes brand and core service -->
+
     <meta name="description"
-        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease. ">
+        content="Passport.ET: Your official guide for Ethiopian passport services. Apply, renew, & track your passport status easily. Check status online now!  ፓስፖርትዎን ይፈትሹ! Paaspoortii keessan mirkaneeffadhaa! Get information on application process, requirements, fees, and locations in Ethiopia.">
+    <!-- Improved Description:  More engaging, multilingual call to action, expanded service description -->
+
     <meta name="keywords"
-        content="Ethiopian passport,  check passport status, passport application process, immigration services, passport renewal, passport registration, passport application, Ethiopia travel documents, visa services, Ethiopian immigration, track passport">
+        content="Ethiopian passport, passport ethiopia, ethiopian passport status, check passport status ethiopia, passport renewal ethiopia, passport application ethiopia, immigration ethiopia passport, travel documents ethiopia, visa services ethiopia, የኢትዮጵያ ፓስፖርት, ፓስፖርት ኢትዮጵያ, የፓስፖርት ሁኔታ, ፓስፖርት ማደስ, ፓስፖርት ማመልከቻ, Paaspoortii Itoophiyaa, haala paaspoortii, haaromsaa paaspoortii, iyyannoo paaspoortii, baasii paaspoortii, teessoo paaspoortii">
+    <!-- Expanded Keywords: Includes English, Amharic, and Oromo variations of key terms -->
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://passport.et/">
-    <meta property="og:title" content="Passport.ET - Ethiopian Passport Services Aid">
+    <meta property="og:title" content="Passport.ET - የኢትዮጵያ ፓስፖርት አገልግሎት | Ethiopian Passport Services Aid">
+    <!-- OG Title: Brand name + multilingual service description -->
     <meta property="og:description"
-        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease.">
+        content="The official portal for Ethiopian Passport Services Aid. Apply, renew, and track your passport status with ease.  ፓስፖርትዎን በቀላሉ ያመልክቱ፣ ያድሱ እና ሁኔታውን ይከታተሉ።">
+    <!-- OG Description:  Slightly shorter, multilingual, action-oriented -->
     <meta property="og:image" content="{{ asset('PASSPORT1.jpg') }}">
-    <meta property="og:image:alt" content="Passport.ET - Ethiopian Passport Services Aid">
+    <meta property="og:image:alt" content="Passport.ET - Ethiopian Passport Services Aid | የኢትዮጵያ ፓስፖርት">
+    <!-- OG Image Alt: Multilingual brand and service description -->
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://passport.et/">
-    <meta property="twitter:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services">
+    <meta property="twitter:title" content="Passport.ET - Ethiopian Passport Services | Paaspoortii Itoophiyaa">
+    <!-- Twitter Title:  Brand name + multilingual service focus -->
     <meta property="twitter:description"
-        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease.">
+        content="Official Ethiopian Passport Services portal.  Get information on application, renewal, and status checking.  መረጃ ያግኙ ስለ ፓስፖርት አፕሊኬሽን, እድሳት እና የሁኔታ ፍተሻ።">
+    <!-- Twitter Description:  Concise, multilingual service description -->
     <meta property="twitter:image" content="{{ asset('PASSPORT1.jpg') }}">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url('/') }}">
-
-
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -75,18 +60,6 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 
-    {{-- Google Ads --}}
-    {{-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1062387645972505"
-        crossorigin="anonymous"></script> --}}
-    <!-- End Google Ads -->
 </head>
 
-<body class="font-sans antialiased">
-    <!-- Google Tag Manager (noscript) -->
-    {{-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P7R4V8B3" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript> --}}
-    <!-- End Google Tag Manager (noscript) -->
-    @inertia
-</body>
-
-</html>
+    
