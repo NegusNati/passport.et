@@ -45,8 +45,5 @@ class Kernel extends HttpKernel
      *
      * @var array
      */
-    protected $routeMiddleware = [
-
-    ];
-
+    protected $routeMiddleware = [];
 }

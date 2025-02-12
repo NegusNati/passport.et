@@ -8,6 +8,8 @@ export default function Index({ blogs, auth, isAdmin }) {
         <AuthGuestLayout user={auth.user}>
             <Head>
                 <title>Latest Articles</title>
+                <link rel="preconnect" href="/storage" />
+                <link rel="dns-prefetch" href="/storage" />
                 <meta
                     name="description"
                     content="Daily News and information about Ethiopian Immigration,Ethiopian Visa,Ethiopian Passport,Ethiopian Embassy & Ethiopian Airlines"
@@ -55,12 +57,15 @@ export default function Index({ blogs, auth, isAdmin }) {
                                     {blog.featured_image && (
                                         <div className="sm:w-1/3">
                                             <img
+                                                loading="lazy"
+                                                width="800"
+                                                height="400"
                                                 src={`/storage/${blog.featured_image}`}
                                                 alt={blog.title}
                                                 className="w-full h-48 sm:h-full object-cover"
                                                 onError={(e) => {
                                                     e.target.src =
-                                                        "./pass_welcome.png";
+                                                        "./PASSPORT1-webp.webp";
                                                 }}
                                             />
                                         </div>
