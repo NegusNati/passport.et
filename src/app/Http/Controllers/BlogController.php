@@ -94,24 +94,42 @@ class BlogController extends Controller
             }
         }
 
-        return Inertia::render('Blog/Edit', [
+        return Inertia::render('Blog/Form', [
             'blog' => $blog
         ]);
     }
 
     public function update(Request $request, Blog $blog)
     {
+        Log::info('in update  ');
+        Log::info('Request headers:', $request->headers->all());
+        Log::info('Request headers:', $request->all());
+
+
         $validated = $request->validate([
             'title' => 'required|max:255',
-            'content' => 'required',
+            'content' => 'required|string',
             'excerpt' => 'nullable',
-            'featured_image' => 'nullable|image|max:5120'
+            'featured_image' => 'nullable|image|max:5120',
+            'og_image' => 'nullable|image|max:5120',
+            'meta_description' => 'nullable',
+            'meta_keywords' => 'nullable'
         ]);
 
-        if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')->store('blog-images', 'public');
+         $validated['meta_description'] = $request['meta_description'];
+        $validated['meta_keywords'] = $request['meta_keywords'];
+
+
+                if (!Auth::check()) {
+            return abort(403);
         }
 
+        if ($request->hasFile('featured_image')) {
+            $validated['featured_image'] = $request->file('featured_image')->store('blog-images/featured', 'public');
+        }
+        if ($request->hasFile('og_image')) {
+            $validated['og_image'] = $request->file('og_image')->store('blog-images/og', 'public');
+        }
         $blog->update($validated);
 
         return redirect()->route('blogs.show', $blog)->with('success', 'Blog post updated successfully!');

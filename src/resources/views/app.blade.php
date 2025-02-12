@@ -3,29 +3,8 @@
 
 <head>
 
-{{-- umami script  --}}
-<script defer src="https://cloud.umami.is/script.js" data-website-id="c5a13314-68fb-4528-8f6a-b4edfb743294"></script>
-
-    <!-- Google Tag Manager -->
-    <script>
-        (function(w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({
-                'gtm.start': new Date().getTime(),
-                event: 'gtm.js'
-            });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != 'dataLayer' ? '&l=' + l : '';
-            j.async = true;
-            j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-P7R4V8B3');
-    </script>
-    <!-- End Google Tag Manager -->
-
-    {{-- could flare analytics --}}
+    {{-- umami script  --}}
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="c5a13314-68fb-4528-8f6a-b4edfb743294"></script>
 
     <!-- Cloudflare Web Analytics -->
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
@@ -34,28 +13,42 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{-- <title>{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services Aid</title> --}}
+    <title>Urgent & Regular Ethiopian Passport Services | Quick Status Check | ፈጣን እና መደበኛ ፓስፖርት | Paaspoortii
+        Ariifachiisaa - Passport.ET</title>
+    <!-- Title: Added "Urgent & Regular", "ፈጣን እና መደበኛ", "Paaspoortii Ariifachiisaa" -->
+
     <meta name="description"
-        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease. ">
+        content="Passport.ET:  Get your Ethiopian passport urgently or through regular application. Check status, renew, apply easily. ፈጣን ወይም መደበኛ የኢትዮጵያ ፓስፖርት አገልግሎት። ሁኔታ ይፈትሹ፣ ያድሱ፣ ያመልክቱ። Paaspoortii Itoophiyaa ariifachiisaa ykn idileetti argadhu. Haala mirkaneeffadhu, haaromsi, iyyadhu.  Information on urgent passport request, application process & fees.">
+    <!-- Description: Incorporated "urgent" services, multilingual phrases -->
+
     <meta name="keywords"
-        content="Ethiopian passport,  check passport status, passport application process, immigration services, passport renewal, passport registration, passport application, Ethiopia travel documents, visa services, Ethiopian immigration, track passport">
+        content="urgent passport ethiopia, expedited passport ethiopia, urgent passport request ethiopia, urgent passport application ethiopia, ethiopian urgent passport, fast passport ethiopia, Ethiopian passport, passport ethiopia, ethiopian passport status, check passport status ethiopia, passport renewal ethiopia, passport application ethiopia, immigration ethiopia passport, travel documents ethiopia, visa services ethiopia, ፈጣን ፓስፖርት ኢትዮጵያ, የኢትዮጵያ ፈጣን ፓስፖርት, urgent ፓስፖርት ጥያቄ, urgent ፓስፖርት ማመልከቻ, የኢትዮጵያ ፓስፖርት, ፓስፖርት ኢትዮጵያ, የፓስፖርት ሁኔታ, ፓስፖርት ማደስ, ፓስፖርት ማመልከቻ, Paaspoortii Itoophiyaa ariifachiisaa, iyyannoo paaspoortii ariifachiisaa, haala paaspoortii, haaromsaa paaspoortii, iyyannoo paaspoortii, baasii paaspoortii, teessoo paaspoortii">
+    <!-- Keywords: Added various "urgent passport" keyword combinations in all languages -->
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://passport.et/">
-    <meta property="og:title" content="Passport.ET - Ethiopian Passport Services Aid">
+    <meta property="og:title"
+        content="Passport.ET - Urgent & Regular የኢትዮጵያ ፓስፖርት አገልግሎት | Ethiopian Passport Services Aid">
+    <!-- OG Title: Included "Urgent & Regular" in multilingual title -->
     <meta property="og:description"
-        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease.">
-    <meta property="og:image" content="{{ asset('pass_welcome.png') }}">
-    <meta property="og:image:alt" content="Passport.ET - Ethiopian Passport Services Aid">
+        content="Official portal for urgent and regular Ethiopian Passport Services Aid. Apply, renew, track status easily. ፈጣን እና መደበኛ የፓስፖርት አገልግሎት። ፓስፖርትዎን በቀላሉ ያመልክቱ፣ ያድሱ እና ሁኔታውን ይከታተሉ።">
+    <!-- OG Description:  Mentioned "urgent and regular" services in multilingual description -->
+    <meta property="og:image" content="{{ asset('PASSPORT1-webp.webp') }}">
+    <meta property="og:image:alt"
+        content="Passport.ET - Urgent & Regular Ethiopian Passport Services Aid | ፈጣን እና መደበኛ የኢትዮጵያ ፓስፖርት">
+    <!-- OG Image Alt: Included "Urgent & Regular" in multilingual alt text -->
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" >
+    <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://passport.et/">
-    <meta property="twitter:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services">
+    <meta property="twitter:title"
+        content="Passport.ET - Urgent & Regular Ethiopian Passport Services | Paaspoortii Ariifachiisaa">
+    <!-- Twitter Title: Included "Urgent & Regular" in multilingual title -->
     <meta property="twitter:description"
-        content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease.">
-    <meta property="twitter:image" content="{{ asset('pass_welcome.png') }}">
+        content="Official Ethiopian Passport Services portal - Urgent & Regular options. Get information on application, renewal, and status checking. ፈጣን እና መደበኛ አማራጮች። መረጃ ያግኙ ስለ ፓስፖርት አፕሊኬሽን, እድሳት እና የሁኔታ ፍተሻ።">
+    <!-- Twitter Description:  Mentioned "urgent and regular options" in multilingual description -->
+    <meta property="twitter:image" content="{{ asset('PASSPORT1-webp.webp') }}">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url('/') }}">
