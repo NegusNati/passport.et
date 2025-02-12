@@ -3,8 +3,8 @@
 
 <head>
 
-{{-- umami script  --}}
-<script defer src="https://cloud.umami.is/script.js" data-website-id="c5a13314-68fb-4528-8f6a-b4edfb743294"></script>
+    {{-- umami script  --}}
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="c5a13314-68fb-4528-8f6a-b4edfb743294"></script>
 
     <!-- Google Tag Manager -->
     {{-- <script>
@@ -46,16 +46,16 @@
     <meta property="og:title" content="Passport.ET - Ethiopian Passport Services Aid">
     <meta property="og:description"
         content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease.">
-    <meta property="og:image" content="{{ asset('pass_welcome.png') }}">
+    <meta property="og:image" content="{{ asset('PASSPORT1.jpg') }}">
     <meta property="og:image:alt" content="Passport.ET - Ethiopian Passport Services Aid">
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" >
+    <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://passport.et/">
     <meta property="twitter:title" content="{{ config('app.name', 'PassportET') }} - Ethiopian Passport Services">
     <meta property="twitter:description"
         content="The official portal for Ethiopian Passport Services Aid. Information on how Apply, renew, and track your passport status with ease.">
-    <meta property="twitter:image" content="{{ asset('pass_welcome.png') }}">
+    <meta property="twitter:image" content="{{ asset('PASSPORT1.jpg') }}">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url('/') }}">
