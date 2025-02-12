@@ -8,14 +8,17 @@ import "react-quill/dist/quill.snow.css";
 
 export default function Form({ blog = null }) {
     const { data, setData, post, put, processing, errors, reset } = useForm({
-        title: blog?.title ?? "",
-        content: blog?.content ?? "",
-        excerpt: blog?.excerpt ?? "",
-        meta_description: blog?.meta_description ?? "",
-        meta_keywords: blog?.meta_keywords ?? "",
+        title: blog?.title || "",
+        content: blog?.content || "",
+        excerpt: blog?.excerpt || "",
+        meta_description: blog?.meta_description || "",
+        meta_keywords: blog?.meta_keywords || "",
         featured_image: null,
         og_image: null,
-    });
+    },
+     {
+    forceFormData: true, // Force the payload to be sent as FormData
+  });
 
     const modules = {
         toolbar: [
@@ -30,13 +33,16 @@ export default function Form({ blog = null }) {
         ],
     };
     const handleSubmit = (e) => {
+
         e.preventDefault();
-        if (blog) {
+        console.log("Form data:", data, blog);
+        if (data && blog) {
             put(route("blogs.update", blog.id));
         } else {
             post(route("blogs.store"));
         }
     };
+    console.log(blog);
 
     return (
         <AuthGuestLayout title={blog ? "Edit Blog Post" : "Create Blog Post"}>
@@ -89,8 +95,9 @@ export default function Form({ blog = null }) {
                                     <ReactQuill
                                         theme="snow"
                                         value={data.content}
-                                        onChange={(content) =>
-                                            setData("content", content)
+                                        onChange={(content) => {
+                                             console.log("Content changed:", content);
+                                            setData("content", content);}
                                         }
                                         modules={modules}
                                         className="h-64 mb-12 text-blue-600"

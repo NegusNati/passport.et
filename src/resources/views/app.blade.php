@@ -7,7 +7,7 @@
 <script defer src="https://cloud.umami.is/script.js" data-website-id="c5a13314-68fb-4528-8f6a-b4edfb743294"></script>
 
     <!-- Google Tag Manager -->
-    <script>
+    {{-- <script>
         (function(w, d, s, l, i) {
             w[l] = w[l] || [];
             w[l].push({
@@ -22,7 +22,7 @@
                 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-P7R4V8B3');
-    </script>
+    </script> --}}
     <!-- End Google Tag Manager -->
 
     {{-- could flare analytics --}}
@@ -76,15 +76,15 @@
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 
     {{-- Google Ads --}}
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1062387645972505"
-        crossorigin="anonymous"></script>
+    {{-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1062387645972505"
+        crossorigin="anonymous"></script> --}}
     <!-- End Google Ads -->
 </head>
 
 <body class="font-sans antialiased">
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P7R4V8B3" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
+    {{-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P7R4V8B3" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript> --}}
     <!-- End Google Tag Manager (noscript) -->
     @inertia
 </body>
