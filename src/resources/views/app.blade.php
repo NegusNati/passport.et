@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
 <head>
 
     {{-- umami script  --}}
@@ -50,6 +53,8 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url('/') }}">
 
+
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -63,4 +68,18 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 
+    {{-- Google Ads --}}
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1062387645972505"
+        crossorigin="anonymous"></script>
+    <!-- End Google Ads -->
 </head>
+
+<body class="font-sans antialiased">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P7R4V8B3" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    @inertia
+</body>
+
+</html>
