@@ -29,10 +29,10 @@ export default function Show({ blog, auth, isAdmin }) {
         );
 
     const metaImage = blog?.og_image
-        ? `/storage/${blog.og_image}`
+        ? `${window.location.origin}/storage/${blog.og_image}`
         : blog?.featured_image
-        ? `/storage/${blog.featured_image}`
-        : asset("PASSPORT1-webp.webp");
+        ? `${window.location.origin}/storage/${blog.featured_image}`
+        : `${window.location.origin}/PASSPORT1-webp.webp`;
 
     let shareText = "";
     let shareUrl = "";
@@ -53,6 +53,7 @@ export default function Show({ blog, auth, isAdmin }) {
                         : "Article Not Found | Passport.ET"}
                 </title>
                 <meta property="og:site_name" content="Passport.ET" />
+
                 <meta
                     property="og:title"
                     content={`${
@@ -77,11 +78,14 @@ export default function Show({ blog, auth, isAdmin }) {
                     }
                 />
                 <meta property="og:image" content={metaImage} />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
                 <meta
                     property="og:image:alt"
                     content={`${blog?.title} - Passport.ET Articles`}
                 />
-
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image" content={metaImage} />
                 <meta
                     name="description"
                     content={
