@@ -29,10 +29,10 @@ export default function Show({ blog, auth, isAdmin }) {
         );
 
     const metaImage = blog?.og_image
-        ? `/storage/${blog.og_image}`
+        ? `${window.location.origin}/storage/${blog.og_image}`
         : blog?.featured_image
-        ? `/storage/${blog.featured_image}`
-        : asset("PASSPORT1-webp.webp");
+        ? `${window.location.origin}/storage/${blog.featured_image}`
+        : `${window.location.origin}/PASSPORT1-webp.webp`;
 
     let shareText = "";
     let shareUrl = "";
