@@ -53,6 +53,7 @@ export default function Show({ blog, auth, isAdmin }) {
                         : "Article Not Found | Passport.ET"}
                 </title>
                 <meta property="og:site_name" content="Passport.ET" />
+
                 <meta
                     property="og:title"
                     content={`${
@@ -77,11 +78,14 @@ export default function Show({ blog, auth, isAdmin }) {
                     }
                 />
                 <meta property="og:image" content={metaImage} />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
                 <meta
                     property="og:image:alt"
                     content={`${blog?.title} - Passport.ET Articles`}
                 />
-
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image" content={metaImage} />
                 <meta
                     name="description"
                     content={
