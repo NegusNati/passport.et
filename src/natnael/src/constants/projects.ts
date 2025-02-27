@@ -164,7 +164,7 @@ export const projects: Project[] = [
   {
     title: "Victor App/ERP",
     description:
-      "Victor App is a project I am currently working on and actively maintaining. It has an avarage of 760 active weekly users and 3.51k page views. \n It is a role based system to orchestrate the buisness logic of one of the highest revenue generating company in Addis.with feature like\n  - Quotation & Agremment Generation \n - Ordering and Order tracking \n - Sales performance reports and integration with Installation system \n  - Deposit management & dedicated finance operations ",
+      "Victor App is a project I am currently working on and actively maintaining. It has an average of 760 active weekly users and 3.51k page views weekly and 16.7k per month. \n It is a role based system to orchestrate the buisness logic of one of the highest revenue generating company in Addis.with feature like\n  - Quotation & Agremment Generation \n - Ordering and Order tracking \n - Sales performance reports and integration with Installation system \n  - Deposit management & dedicated finance operations ",
     image: VictorAppUrl,
     url: "https://app.victor-door.com/",
     githubUrl: "https://app.victor-door.com/",
@@ -185,7 +185,7 @@ export const projects: Project[] = [
   {
     title: "PassportET",
     description:
-      "Passport.et is my first solo project with actual users, it has an avarage of 446 active monthly users and 3.01k page views. and fully Open Source. \n A simple way to look if your passport is ready to collect and which day of the week you should collect. ✈️ \n It has multiple cool things underneath, like : \n - PDF parsing of official passport data published by Ethiopian gov. \n - Queues, i used Laravel Queues to assign background jobs of PDF parsing. \n - Rate Limiting : to prevent exessive requests. \n - Roles & Permission: a subscription system to allow users to access the system based on their role and permission. ",
+      "Passport.et is my first solo project with actual users, it has an average of 446 active monthly users and 3.01k page views. and fully Open Source. \n A simple way to look if your passport is ready to collect and which day of the week you should collect. ✈️ \n It has multiple cool things underneath, like : \n - PDF parsing of official passport data published by Ethiopian gov. \n - Queues, i used Laravel Queues to assign background jobs of PDF parsing. \n - Rate Limiting : to prevent exessive requests. \n - Roles & Permission: a subscription system to allow users to access the system based on their role and permission. ",
     image: PassportEtUrl,
     url: "https://passport.et/",
     githubUrl: "https://github.com/NegusNati/passport.et",
