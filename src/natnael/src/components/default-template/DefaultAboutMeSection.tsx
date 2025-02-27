@@ -15,11 +15,11 @@ export const DefaultAboutMeSection = () => {
     <Section id="about-me" headingText="Natnael Birhanu">
       <div className="animate-hidden flex flex-col w-full gap-[30px] max-w-[650px]">
         <Typography tag="p" weight="semibold" className="text-negus text-xl sm:text-2xl  ">
-          Software Engineer
+          Sr Software Engineer
         </Typography>
         <Typography tag="p" className="text-color2 text-l sm:text-xl whitespace-pre-line">
           {
-            "Hello and welcome to my portfolio! \n Passionate about Software Engineering, I'm a dedicated and enthusiastic individual with a strong foundation in computer science.\n \n I'm always eager to learn new technologies and techniques to enhance my skills and contribute to innovative projects. I have built two enterprise systems to help a compnay with lead managment and conversion. \n \n I am currently working as a Seinor Full Stack Developer at Victor doors (L and H Building Materials PLC) building in house ERP systems, but also building passport.et at my free time, a solution to a a problem I encountered while trying check if my mother's passport was ready.  \n \n Let's connect and explore woking together!"
+            "Hey! I am Passionate about Software Engineering, I'm a dedicated and enthusiastic individual with a strong foundation in computer science.\n \n I'm always eager to learn new technologies and techniques to enhance my skills and contribute to innovative projects. I have built multiple enterprise grade systems to help a compnay with lead managment, conversion,deposit managment, ordering and order tracking,... \n \n I am currently working as a Seinor Full Stack Developer at Victor doors (L and H Building Materials PLC) building in house ERP systems & as a senior Frontend Dev for AddisWealth building AddisFinancial (a new platform that will hit the market very soon) but also building passport.et at my free time.  \n \n Let's connect and explore woking together!"
           }
         </Typography>
         <div className="flex gap-[12px]">
