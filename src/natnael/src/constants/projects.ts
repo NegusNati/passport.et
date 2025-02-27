@@ -7,6 +7,9 @@ import TwitterCloneUrl from "assets/projects/twitter-clone.png?url";
 import PassportWelcomerUrl from "assets/projects/passport.png?url";
 import PassportDashboardUrl from "assets/projects/pass_dashboardpng.png?url";
 import VictorAppUrl from "assets/projects/app_victor.png?url";
+import AddisFinancialUrl from "assets/projects/addisFinancial.png?url";
+import PassportEtUrl from "assets/projects/PASSPORT1.jpg";
+// import PassportEtUrl from "assets/projects/PASSPORT.png?url";
 import PassportTableUrl from "assets/projects/pass_table.png?url";
 import LoadBalancerUrl from "assets/projects/loadballancer.png?url";
 import MobileAppUrl from "assets/projects/mob.png?url";
@@ -137,33 +140,53 @@ const typeGraphqlTech: ProjectTech = { tech: "TypeGraphQL", icon: DockerIcon };
 // const svelteTech: ProjectTech = { tech: "Svelte", icon: SvelteIcon };
 
 export const projects: Project[] = [
-    {
-        title: "Victor App/ERP",
-        description:
-          "Victor App is a project I am currently working on and \n actively maintaining. it is a role based system to orchestrate \n the buisness logic of one of the highest revenue generating company in Addis.with feature like\n  - Quotation & Agremment Generation \n - Ordering and Order tracking \n - Sales performance reports and integration with Installation system \n  - Deposit management & dedicated finance operations ",
-        image: VictorAppUrl,
-        url: "https://app.victor-door.com/",
-        githubUrl: "https://app.victor-door.com/",
-        techs: [
-          laravelTech,
-          reduxTech,
-          typeScriptTech,
-          postgressqlTech,
-          reactTech,
-          tailwindCssTech,
-          nodeTech,
-          tanStackQueryTech,
-          linuxTech,
-          dockerTech,
-
-        ],
-        isPinned: true
-      },
+  {
+    title: "AddisFinancial",
+    description:
+      "AddisFinancial is a financial platform is that aims  \n to provide a finacial opportiunity to East Africa and beyond. \n offering multiple services like Stock & Options Trading, E-lottery, Crypto Wallet, Personalized Saving,...\n ",
+    image: AddisFinancialUrl,
+    url: "https://test.addisfinancial.com/",
+    githubUrl: "https://test.addisfinancial.com/",
+    techs: [
+      nextjsTech,
+      reduxTech,
+      typeScriptTech,
+      postgressqlTech,
+      reactTech,
+      tailwindCssTech,
+      nodeTech,
+      tanStackQueryTech,
+      linuxTech,
+      dockerTech
+    ],
+    isPinned: true
+  },
+  {
+    title: "Victor App/ERP",
+    description:
+      "Victor App is a project I am currently working on and \n actively maintaining. it is a role based system to orchestrate \n the buisness logic of one of the highest revenue generating company in Addis.with feature like\n  - Quotation & Agremment Generation \n - Ordering and Order tracking \n - Sales performance reports and integration with Installation system \n  - Deposit management & dedicated finance operations ",
+    image: VictorAppUrl,
+    url: "https://app.victor-door.com/",
+    githubUrl: "https://app.victor-door.com/",
+    techs: [
+      laravelTech,
+      reduxTech,
+      typeScriptTech,
+      postgressqlTech,
+      reactTech,
+      tailwindCssTech,
+      nodeTech,
+      tanStackQueryTech,
+      linuxTech,
+      dockerTech
+    ],
+    isPinned: true
+  },
   {
     title: "PassportET",
     description:
       "A simple way to look if your passport is ready \n to collect and which day of the week you should collect. ✈️ \n It has multiple cool things underneath, like : \n - PDF parsing of official passport data published by Ethiopian gov. \n - Queues, i used Laravel Queues to assign background jobs of PDF parsing. \n - Rate Limiting : to prevent exessive requests. \n - Roles & Permission: a subscription system to allow users to access the system based on their role and permission. ",
-    image: PassportDashboardUrl,
+    image: PassportEtUrl,
     url: "https://passport.et/",
     githubUrl: "https://github.com/NegusNati/passport.et",
     techs: [
@@ -196,8 +219,7 @@ export const projects: Project[] = [
       linuxTech,
       javascriptTech,
       expoTech
-    ],
-    isPinned: true
+    ]
   },
 
   {
@@ -207,8 +229,7 @@ export const projects: Project[] = [
     image: MobileAppUrl,
     url: "https://github.com/NegusNati/food_delivery_app_flutter",
     githubUrl: "https://github.com/NegusNati/food_delivery_app_flutter",
-    techs: [flutterTech, dartTech, mapTech, javaTech],
-    isPinned: true
+    techs: [flutterTech, dartTech, mapTech, javaTech]
   },
 
   {
@@ -218,15 +239,7 @@ export const projects: Project[] = [
     image: OutletProjectUrl,
     url: "https://github.com/NegusNatip",
     githubUrl: "https://github.com/NegusNati",
-    techs: [
-      reactTech,
-      nodeTech,
-      expressTech,
-      mongoDBTech,
-      mapTech,
-      tailwindCssTech,
-      javascriptTech
-    ],
+    techs: [reactTech, nodeTech, expressTech, mongoDBTech, mapTech, tailwindCssTech, javascriptTech]
   },
   {
     title: "Food Delivery Web App",
