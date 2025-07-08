@@ -1,6 +1,5 @@
 networks:
   laravel:
-    driver: bridge
 
 services:
   app:
@@ -10,19 +9,30 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
+    # ports:
+    #   - "8085:80"
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
-      - nginx-proxy-manager
+      - traefik
       - php
       - mysql
     networks:
       - laravel
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`passport.et`) || Host(`www.passport.et`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.services.app.loadbalancer.server.port=80"
+      - "traefik.http.routers.app.tls=true"
+      - "traefik.http.routers.app.tls.certresolver=myresolver"
 
   mysql:
     image: mariadb:11.0
     restart: unless-stopped
     tty: true
+    ports:
+      - "3329:3306"
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
@@ -42,6 +52,8 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
+    # ports:
+    #     - "9000:9000"
     volumes:
       - ./src:/var/www/html:delegated
     networks:
@@ -58,7 +70,7 @@ services:
       - ./src:/var/www/html
     depends_on:
       - php
-    entrypoint: ["sh", "-c", 'composer "$@"']
+    entrypoint: ["sh", "-c", 'composer "$@"', "--"]
     networks:
       - laravel
 
@@ -66,10 +78,14 @@ services:
     image: node:current-alpine
     volumes:
       - ./src:/var/www/html
-    working_dir: /var/www/html
-    entrypoint: ["sh", "-c", "npm install && npm run dev"]
     ports:
+      - "3000:3000"
+      - "3001:3001"
       - "5173:5173"
+    working_dir: /var/www/html
+    entrypoint: ["sh", "-c"]
+    command: >
+      "npm install && npm run build && cd /var/www/html/public/build/.vite/ && cp manifest.json ../"
     networks:
       - laravel
 
@@ -87,28 +103,46 @@ services:
     entrypoint: ["php", "/var/www/html/artisan"]
     networks:
       - laravel
-
-  nginx-proxy-manager:
-    image: jc21/nginx-proxy-manager:latest
-    container_name: nginx-proxy-manager
-    restart: always
-    environment:
-      DB_SQLITE_FILE: /data/database.sqlite
+  traefik:
+    image: traefik:v3.1
+    # command: --api.insecure=true --providers.docker --entrypoints.web.address=:8081
+    command:
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=natnaelbirhanu22@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
       - "443:443"
-      - "81:81"
     volumes:
-      - ./nginx/data:/data
-      - ./nginx/letsencrypt:/etc/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./letsencrypt:/letsencrypt
     networks:
       - laravel
-
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.passport.et`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls.certresolver=myresolver"
+      - "traefik.http.routers.traefik.service=api@internal"
   natnael:
     build:
       context: ./src/natnael
       dockerfile: Dockerfile
+    # volumes:
+    #   - ./src/natnael/dist:/usr/share/nginx/html
     depends_on:
-      - nginx-proxy-manager
+      - traefik
     networks:
       - laravel
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portfolio.rule=Host(`natnael.passport.et`) || Host(`www.natnael.passport.et`)"
+      - "traefik.http.routers.portfolio.entrypoints=websecure"
+      - "traefik.http.services.portfolio.loadbalancer.server.port=80"
+      - "traefik.http.routers.portfolio.tls=true"
+      - "traefik.http.routers.portfolio.tls.certresolver=myresolver"
