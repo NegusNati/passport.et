@@ -31,8 +31,6 @@ services:
     image: mariadb:11.0
     restart: unless-stopped
     tty: true
-    ports:
-      - "3329:3306"
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
