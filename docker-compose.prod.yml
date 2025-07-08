@@ -1,5 +1,6 @@
 networks:
   laravel:
+    driver: bridge
 
 services:
   app:
@@ -9,8 +10,6 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    # ports:
-    #   - "8085:80"
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
@@ -21,11 +20,15 @@ services:
       - laravel
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`passport.et`) || Host(`www.passport.et`)"
-      - "traefik.http.routers.app.entrypoints=websecure"
+      # This router handles HTTPS traffic
+      - "traefik.http.routers.app-secure.rule=Host(`passport.et`) || Host(`www.passport.et`)"
+      - "traefik.http.routers.app-secure.entrypoints=websecure"
+      - "traefik.http.routers.app-secure.tls.certresolver=myresolver"
       - "traefik.http.services.app.loadbalancer.server.port=80"
-      - "traefik.http.routers.app.tls=true"
-      - "traefik.http.routers.app.tls.certresolver=myresolver"
+      # This router handles HTTP traffic and redirects it
+      - "traefik.http.routers.app-http.rule=Host(`passport.et`) || Host(`www.passport.et`)"
+      - "traefik.http.routers.app-http.entrypoints=web"
+      - "traefik.http.routers.app-http.middlewares=https-redirect@docker"
 
   mysql:
     image: mariadb:11.0
@@ -50,13 +53,12 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    # ports:
-    #     - "9000:9000"
     volumes:
       - ./src:/var/www/html:delegated
     networks:
       - laravel
 
+  # The services below are for CLI tools or one-off builds and do not need Traefik labels
   composer:
     build:
       context: ./dockerfiles
@@ -68,7 +70,7 @@ services:
       - ./src:/var/www/html
     depends_on:
       - php
-    entrypoint: ["sh", "-c", 'composer "$@"', "--"]
+    entrypoint: ["sh", "-c", 'composer "$@"']
     networks:
       - laravel
 
@@ -76,14 +78,10 @@ services:
     image: node:current-alpine
     volumes:
       - ./src:/var/www/html
-    ports:
-      - "3000:3000"
-      - "3001:3001"
-      - "5173:5173"
     working_dir: /var/www/html
-    entrypoint: ["sh", "-c"]
-    command: >
-      "npm install && npm run build && cd /var/www/html/public/build/.vite/ && cp manifest.json ../"
+    entrypoint: ["sh", "-c", "npm install && npm run dev"]
+    ports:
+      - "5173:5173"
     networks:
       - laravel
 
@@ -101,46 +99,53 @@ services:
     entrypoint: ["php", "/var/www/html/artisan"]
     networks:
       - laravel
+
   traefik:
     image: traefik:v3.1
-    # command: --api.insecure=true --providers.docker --entrypoints.web.address=:8081
     command:
-      - "--api.insecure=false"
+      - "--api.dashboard=true" # Enables the dashboard
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
+      # This command adds the global HTTP to HTTPS redirect middleware
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=natnaelbirhanu22@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.email=${ACME_EMAIL}" # Use an environment variable for email
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Read-only is safer
       - ./letsencrypt:/letsencrypt
     networks:
       - laravel
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.passport.et`)"
-      - "traefik.http.routers.traefik.entrypoints=websecure"
-      - "traefik.http.routers.traefik.tls.certresolver=myresolver"
-      - "traefik.http.routers.traefik.service=api@internal"
+      # Dashboard routing
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.passport.et`)"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
+      - "traefik.http.routers.traefik-dashboard.tls.certresolver=myresolver"
+      - "traefik.http.routers.traefik-dashboard.service=api@internal"
+
   natnael:
     build:
       context: ./src/natnael
       dockerfile: Dockerfile
-    # volumes:
-    #   - ./src/natnael/dist:/usr/share/nginx/html
     depends_on:
       - traefik
     networks:
       - laravel
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.portfolio.rule=Host(`natnael.passport.et`) || Host(`www.natnael.passport.et`)"
-      - "traefik.http.routers.portfolio.entrypoints=websecure"
+      # Secure router
+      - "traefik.http.routers.portfolio-secure.rule=Host(`natnael.passport.et`) || Host(`www.natnael.passport.et`)"
+      - "traefik.http.routers.portfolio-secure.entrypoints=websecure"
+      - "traefik.http.routers.portfolio-secure.tls.certresolver=myresolver"
       - "traefik.http.services.portfolio.loadbalancer.server.port=80"
-      - "traefik.http.routers.portfolio.tls=true"
-      - "traefik.http.routers.portfolio.tls.certresolver=myresolver"
+      # HTTP router for redirection
+      - "traefik.http.routers.portfolio-http.rule=Host(`natnael.passport.et`) || Host(`www.natnael.passport.et`)"
+      - "traefik.http.routers.portfolio-http.entrypoints=web"
+      - "traefik.http.routers.portfolio-http.middlewares=https-redirect@docker"
