@@ -100,35 +100,21 @@ services:
     networks:
       - laravel
 
-  traefik:
-    image: traefik:v3.1
-    command:
-      - "--api.dashboard=true" # Enables the dashboard
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      # This command adds the global HTTP to HTTPS redirect middleware
-      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=${ACME_EMAIL}" # Use an environment variable for email
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx-proxy-manager
+    restart: always
+    environment:
+      DB_SQLITE_FILE: /data/database.sqlite
     ports:
       - "80:80"
       - "443:443"
+      - "81:81"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro # Read-only is safer
-      - ./letsencrypt:/letsencrypt
+      - ./nginx/data:/data
+      - ./nginx/letsencrypt:/etc/letsencrypt
     networks:
       - laravel
-    labels:
-      - "traefik.enable=true"
-      # Dashboard routing
-      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.passport.et`)"
-      - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
-      - "traefik.http.routers.traefik-dashboard.tls.certresolver=myresolver"
-      - "traefik.http.routers.traefik-dashboard.service=api@internal"
 
   natnael:
     build:
