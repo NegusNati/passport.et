@@ -18,17 +18,6 @@ services:
       - mysql
     networks:
       - laravel
-    labels:
-      - "traefik.enable=true"
-      # This router handles HTTPS traffic
-      - "traefik.http.routers.app-secure.rule=Host(`passport.et`) || Host(`www.passport.et`)"
-      - "traefik.http.routers.app-secure.entrypoints=websecure"
-      - "traefik.http.routers.app-secure.tls.certresolver=myresolver"
-      - "traefik.http.services.app.loadbalancer.server.port=80"
-      # This router handles HTTP traffic and redirects it
-      - "traefik.http.routers.app-http.rule=Host(`passport.et`) || Host(`www.passport.et`)"
-      - "traefik.http.routers.app-http.entrypoints=web"
-      - "traefik.http.routers.app-http.middlewares=https-redirect@docker"
 
   mysql:
     image: mariadb:11.0
@@ -58,7 +47,6 @@ services:
     networks:
       - laravel
 
-  # The services below are for CLI tools or one-off builds and do not need Traefik labels
   composer:
     build:
       context: ./dockerfiles
@@ -124,14 +112,3 @@ services:
       - nginx-proxy-manager
     networks:
       - laravel
-    labels:
-      - "traefik.enable=true"
-      # Secure router
-      - "traefik.http.routers.portfolio-secure.rule=Host(`natnael.passport.et`) || Host(`www.natnael.passport.et`)"
-      - "traefik.http.routers.portfolio-secure.entrypoints=websecure"
-      - "traefik.http.routers.portfolio-secure.tls.certresolver=myresolver"
-      - "traefik.http.services.portfolio.loadbalancer.server.port=80"
-      # HTTP router for redirection
-      - "traefik.http.routers.portfolio-http.rule=Host(`natnael.passport.et`) || Host(`www.natnael.passport.et`)"
-      - "traefik.http.routers.portfolio-http.entrypoints=web"
-      - "traefik.http.routers.portfolio-http.middlewares=https-redirect@docker"
