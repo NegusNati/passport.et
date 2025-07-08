@@ -13,7 +13,7 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
-      - traefik
+      - nginx-proxy-manager
       - php
       - mysql
     networks:
@@ -121,7 +121,7 @@ services:
       context: ./src/natnael
       dockerfile: Dockerfile
     depends_on:
-      - traefik
+      - nginx-proxy-manager
     networks:
       - laravel
     labels:
