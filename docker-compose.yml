@@ -22,6 +22,7 @@ services:
       - traefik
       - php
       - mysql
+      - redis
     networks:
       - laravel
 
@@ -43,6 +44,17 @@ services:
     networks:
       - laravel
 
+  redis:
+    image: redis:8.2-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes:
+      - redis-data:/data
+    networks:
+      - laravel
+
   php:
     build:
       context: ./dockerfiles
@@ -56,6 +68,8 @@ services:
       - ./src:/var/www/html:delegated
     networks:
       - laravel
+    depends_on:
+      - redis
 
   composer:
     build:
@@ -98,6 +112,7 @@ services:
       - ./src:/var/www/html:delegated
     depends_on:
       - mysql
+      - redis
     entrypoint: [ 'php', '/var/www/html/artisan' ]
     networks:
       - laravel
@@ -112,3 +127,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - laravel
+
+volumes:
+  redis-data:

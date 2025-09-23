@@ -24,9 +24,24 @@ This document summarizes the strategy for turning the existing Laravel/Inertia p
 
 ### Phase 3 Progress Log
 - `/api/v1/passports` now resolves through `PassportController`, reusing `SearchPassportsAction` with API-specific validation (`SearchPassportRequest`) and returning `PassportCollection` resources that expose consistent `data`, `meta`, `links`, and a `filters` echo for the React client.
-- `/api/v1/passports/{id}` surfaces individual records through `PassportResource`, while `/api/v1/locations` serves cached distinct locations (`api.v1.locations` key, 5‑minute TTL).
+- `/api/v1/passports/{id}` surfaces individual records through `PassportResource`, while `/api/v1/locations` serves cached distinct locations (`api.v1.locations` key, 5-minute TTL).
 - `PassportResource` now shapes fields for API consumers (normalized names, ISO timestamps) and `PassportCollection` adds `meta.has_more` for paginated responses while tracking counts for non-paginated searches.
 - Feature coverage added in `tests/Feature/Api/PassportApiTest.php` validating pagination metadata, filtering semantics, detail responses, and location listings. Run via `docker compose exec php php artisan test --testsuite=Feature --filter=Api`.
+- React `Passport/TableView` now consumes the API directly (axios client in `resources/js/api/passports.js`), adding server-side filters for request number, location, and publish dates plus client-side pagination controls that align with the new JSON schema.
+
+### Phase 4 Progress Log
+- Selected Sanctum personal access tokens for API authentication. Added `App\Http\Controllers\Api\V1\Auth\AuthController` with `login`, `me`, and `logout` endpoints and protected them with `auth:sanctum` middleware.
+- Hardened validation via `App\Http\Requests\Auth\ApiLoginRequest` and normalized user payloads through `App\Http\Resources\UserResource`.
+- Enabled token issuance by adding the Sanctum migration (`0001_01_01_000003_create_personal_access_tokens_table.php`) and applying `HasApiTokens` to `App\Models\User`.
+- Added API auth feature coverage in `tests/Feature/Api/AuthApiTest.php` to guard login success/failure, profile retrieval, and logout token revocation.
+- Decision: migrate toward a phone-number-first login flow (OTP optional later). API passport endpoints remain publicly accessible—no plan-based gating required beyond rate limiting.
+
+### Phase 5 Progress Log
+- Docker environments (local and prod compose files) now include a dedicated Redis 7 service with persistent volumes; `.env.example` defaults cache/session/queue drivers to Redis.
+- Rate limiting now mirrors web behaviour: `api.v1.default` gives premium subscribers 240 req/min, other authenticated users 120 req/min, and anonymous clients 60 req/min, all returning a consistent JSON throttle payload. Implementation lives in `App\Providers\AppServiceProvider`.
+- A `redis:ping` artisan command is registered for smoke-testing connectivity inside the containers.
+- Cache lookups for passport counts, listings, and locations use tagged stores via `App\Support\CacheKeys`, while `SearchPassportsAction` and controllers share the same naming scheme.
+- `PassportObserver` flushes the `passports` cache tag on create/update/delete/restore so API and legacy pages stay in sync.
 
 Use the observations above to drive the migration plan and as regression targets when testing the new API surface.
 

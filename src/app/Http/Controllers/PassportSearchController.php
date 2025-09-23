@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Passport\SearchPassportsAction;
 use App\Domain\Passport\Data\PassportSearchParams;
 use App\Models\PDFToSQLite;
+use App\Support\CacheKeys;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -94,9 +95,12 @@ class PassportSearchController extends Controller
     {
 
         // $passports = PDFToSQLite::latest()->simplePaginate(50)->fragment("fragment-id");
-        $passports = Cache::remember('all_passports_page_' . $request->get('page', 1), 60, function () {
-            return PDFToSQLite::query()->orderBy('id', 'desc')->simplePaginate(50);
-        });
+        $page = (int) $request->get('page', 1);
+
+        $passports = Cache::tags(['passports', 'passports.all'])
+            ->remember(CacheKeys::passportsAll($page), 60, function () {
+                return PDFToSQLite::query()->orderBy('id', 'desc')->simplePaginate(50);
+            });
         $passports->setPath(url('/all-passports'));
 
 

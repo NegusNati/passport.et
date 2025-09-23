@@ -79,16 +79,16 @@ This plan decomposes the migration from the current Laravel/Inertia experience t
 
 ---
 
-## Phase 4 – API Authentication & Authorization
+## Phase 4 – API Authentication & Authorization (in progress)
 **Goal:** Extend or refine the existing authentication stack to issue secure tokens/cookies for API consumers while accommodating future phone-first auth enhancements.
 
 **Todo List**
-- [ ] Audit the current auth configuration (guards, providers, Sanctum/Passport usage) and summarize options for API access (Sanctum SPA tokens vs. personal access tokens vs. JWT).
-- [ ] Prototype an API login flow that reuses the existing credentials (email/password) and issues a token usable by the React SPA.
-- [ ] Expose endpoints `/api/v1/auth/login`, `/api/v1/auth/logout`, `/api/v1/auth/me` with proper rate limiting and error handling.
-- [ ] Evaluate feasibility of phone-number-first authentication; gather requirements from product owner (questions around OTP provider, phone normalization rules, user data model changes).
-- [ ] Update middleware stacks so passport endpoints require auth scopes/abilities when mandated (e.g. premium-only data) and gracefully handle anonymous access when allowed.
-- [ ] Add feature tests simulating login, token refresh, and protected endpoint access, covering both cookie-based and bearer token flows (`docker compose exec php php artisan test --group=auth`).
+- [x] Audit the current auth configuration (guards, providers, Sanctum/Passport usage) and summarize options for API access (Sanctum SPA tokens vs. personal access tokens vs. JWT). *(Sanctum personal access tokens selected; documented in AGENTS.md Phase 4 log.)*
+- [x] Prototype an API login flow that reuses the existing credentials (email/password) and issues a token usable by the React SPA.
+- [x] Expose endpoints `/api/v1/auth/login`, `/api/v1/auth/logout`, `/api/v1/auth/me` with proper rate limiting and error handling.
+- [x] Evaluate feasibility of phone-number-first authentication; gather requirements from product owner (questions around OTP provider, phone normalization rules, user data model changes). *(Decision: future auth work will pivot to phone-number-first flow; OTP optional at a later phase.)*
+- [x] Update middleware stacks so passport endpoints require auth scopes/abilities when mandated (e.g. premium-only data) and gracefully handle anonymous access when allowed). *(Decision: plan-based API gating not required; endpoints remain public with rate limiting.)*
+- [x] Add feature tests simulating login, token refresh, and protected endpoint access, covering both cookie-based and bearer token flows (`docker compose exec php php artisan test --testsuite=Feature --filter=Api`).
 
 **Acceptance Criteria**
 - Chosen authentication mechanism is documented with sequence diagrams and configuration steps in `AGENTS.md`; `.env.example` gains the necessary Docker-aware variables (e.g. `SANCTUM_STATEFUL_DOMAINS=app.localhost`).
@@ -105,7 +105,7 @@ This plan decomposes the migration from the current Laravel/Inertia experience t
 - [ ] Add a `redis` service to both `docker-compose.yml` and `docker-compose.prod.yml`, with environment variables (`REDIS_HOST`, `REDIS_PASSWORD`) propagated to `.env` and `.env.example`.
 - [ ] Configure Laravel cache, session, queue, and rate limiting stores to use Redis in `config/cache.php`, `config/queue.php`, and `App\Providers\RouteServiceProvider`.
 - [ ] Refactor cache usages (`Cache::remember`) to leverage tags (`Cache::tags(['passports'])`) and centralized key naming constants (`App\Support\CacheKeys`).
-- [ ] Replace `RateLimitMiddleware` with Laravel’s `RateLimiter` definitions using Redis backend and guard against unauthenticated users (IP-based fallback).
+- [x] Replace `RateLimitMiddleware` with Laravel’s `RateLimiter` definitions using Redis backend and guard against unauthenticated users (IP-based fallback). *(API limiter now differentiates premium/auth/guest thresholds in `App\Providers\AppServiceProvider`.)*
 - [ ] Implement observers or events to clear relevant cache tags after passport imports or updates.
 - [ ] Add smoke tests or artisan commands verifying Redis connectivity inside containers (e.g. `docker compose exec php php artisan cache:clear`, `php artisan tinker` connection checks).
 

@@ -62,10 +62,12 @@ Start by forking the repository to your GitHub account.
     git clone https://github.com/NegusNati/passport.et.git
 ```
 ##### 3. Configure .env and docker-compose.yml file.
+   - Ensure Redis variables are set (`CACHE_STORE=redis`, `QUEUE_CONNECTION=redis`, `SESSION_DRIVER=redis`, `REDIS_HOST=redis`).
 ##### 4. Then just build the images and containers 
  ```bash
     docker-compose up -d --build
 ```
+   You can validate the cache infrastructure with `docker compose exec php php artisan redis:ping`.
 ##### 5. check it at `app.localhost` (if you didn't change it)
 ##### 6. Submit a Pull Request
 Once you've pushed your changes, come back to this repository and submit a pull request. Make sure you include the following in your pull request:

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Domain\Passport\Models\Passport;
 use App\Models\User;
+use App\Observers\PassportObserver;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         if (env('APP_ENV') === 'production') {
             URL::forceScheme('https');
         }
+
+        Passport::observe(PassportObserver::class);
 
         Gate::define('viewPulse', function (User $user) {
             return $user->hasRole('admin');
@@ -71,18 +75,35 @@ class AppServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('api.v1.default', function (Request $request) {
-            $user = Auth::user();
-            $identifier = $user?->id ? 'user:'.$user->id : 'ip:'.$request->ip();
+            $user = $request->user();
+
+            if ($user && $user->subscription && $user->subscription->plan === 'premium') {
+                return Limit::perMinute(240)
+                    ->by('user:'.$user->id)
+                    ->response(fn () => $this->apiThrottleResponse());
+            }
+
+            if ($user) {
+                return Limit::perMinute(120)
+                    ->by('user:'.$user->id)
+                    ->response(fn () => $this->apiThrottleResponse());
+            }
 
             return Limit::perMinute(60)
-                ->by($identifier)
-                ->response(function () {
-                    return response()->json([
-                        'status' => 'error',
-                        'code' => 'rate_limit_exceeded',
-                        'message' => 'Too many requests. Please slow down and try again shortly.',
-                    ], 429);
-                });
+                ->by('ip:'.$request->ip())
+                ->response(fn () => $this->apiThrottleResponse());
         });
+    }
+
+    /**
+     * Standard JSON payload for throttled API responses.
+     */
+    protected function apiThrottleResponse()
+    {
+        return response()->json([
+            'status' => 'error',
+            'code' => 'rate_limit_exceeded',
+            'message' => 'Too many requests. Please slow down and try again shortly.',
+        ], 429);
     }
 }

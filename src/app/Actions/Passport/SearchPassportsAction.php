@@ -41,6 +41,8 @@ class SearchPassportsAction
 
         $cacheKey = CacheKeys::passportSearch($params->cacheKey());
 
-        return $this->cache->remember($cacheKey, $params->cacheTtl(), $resolver);
+        return $this->cache
+            ->tags(['passports', 'passports.search'])
+            ->remember($cacheKey, $params->cacheTtl(), $resolver);
     }
 }

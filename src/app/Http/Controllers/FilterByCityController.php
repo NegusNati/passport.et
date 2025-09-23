@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\PDFToSQLite;
+use App\Support\CacheKeys;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class FilterByCityController extends Controller
 {
@@ -18,9 +19,15 @@ class FilterByCityController extends Controller
         Log::info("in FilterByCityController");
 
 
-        $cities = Cache::remember('cities', 60 * 60, function () {
-            return PDFToSQLite::select('location')->distinct()->get();
-        });
+        $cities = Cache::tags(['passports', 'passports.locations'])
+            ->remember(CacheKeys::locationsList(), 60 * 60, function () {
+                return PDFToSQLite::query()
+                    ->select('location')
+                    ->whereNotNull('location')
+                    ->distinct()
+                    ->orderBy('location')
+                    ->pluck('location');
+            });
         Log::info($cities);
         return Inertia::render('Passport/ByLocation/Index',  [
             'cities' => $cities,
@@ -45,11 +52,14 @@ class FilterByCityController extends Controller
         //     $query->where('location', 'LIKE', '%' . $location . '%');
         // }
 
-        $passports = Cache::remember("passports_location_{$location}_page_" . request('page', 1), 60, function () use ($location) {
-            return PDFToSQLite::where('location', $location)
+        $page = (int) request('page', 1);
+
+        $passports = Cache::tags(['passports', 'passports.locations'])
+            ->remember(CacheKeys::passportsByLocation($location, $page), 60, function () use ($location) {
+                return PDFToSQLite::where('location', $location)
                 ->orderBy('id', 'desc')
                 ->simplePaginate(50);
-        });
+            });
 
         $passports->setPath(url('/location/' . $location));
 
