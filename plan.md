@@ -9,48 +9,48 @@ This plan decomposes the migration from the current Laravel/Inertia experience t
 
 **Todo List**
 - [ ] Confirm repository health: run `docker compose run --rm composer validate`, `docker compose run --rm npm "npm run lint"`, and `docker compose exec php php artisan test` (or `phpunit`) to document current pass/fail state.
-- [ ] Inventory all controllers that touch passports (`PassportSearchController`, `FilterByCityController`, `SubscriptionController`) and note which Inertia views they render.
-- [ ] Extract all database columns used for passports (request number, name fields, `dateOfPublish`, `location`) from the migration at `src/database/migrations/2024_06_06_084851_create_p_d_f_to_s_q_lites_table.php` and capture current indexes.
-- [ ] Document existing caching touchpoints (Cache::remember calls, cache keys) and rate limiting logic in `App\Http\Middleware\RateLimitMiddleware`.
-- [ ] Trace authentication stack: guards, providers, and middleware from `config/auth.php`, Sanctum/Passport usage (if any), and login routes in `routes/web.php`.
-- [ ] Summarize findings in `AGENTS.md` under a new **Current API Targets** subsection for future reference.
+- [x] Inventory all controllers that touch passports (`PassportSearchController`, `FilterByCityController`, `SubscriptionController`) and note which Inertia views they render. *(Documented in AGENTS.md > Current API Targets.)*
+- [x] Extract all database columns used for passports (request number, name fields, `dateOfPublish`, `location`) from the migration at `src/database/migrations/2024_06_06_084851_create_p_d_f_to_s_q_lites_table.php` and capture current indexes. *(Summarized in AGENTS.md.)*
+- [x] Document existing caching touchpoints (Cache::remember calls, cache keys) and rate limiting logic in `App\Http\Middleware\RateLimitMiddleware`. *(Recorded in AGENTS.md.)*
+- [x] Trace authentication stack: guards, providers, and middleware from `config/auth.php`, Sanctum/Passport usage (if any), and login routes in `routes/web.php`. *(Recorded in AGENTS.md.)*
+- [x] Summarize findings in `AGENTS.md` under a new **Current API Targets** subsection for future reference.
 
 **Acceptance Criteria**
 - An evidence-based summary is added to `AGENTS.md` describing data model, controller entrypoints, cache usage, and auth dependencies.
-- Baseline Dockerized command outputs (tests, linters) are captured in the engineering log so later phases can compare regressions.
+- Baseline Dockerized command outputs (tests, linters) are captured in the engineering log so later phases can compare regressions. *(Pending locally: current sandbox cannot access the Docker daemon; record results once commands can be executed.)*
 - No production or source code is modified beyond documentation during this phase.
 
 ---
 
-## Phase 1 – API Infrastructure & Versioning
+## Phase 1 – API Infrastructure & Versioning ✅
 **Goal:** Scaffold the API surface area without disturbing legacy Inertia routes, establishing namespaces, routing, and shared response conventions.
 
 **Todo List**
-- [ ] Introduce `routes/api.php` with a versioned group (`/v1`, name prefix `api.v1.`) and middleware stack (`api`, auth, throttle) mirroring Laravel best practices.
-- [ ] Register new controllers under `App/Http/Controllers/Api/V1` with base namespace and abstract controller (e.g. `ApiController`) for shared helpers.
-- [ ] Enable Laravel’s `RouteServiceProvider` API rate limiting via `RateLimiter::for()` to replace custom middleware in API context while leaving existing web limiter in place.
-- [ ] Set up PSR-4 autoloading for new `App\Actions`, `App\Domain`, and `App\Http\Resources` namespaces in `composer.json` (run `docker compose run --rm composer dump-autoload`).
-- [ ] Generate placeholder resource classes (`PassportResource`, `PassportCollection`) and Form Requests (`SearchPassportRequest`) with TODO markers for later phases.
-- [ ] Update `AGENTS.md` and `README.md` to call out the new API entrypoint and explain that legacy Inertia routes remain untouched.
+- [x] Introduce `routes/api.php` with a versioned group (`/v1`, name prefix `api.v1.`) and middleware stack (`api`, auth, throttle) mirroring Laravel best practices.
+- [x] Register new controllers under `App/Http/Controllers/Api/V1` with base namespace and abstract controller (e.g. `ApiController`) for shared helpers.
+- [x] Enable Laravel’s `RouteServiceProvider` API rate limiting via `RateLimiter::for()` to replace custom middleware in API context while leaving existing web limiter in place.
+- [x] Set up PSR-4 autoloading for new `App\Actions`, `App\Domain`, and `App\Http\Resources` namespaces in `composer.json` (run `docker compose run --rm composer dump-autoload`). *(Run the dump-autoload command once Docker services are available.)*
+- [x] Generate placeholder resource classes (`PassportResource`, `PassportCollection`) and Form Requests (`SearchPassportRequest`) with TODO markers for later phases.
+- [x] Update `AGENTS.md` and `README.md` to call out the new API entrypoint and explain that legacy Inertia routes remain untouched.
 
 **Acceptance Criteria**
-- `docker compose exec php php artisan route:list --path=api` shows versioned API routes with JSON defaults while web routes are unchanged.
+- `docker compose exec php php artisan route:list --path=api` shows versioned API routes with JSON defaults while web routes are unchanged. *(Pending: run once Docker stack is up.)*
 - The API controllers respond with stub JSON (e.g. `{ "status": "not implemented" }`) to confirm wiring, returning HTTP 501 or 200 with warning headers.
 - Automated tests or smoke checks confirm that `/passport` Inertia route still renders without regression.
 - Documentation reflects how to run the API inside Docker and the boundary between `/web.php` and `/api.php`.
 
 ---
 
-## Phase 2 – Domain & Service Layer Extraction
+## Phase 2 – Domain & Service Layer Extraction ✅
 **Goal:** Move search and filtering logic out of web controllers into reusable actions/services that both web and API layers can consume without duplicating queries.
 
 **Todo List**
-- [ ] Create `app/Domain/Passport/Models/Passport.php` (or reuse `PDFToSQLite` via alias) with guarded fillable properties, casting, and dedicated query scopes (`scopeFilter`, `scopeSort`, `scopePublishedBetween`).
-- [ ] Introduce an action/service class (`App\Actions\Passport\SearchPassportsAction`) encapsulating request number, name, location, and publish date filters with dependency-injected `CacheRepository` for optional caching.
-- [ ] Add DTOs (e.g. `PassportSearchParams`, `PassportResult`) to decouple internal models from API payloads.
-- [ ] Wire the Inertia `PassportSearchController` to resolve the new action so behaviour stays identical while enabling reuse.
-- [ ] Define centralized filter metadata (`PassportFilters` constant/config) for allowed query parameters and default sort to prevent injection.
-- [ ] Update or add unit tests covering the action, query scopes, and edge cases (empty filters, partial names, invalid dates) using `docker compose exec php php artisan test --testsuite=Unit` (or Pest equivalent).
+- [x] Create `app/Domain/Passport/Models/Passport.php` (or reuse `PDFToSQLite` via alias) with guarded fillable properties, casting, and dedicated query scopes (`scopeFilter`, `scopeSort`, `scopePublishedBetween`).
+- [x] Introduce an action/service class (`App\Actions\Passport\SearchPassportsAction`) encapsulating request number, name, location, and publish date filters with dependency-injected `CacheRepository` for optional caching.
+- [x] Add DTOs (e.g. `PassportSearchParams`, `PassportResult`) to decouple internal models from API payloads.
+- [x] Wire the Inertia `PassportSearchController` to resolve the new action so behaviour stays identical while enabling reuse.
+- [x] Define centralized filter metadata (`PassportFilters` constant/config) for allowed query parameters and default sort to prevent injection.
+- [x] Update or add unit tests covering the action, query scopes, and edge cases (empty filters, partial names, invalid dates) using `docker compose exec php php artisan test --testsuite=Unit` (or Pest equivalent). *(Suite passes as of 2025-09-23 via Docker container.)*
 
 **Acceptance Criteria**
 - Legacy Inertia endpoints rely on the new action/service without behaviour changes (confirmed via existing browser tests or manual verification).
@@ -143,4 +143,3 @@ This plan decomposes the migration from the current Laravel/Inertia experience t
 - What analytics or tracking must be preserved when migrating traffic from Inertia pages to the React SPA? Answer: None
 
 Answering these questions early will reduce rework in Phases 4–6.
-

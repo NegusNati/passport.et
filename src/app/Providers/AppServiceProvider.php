@@ -70,7 +70,19 @@ class AppServiceProvider extends ServiceProvider
             });
         });
 
-        
-        
+        RateLimiter::for('api.v1.default', function (Request $request) {
+            $user = Auth::user();
+            $identifier = $user?->id ? 'user:'.$user->id : 'ip:'.$request->ip();
+
+            return Limit::perMinute(60)
+                ->by($identifier)
+                ->response(function () {
+                    return response()->json([
+                        'status' => 'error',
+                        'code' => 'rate_limit_exceeded',
+                        'message' => 'Too many requests. Please slow down and try again shortly.',
+                    ], 429);
+                });
+        });
     }
 }

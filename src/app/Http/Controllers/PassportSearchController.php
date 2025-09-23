@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
+use App\Actions\Passport\SearchPassportsAction;
+use App\Domain\Passport\Data\PassportSearchParams;
 use App\Models\PDFToSQLite;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
-
-use function Pest\Laravel\get;
+use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class PassportSearchController extends Controller
 {
+    public function __construct(private SearchPassportsAction $searchPassports)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -49,33 +53,8 @@ class PassportSearchController extends Controller
     public function show(Request $request)
     {
 
-        $query = PDFToSQLite::query();
-        $requestNumber = $request->input('requestNumber');
-        $firstName = $request->input('firstName');
-        $middleName = $request->input('middleName');
-        $lastName = $request->input('lastName');
-
-        $query->when($requestNumber, function ($q) use ($requestNumber) {
-            return $q->where('requestNumber', 'LIKE', $requestNumber . '%');
-        })
-            ->when(!$requestNumber && ($firstName || $middleName || $lastName), function ($q) use ($firstName, $middleName, $lastName) {
-                return $q->where(function ($subQ) use ($firstName, $middleName, $lastName) {
-                    $subQ->when($firstName, function ($q) use ($firstName) {
-                        return $q->where('firstName', 'LIKE', $firstName . '%');
-                    })
-                        ->when($middleName, function ($q) use ($middleName) {
-                            return $q->where('middleName', 'LIKE', $middleName . '%');
-                        })
-                        ->when($lastName, function ($q) use ($lastName) {
-                            return $q->where('lastName', 'LIKE', $lastName . '%');
-                        });
-                });
-            });
-
-            
-
-        $passports = $query->limit(60)->get();
-
+        $params = PassportSearchParams::fromRequest($request, 'web');
+        $passports = $this->searchPassports->execute($params);
 
         return Inertia::render(
             'Passport/Show',

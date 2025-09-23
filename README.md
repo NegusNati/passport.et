@@ -37,8 +37,14 @@ https://github.com/NegusNati/passport-site/assets/84500378/3564eea0-9faf-4a6a-b2
   - Detailed info about your Passport and where to pick it up
  <img src="https://github.com/NegusNati/Airbnb-Experiences-Clone/assets/84500378/8d8ec474-db7f-41ac-b428-19988054924d">
 
-  - Paginated list of Latest Passport ready for pick up 
+ - Paginated list of Latest Passport ready for pick up 
  <img src="https://github.com/NegusNati/Airbnb-Experiences-Clone/assets/84500378/ae3132ca-28f6-43cc-b342-1e2322eb18b7">
+
+
+## API v1 (work in progress)
+- Versioned API routes now live under `src/routes/api.php` and are mounted at `/api/v1/*`.
+- Stub controllers in `App\Http\Controllers\Api\V1` currently return placeholder JSON while the domain layer is extracted.
+- Apply the `api` middleware stack plus the new `throttle:api.v1.default` limiter to keep behaviour isolated from the legacy Inertia flows.
 
 
 
@@ -77,4 +83,3 @@ If you encounter a bug or have a feature request, please open an issue on the re
 
 ## Follow me for updates
  [Telegram](https://t.me/negusnatiChannel)
-
