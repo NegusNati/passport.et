@@ -13,8 +13,16 @@ class PassportResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'status' => 'not_implemented',
-            'message' => 'Passport resource transformation pending domain extraction.',
+            'id' => $this->id,
+            'request_number' => $this->requestNumber,
+            'first_name' => $this->firstName,
+            'middle_name' => $this->middleName,
+            'last_name' => $this->lastName,
+            'full_name' => trim(collect([$this->firstName, $this->middleName, $this->lastName])->filter()->join(' ')),
+            'location' => $this->location,
+            'date_of_publish' => optional($this->dateOfPublish)->toDateString(),
+            'created_at' => optional($this->created_at)->toIso8601String(),
+            'updated_at' => optional($this->updated_at)->toIso8601String(),
         ];
     }
 }

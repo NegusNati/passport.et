@@ -14,14 +14,17 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        Permission::create(['name' => 'upload-files']);
+        $permission = Permission::findOrCreate('upload-files', 'web');
 
-        // Create roles and assign permissions
-        $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo('upload-files');
+        $role = Role::findOrCreate('admin', 'web');
 
+        if (! $role->hasPermissionTo($permission)) {
+            $role->givePermissionTo($permission);
+        }
 
         $user = \App\Models\User::find(1);
-        $user->assignRole($role);
+        if ($user && ! $user->hasRole($role->name)) {
+            $user->assignRole($role);
+        }
     }
 }

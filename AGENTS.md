@@ -22,6 +22,12 @@ This document summarizes the strategy for turning the existing Laravel/Inertia p
 - Centralized filter metadata and cache helpers live in `App\Support\PassportFilters` and `App\Support\CacheKeys`; search caching uses hashed keys with 60-second TTL (overrideable later).
 - New Pest unit tests under `tests/Unit/Domain/Passport/PassportSearchTest.php` cover request-number filtering, date/location filters, and the action’s pagination behaviour to guard against regressions as the API layer adopts the service.
 
+### Phase 3 Progress Log
+- `/api/v1/passports` now resolves through `PassportController`, reusing `SearchPassportsAction` with API-specific validation (`SearchPassportRequest`) and returning `PassportCollection` resources that expose consistent `data`, `meta`, `links`, and a `filters` echo for the React client.
+- `/api/v1/passports/{id}` surfaces individual records through `PassportResource`, while `/api/v1/locations` serves cached distinct locations (`api.v1.locations` key, 5‑minute TTL).
+- `PassportResource` now shapes fields for API consumers (normalized names, ISO timestamps) and `PassportCollection` adds `meta.has_more` for paginated responses while tracking counts for non-paginated searches.
+- Feature coverage added in `tests/Feature/Api/PassportApiTest.php` validating pagination metadata, filtering semantics, detail responses, and location listings. Run via `docker compose exec php php artisan test --testsuite=Feature --filter=Api`.
+
 Use the observations above to drive the migration plan and as regression targets when testing the new API surface.
 
 ## 2. Migration Strategy Overview

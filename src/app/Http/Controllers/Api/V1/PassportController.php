@@ -2,32 +2,36 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Actions\Passport\SearchPassportsAction;
+use App\Domain\Passport\Data\PassportSearchParams;
+use App\Domain\Passport\Models\Passport;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Passport\SearchPassportRequest;
+use App\Http\Resources\PassportCollection;
+use App\Http\Resources\PassportResource;
 
 class PassportController extends ApiController
 {
-    /**
-     * Placeholder index endpoint until the domain layer is extracted.
-     */
-    public function index(SearchPassportRequest $request)
+    public function __construct(private SearchPassportsAction $searchPassports)
     {
-        return $this->respond([
-            'status' => 'not_implemented',
-            'message' => 'Passport search API will be available once Phase 2 is complete.',
-            'filters' => $request->validated(),
-        ], 501);
     }
 
-    /**
-     * Placeholder show endpoint for individual passport details.
-     */
+    public function index(SearchPassportRequest $request)
+    {
+        $params = PassportSearchParams::fromArray($request->validated(), 'api');
+        $results = $this->searchPassports->execute($params);
+
+        $resource = (new PassportCollection($results))->additional([
+            'filters' => array_filter($params->filters()),
+        ]);
+
+        return $this->respond($resource);
+    }
+
     public function show(string $passport)
     {
-        return $this->respond([
-            'status' => 'not_implemented',
-            'message' => 'Passport detail API will be available once Phase 3 is complete.',
-            'id' => $passport,
-        ], 501);
+        $model = Passport::query()->findOrFail($passport);
+
+        return $this->respond(new PassportResource($model));
     }
 }

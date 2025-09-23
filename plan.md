@@ -60,16 +60,16 @@ This plan decomposes the migration from the current Laravel/Inertia experience t
 
 ---
 
-## Phase 3 – Passport & Location API Endpoints
+## Phase 3 – Passport & Location API Endpoints ✅
 **Goal:** Deliver production-ready JSON endpoints that power the React table with dynamic filters while keeping pagination and caching consistent.
 
 **Todo List**
-- [ ] Implement `GET /api/v1/passports` returning a paginated `PassportCollection` with filter params (`request_number`, `full_name`, `location`, `published_after`, `published_before`) mapped from query strings.
-- [ ] Provide `GET /api/v1/passports/{id}` for detailed view parity, reusing the action/service and `PassportResource` serializer.
-- [ ] Add `GET /api/v1/locations` (and optional autocomplete endpoint) leveraging cached city lists with cache tags for invalidation.
-- [ ] Ensure pagination uses `LengthAwarePaginator` with `links` and `meta` keys matching the React client expectations; include `per_page`, `current_page`, `total`, and `has_more`.
-- [ ] Normalize name searches server-side (trim, uppercase, diacritics) and request numbers (strip whitespace) before querying.
-- [ ] Add feature tests covering success scenarios, empty results, validation failures, and unauthorized requests (where applicable) via `docker compose exec php php artisan test --testsuite=Feature`.
+- [x] Implement `GET /api/v1/passports` returning a paginated `PassportCollection` with filter params (`request_number`, `full_name`, `location`, `published_after`, `published_before`) mapped from query strings.
+- [x] Provide `GET /api/v1/passports/{id}` for detailed view parity, reusing the action/service and `PassportResource` serializer.
+- [x] Add `GET /api/v1/locations` (and optional autocomplete endpoint) leveraging cached city lists with cache tags for invalidation.
+- [x] Ensure pagination uses `LengthAwarePaginator` with `links` and `meta` keys matching the React client expectations; include `per_page`, `current_page`, `total`, and `has_more`.
+- [x] Normalize name searches server-side (trim, uppercase, diacritics) and request numbers (strip whitespace) before querying.
+- [x] Add feature tests covering success scenarios, empty results, validation failures, and unauthorized requests (where applicable) via `docker compose exec php php artisan test --testsuite=Feature --filter=Api`.
 
 **Acceptance Criteria**
 - Automated feature tests demonstrate filtering by request number, partial name, location, and publish date, matching fixtures or seeded test data.
