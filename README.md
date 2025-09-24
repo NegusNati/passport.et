@@ -75,6 +75,11 @@ After workers come up, confirm Horizon is running:
  ```
 
 If you enable Telegram alerts for Horizon failures, remember to set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in your environment. The listener will automatically forward `JobFailed` and long-wait events once your bot is configured.
+Install the Telegram notification channel package if you haven’t already:
+
+```bash
+docker compose exec php composer require laravel-notification-channels/telegram
+```
 ##### 5. check it at `app.localhost` (if you didn't change it)
 ##### 6. Submit a Pull Request
 Once you've pushed your changes, come back to this repository and submit a pull request. Make sure you include the following in your pull request:

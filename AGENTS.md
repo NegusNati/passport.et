@@ -46,7 +46,7 @@ This document summarizes the strategy for turning the existing Laravel/Inertia p
 ### Phase 6 – Quality Gates, Monitoring & Rollout
 - GitHub Actions workflow (`.github/workflows/ci.yml`) now runs migrations, unit & API feature tests, PHPStan, Pint, asset builds, and a Horizon status check on each push/PR.
 - Horizon dashboard is deployed alongside Laravel Pulse, guarded by the admin role, and documented checks (`README.md`).
-- Horizon events trigger optional Telegram alerts via `laravel-notification-channels/telegram` listener (`NotifyHorizonViaTelegram`, `HorizonTelegramNotification`); credentials live in `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` env vars.
+- Horizon events trigger optional Telegram alerts via `NotifyHorizonViaTelegram` (`JobFailed`, `JobProcessing`, `LongWaitDetected`) and new-user notifications via `NotifyTelegramUserRegistered`; credentials live in `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` env vars.
 - Added `tests/Performance/PassportLoadTest.js` for k6 smoke testing; instructions are in the README.
 - Rollout & fallback playbook lives in `docs/rollout.md`, covering pre-deploy verification, post-deploy smoke tests, and rollback steps.
 

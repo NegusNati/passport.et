@@ -35,9 +35,15 @@ return [
         ],
     ],
 
-    'telegram-bot' => [
-        'token' => env('TELEGRAM_BOT_TOKEN'),
-        'chat_id' => env('TELEGRAM_CHAT_ID'),
+    'telegram-bot-api' => [
+        'token' => env('TELEGRAM_BOT_TOKEN','8406389508:AAE2sdOiL8On9XTZqPLDtEsiVUV61j4orGg'),
+        'chat_id' => env('TELEGRAM_CHAT_ID','525232375')
     ],
+
+    'telegram-bot' => [
+        'token' => env('TELEGRAM_BOT_TOKEN','8406389508:AAE2sdOiL8On9XTZqPLDtEsiVUV61j4orGg'),
+        'chat_id' => env('TELEGRAM_CHAT_ID','525232375'),
+    ],
+
 
 ];
