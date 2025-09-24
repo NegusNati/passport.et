@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: '20'
 
-      - uses: actions/setup-php@v4
+      - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
           extensions: pcntl, redis, pdo_mysql
