@@ -16,9 +16,9 @@ jobs:
         ports: ['6379:6379']
         options: >-
           --health-cmd "redis-cli ping"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 5
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=5
       mysql:
         image: mariadb:11.0
         env:
@@ -27,9 +27,9 @@ jobs:
         ports: ['3306:3306']
         options: >-
           --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -proot"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - uses: actions/checkout@v4
