@@ -13,9 +13,9 @@ jobs:
     services:
       redis:
         image: redis:7-alpine
-        ports: ['6379:6379']
+        ports: ['36379:6379']
         options: >-
-          --health-cmd "redis-cli ping"
+          --health-cmd "redis-cli -p 6379 ping"
           --health-interval=5s
           --health-timeout=5s
           --health-retries=5
@@ -24,9 +24,9 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: laravel
-        ports: ['3306:3306']
+        ports: ['33306:3306']
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -proot"
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -P 3306 -u root -proot"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -68,7 +68,7 @@ jobs:
         env:
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
-          DB_PORT: 3306
+          DB_PORT: 33306
           DB_DATABASE: laravel
           DB_USERNAME: root
           DB_PASSWORD: root
@@ -76,6 +76,7 @@ jobs:
           CACHE_STORE: redis
           SESSION_DRIVER: redis
           REDIS_HOST: 127.0.0.1
+          REDIS_PORT: 36379
         run: php artisan migrate --force
 
       - name: Run unit tests
@@ -101,4 +102,5 @@ jobs:
           CACHE_STORE: redis
           SESSION_DRIVER: redis
           REDIS_HOST: 127.0.0.1
+          REDIS_PORT: 36379
         run: php artisan horizon:status || php artisan horizon:status || true
