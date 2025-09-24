@@ -68,6 +68,11 @@ Start by forking the repository to your GitHub account.
     docker-compose up -d --build
 ```
    You can validate the cache infrastructure with `docker compose exec php php artisan redis:ping`.
+##### 5. Horizon health check
+After workers come up, confirm Horizon is running:
+ ```bash
+    docker compose exec php php artisan horizon:status
+ ```
 ##### 5. check it at `app.localhost` (if you didn't change it)
 ##### 6. Submit a Pull Request
 Once you've pushed your changes, come back to this repository and submit a pull request. Make sure you include the following in your pull request:

@@ -102,12 +102,12 @@ This plan decomposes the migration from the current Laravel/Inertia experience t
 **Goal:** Introduce Redis to handle caching, queues, and rate limiting, replacing ad-hoc Cache usage and enabling efficient invalidation.
 
 **Todo List**
-- [ ] Add a `redis` service to both `docker-compose.yml` and `docker-compose.prod.yml`, with environment variables (`REDIS_HOST`, `REDIS_PASSWORD`) propagated to `.env` and `.env.example`.
-- [ ] Configure Laravel cache, session, queue, and rate limiting stores to use Redis in `config/cache.php`, `config/queue.php`, and `App\Providers\RouteServiceProvider`.
-- [ ] Refactor cache usages (`Cache::remember`) to leverage tags (`Cache::tags(['passports'])`) and centralized key naming constants (`App\Support\CacheKeys`).
+- [x] Add a `redis` service to both `docker-compose.yml` and `docker-compose.prod.yml`, with environment variables (`REDIS_HOST`, `REDIS_PASSWORD`) propagated to `.env` and `.env.example`.
+- [x] Configure Laravel cache, session, queue, and rate limiting stores to use Redis in `config/cache.php`, `config/queue.php`, and `App\Providers\RouteServiceProvider`.
+- [x] Refactor cache usages (`Cache::remember`) to leverage tags (`Cache::tags(['passports'])`) and centralized key naming constants (`App\Support\CacheKeys`).
 - [x] Replace `RateLimitMiddleware` with Laravel’s `RateLimiter` definitions using Redis backend and guard against unauthenticated users (IP-based fallback). *(API limiter now differentiates premium/auth/guest thresholds in `App\Providers\AppServiceProvider`.)*
-- [ ] Implement observers or events to clear relevant cache tags after passport imports or updates.
-- [ ] Add smoke tests or artisan commands verifying Redis connectivity inside containers (e.g. `docker compose exec php php artisan cache:clear`, `php artisan tinker` connection checks).
+- [x] Implement observers or events to clear relevant cache tags after passport imports or updates.
+- [x] Add smoke tests or artisan commands verifying Redis connectivity inside containers (e.g. `docker compose exec php php artisan cache:clear`, `php artisan tinker` connection checks).
 
 **Acceptance Criteria**
 - Local and CI Docker environments start with Redis running alongside existing services; `docker compose exec php php artisan tinker --execute='cache()->getStore() instanceof Illuminate\\Cache\\RedisStore'` returns `true`.

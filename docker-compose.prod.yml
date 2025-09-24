@@ -122,6 +122,23 @@ services:
     entrypoint: ["php", "/var/www/html/artisan"]
     networks:
       - laravel
+
+  horizon:
+    build:
+      context: ./dockerfiles
+      dockerfile: php.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    command: ["php", "/var/www/html/artisan", "horizon"]
+    volumes:
+      - ./src:/var/www/html:delegated
+    depends_on:
+      - redis
+      - mysql
+    restart: unless-stopped
+    networks:
+      - laravel
   traefik:
     image: traefik:v3.1
     # command: --api.insecure=true --providers.docker --entrypoints.web.address=:8081

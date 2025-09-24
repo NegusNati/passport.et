@@ -36,9 +36,7 @@ class AppServiceProvider extends ServiceProvider
 
         Passport::observe(PassportObserver::class);
 
-        Gate::define('viewPulse', function (User $user) {
-            return $user->hasRole('admin');
-        });
+        $this->defineGates();
 
         RateLimiter::for('rateLimiter', function ($request) {
             $user = Auth::user();
@@ -105,5 +103,16 @@ class AppServiceProvider extends ServiceProvider
             'code' => 'rate_limit_exceeded',
             'message' => 'Too many requests. Please slow down and try again shortly.',
         ], 429);
+    }
+
+    protected function defineGates(): void
+    {
+        Gate::define('viewPulse', function (User $user) {
+            return $user->hasRole('admin');
+        });
+
+        Gate::define('viewHorizon', function (User $user) {
+            return $user->hasRole('admin');
+        });
     }
 }

@@ -1,4 +1,4 @@
-FROM php:8-fpm-alpine
+FROM php:8.3-fpm-alpine
 
 RUN mkdir -p /var/www/html
 
@@ -11,7 +11,7 @@ RUN sed -i "s/group = www-data/group = root/g" /usr/local/etc/php-fpm.d/www.conf
 RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 
 RUN apk add --no-cache $PHPIZE_DEPS \
-    && docker-php-ext-install pdo pdo_mysql \
+    && docker-php-ext-install pdo pdo_mysql pcntl \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && apk del $PHPIZE_DEPS
