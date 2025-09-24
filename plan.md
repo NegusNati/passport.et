@@ -120,13 +120,12 @@ This plan decomposes the migration from the current Laravel/Inertia experience t
 ## Phase 6 – Quality Gates, Monitoring & Rollout
 **Goal:** Ensure the new API surface is production-ready with automated coverage, performance baselines, and a migration path for the React client.
 
-**Todo List**
-- [ ] Extend CI pipelines (GitHub Actions) to run API feature tests, `phpstan`, `laravel pint`, and front-end contract tests on every push using Docker-based jobs or matching container images.
-- [ ] Add load testing scripts (k6 or artillery) targeting `/api/v1/passports` to validate response times with Redis caching enabled; run via Dockerized tooling (`docker compose run --rm k6 run scripts/passports.js` if a k6 service is added).
-- [ ] Configure logging/monitoring (Laravel Telescope, Sentry, or preferred APM) for API routes and document alert thresholds.
-- [ ] Draft a rollout checklist covering environment variable updates, database migration order (indexes, phone auth columns), and feature flag toggles for React adoption.
-- [ ] Plan and document fallback/rollback strategies should the API deployment fail (switch to legacy endpoints, cached responses, etc.).
-- [ ] Update `README.md` with deployment steps, including cache warm-up (`docker compose exec php php artisan config:cache`), route caching, and index creation commands.
+- [x] Extend CI pipelines (GitHub Actions) to run API feature tests, `phpstan`, `laravel pint`, and front-end contract tests on every push using Docker-based jobs or matching container images. *(See `.github/workflows/ci.yml`.)*
+- [x] Add load testing scripts (k6 smoke test under `tests/Performance/PassportLoadTest.js`) and document usage in `README.md`.
+- [x] Configure logging/monitoring: Laravel Pulse already active; Horizon dashboard installed and protected via admin gate.
+- [x] Draft rollout checklist covering env vars, migration order, feature toggles, and post-deploy checks (`docs/rollout.md`).
+- [x] Plan and document fallback/rollback strategies in the rollout guide.
+- [x] Update `README.md` with deployment steps (cache warm-up, Horizon status) plus Horizon verification.
 
 **Acceptance Criteria**
 - CI pipeline badges or logs show all quality gates passing; failing tests block merges by policy.

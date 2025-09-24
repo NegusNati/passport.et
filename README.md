@@ -73,6 +73,8 @@ After workers come up, confirm Horizon is running:
  ```bash
     docker compose exec php php artisan horizon:status
  ```
+
+If you enable Telegram alerts for Horizon failures, remember to set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in your environment. The listener will automatically forward `JobFailed` and long-wait events once your bot is configured.
 ##### 5. check it at `app.localhost` (if you didn't change it)
 ##### 6. Submit a Pull Request
 Once you've pushed your changes, come back to this repository and submit a pull request. Make sure you include the following in your pull request:
@@ -90,3 +92,13 @@ If you encounter a bug or have a feature request, please open an issue on the re
 
 ## Follow me for updates
  [Telegram](https://t.me/negusnatiChannel)
+
+### Load Testing
+
+Run a k6 smoke test against the API (requires k6 installed locally):
+
+```bash
+BASE_URL=http://app.localhost k6 run tests/Performance/PassportLoadTest.js
+```
+
+Adjust `BASE_URL` to your staging/prod domain before running a heavier test.
