@@ -22,3 +22,6 @@ Route::prefix('v1')
         Route::get('/passports/{passport}', [PassportController::class, 'show'])->name('passports.show');
         Route::get('/locations', [LocationController::class, 'index'])->name('locations.index');
     });
+
+
+    
