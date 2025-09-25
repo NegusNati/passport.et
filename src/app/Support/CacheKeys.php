@@ -28,4 +28,30 @@ class CacheKeys
     {
         return 'passports.locations.list';
     }
+
+    // Articles
+    public static function articleSearch(string $hash): string
+    {
+        return "articles.search.$hash";
+    }
+
+    public static function articlesList(int $page): string
+    {
+        return "articles.list.page.$page";
+    }
+
+    public static function articlesByCategory(string $categorySlug, int $page): string
+    {
+        return sprintf('articles.category.%s.page.%d', md5($categorySlug), $page);
+    }
+
+    public static function categoriesList(): string
+    {
+        return 'articles.categories.list';
+    }
+
+    public static function tagsList(): string
+    {
+        return 'articles.tags.list';
+    }
 }

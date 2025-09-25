@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Domain\Passport\Models\Passport;
 use App\Models\User;
+use App\Domain\Article\Models\Article;
+use App\Observers\ArticleObserver;
 use App\Observers\PassportObserver;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -35,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Passport::observe(PassportObserver::class);
+        Article::observe(ArticleObserver::class);
 
         $this->defineGates();
 
@@ -113,6 +116,10 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('viewHorizon', function (User $user) {
             return $user->hasRole('admin');
+        });
+
+        Gate::define('manage-articles', function (User $user) {
+            return method_exists($user, 'hasRole') ? $user->hasRole('admin') : true;
         });
     }
 }

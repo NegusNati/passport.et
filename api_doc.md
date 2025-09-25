@@ -10,6 +10,90 @@ These endpoints power the React client for listing and searching passports and f
 
 ## Endpoints
 
+### GET /articles
+List and search public articles (published only). Paginated by default.
+
+Query parameters
+- `q` (string): Free-text search in title/excerpt/content (prefix + contains).
+- `category` (string): Category slug to filter by.
+- `tag` (string): Tag slug to filter by.
+- `published_after` / `published_before` (YYYY-MM-DD)
+- `per_page`, `page` (pagination)
+- `sort` (published_at|created_at|updated_at|title), `sort_dir` (asc|desc)
+
+Response
+```
+200 OK
+{
+  "data": [
+    {
+      "id": 1,
+      "slug": "how-to-apply-passport",
+      "title": "How to Apply for a Passport",
+      "excerpt": "A step-by-step guide...",
+      "content": "<p>Rich HTML...</p>",
+      "featured_image_url": "https://cdn.example.com/hero.jpg",
+      "canonical_url": "https://site.example.com/articles/how-to-apply-passport",
+      "meta_title": "Apply for a Passport (2025 Guide)",
+      "meta_description": "Step-by-step passport application guide.",
+      "og_image_url": "https://cdn.example.com/og.jpg",
+      "status": "published",
+      "published_at": "2025-09-24T10:00:00Z",
+      "reading_time": 5,
+      "word_count": 1120,
+      "author": { "id": 3, "name": "Admin" },
+      "tags": [{"id":2,"name":"Guides","slug":"guides"}],
+      "categories": [{"id":1,"name":"Passports","slug":"passports"}],
+      "created_at": "2025-09-20T12:45:00Z",
+      "updated_at": "2025-09-24T10:00:00Z"
+    }
+  ],
+  "links": {"first":"...","last":"...","prev":"...","next":"..."},
+  "meta": {"current_page":1,"per_page":20,"total":123,"last_page":7,"has_more":true},
+  "filters": {"q":"passport","category":null,"tag":null}
+}
+```
+
+Examples
+- `GET /api/v1/articles?q=passport&per_page=20&page=1&sort=published_at&sort_dir=desc`
+- `GET /api/v1/articles?category=passports&tag=guides`
+
+SEO tips
+- React page should render `<title>`, `<meta name=description>`, and `<link rel=canonical>` using `meta_title`, `meta_description`, `canonical_url`.
+- Expose structured data (JSON‑LD Article) in the React page using these fields for faster indexing.
+
+### GET /articles/{slug}
+Fetch one article by slug.
+
+```
+200 OK
+{ "data": { /* same shape as in list */ } }
+```
+
+### GET /categories
+List active categories (with published article counts).
+
+```
+200 OK
+{ "data": [{"id":1,"name":"Passports","slug":"passports","articles_count": 42}], "meta": {"count": 5} }
+```
+
+### GET /tags
+List active tags (with published article counts).
+
+```
+200 OK
+{ "data": [{"id":2,"name":"Guides","slug":"guides","articles_count": 18}], "meta": {"count": 12} }
+```
+
+### GET /feeds/articles.rss (XML)
+RSS 2.0 feed of the latest 50 published articles.
+- Content-Type: `application/rss+xml; charset=UTF-8`
+
+### GET /feeds/articles.atom (XML)
+Atom 1.0 feed of the latest 50 published articles.
+- Content-Type: `application/atom+xml; charset=UTF-8`
+
 ### GET /passports
 List and search passports. In API context, responses are paginated by default.
 
@@ -143,6 +227,20 @@ export const fetchPassport = (id) =>
   client.get(`/passports/${id}`).then((r) => r.data);
 ```
 
+Articles client (add a new module): `src/resources/js/api/articles.js`
+```js
+import axios from "axios";
+
+const client = axios.create({ baseURL: "/api/v1", headers: { Accept: "application/json" } });
+
+export const fetchArticles = (params = {}) => client.get("/articles", { params }).then(r => r.data);
+export const fetchArticle = (slug) => client.get(`/articles/${slug}`).then(r => r.data);
+export const fetchCategories = () => client.get("/categories").then(r => r.data);
+export const fetchTags = () => client.get("/tags").then(r => r.data);
+
+export default { fetchArticles, fetchArticle, fetchCategories, fetchTags };
+```
+
 ### Table with Pagination (React Query example)
 ```jsx
 import { useQuery } from "@tanstack/react-query";
@@ -243,6 +341,54 @@ function LocationFilter({ value, onChange }) {
   );
 }
 ```
+
+### Articles Listing with Filters (React Query example)
+```jsx
+import { useQuery } from "@tanstack/react-query";
+import api from "../../resources/js/api/articles";
+
+export default function ArticlesPage() {
+  const [page, setPage] = useState(1);
+  const [q, setQ] = useState("");
+  const [category, setCategory] = useState("");
+  const [tag, setTag] = useState("");
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["articles", { page, q, category, tag }],
+    queryFn: () => api.fetchArticles({ per_page: 20, page, q, category, tag }),
+    keepPreviousData: true,
+  });
+
+  if (isLoading) return <div>Loading…</div>;
+  const rows = data.data;
+  const meta = data.meta;
+
+  return (
+    <div>
+      <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" />
+      <select value={category} onChange={(e) => setCategory(e.target.value)}>{/* populate from /categories */}</select>
+      <select value={tag} onChange={(e) => setTag(e.target.value)}>{/* populate from /tags */}</select>
+      <ul>
+        {rows.map((a) => (
+          <li key={a.id}>
+            <a href={`/articles/${a.slug}`}>{a.title}</a>
+          </li>
+        ))}
+      </ul>
+      <button disabled={meta.current_page <= 1} onClick={() => setPage(p => p - 1)}>Prev</button>
+      <button disabled={!meta.has_more} onClick={() => setPage(p => p + 1)}>Next</button>
+    </div>
+  );
+}
+```
+
+## Seed Data & Sitemap
+- Seed categories, tags, and sample articles:
+  - `docker compose exec php php artisan db:seed --class=CategoryTagSeeder`
+  - `docker compose exec php php artisan db:seed --class=ArticleSeeder`
+- Sitemap generation (daily via scheduler): `docker compose exec php php artisan app:generate-sitemap`
+  - Output: `public/sitemap.xml` (robots.txt already points to it)
+
 
 
 ## Errors
