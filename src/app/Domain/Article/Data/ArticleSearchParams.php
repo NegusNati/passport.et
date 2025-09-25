@@ -12,6 +12,7 @@ class ArticleSearchParams
 {
     public function __construct(
         protected string $context, // api_public|api_admin
+        protected ?string $title,
         protected ?string $q,
         protected ?string $category,
         protected ?string $tag,
@@ -38,6 +39,7 @@ class ArticleSearchParams
 
         return new self(
             context: $context,
+            title: $n['title'] ?? null,
             q: $n['q'] ?? null,
             category: $n['category'] ?? null,
             tag: $n['tag'] ?? null,
@@ -59,6 +61,7 @@ class ArticleSearchParams
     public function filters(): array
     {
         return [
+            'title' => $this->title,
             'q' => $this->q,
             'category' => $this->category,
             'tag' => $this->tag,
@@ -99,6 +102,7 @@ class ArticleSearchParams
     {
         $payload = Arr::dot($payload);
         $map = [
+            'title' => ['title'],
             'q' => ['q', 'query', 'search'],
             'category' => ['category', 'category_slug'],
             'tag' => ['tag', 'tag_slug'],
@@ -129,7 +133,7 @@ class ArticleSearchParams
     protected static function cleanValue(string $key, mixed $value): mixed
     {
         if (is_string($value)) $value = trim($value);
-        if ($key === 'q') return $value ? Str::of($value)->squish()->toString() : null;
+        if (in_array($key, ['q','title'], true)) return $value ? Str::of($value)->squish()->toString() : null;
         if (in_array($key, ['category','tag','status'], true)) return $value ?: null;
         if (in_array($key, ['published_after','published_before'], true)) {
             if (! $value) return null;
@@ -148,4 +152,3 @@ class ArticleSearchParams
         return true; // API defaults to pagination
     }
 }
-

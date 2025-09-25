@@ -69,7 +69,9 @@ class Article extends Model
     {
         $filters = $params->filters();
 
-        if ($filters['q']) {
+        if ($filters['title']) {
+            $query->where('title', 'like', $filters['title'].'%');
+        } elseif ($filters['q']) {
             $query->where(function (Builder $q) use ($filters) {
                 $q->where('title', 'like', $filters['q'].'%')
                   ->orWhere('title', 'like', '%'.$filters['q'].'%')
@@ -141,4 +143,3 @@ class Article extends Model
         return $slug;
     }
 }
-

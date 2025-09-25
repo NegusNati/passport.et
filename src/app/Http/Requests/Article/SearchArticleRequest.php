@@ -14,6 +14,7 @@ class SearchArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'title' => ['nullable', 'string', 'max:255'],
             'q' => ['nullable', 'string', 'max:255'],
             'category' => ['nullable', 'string', 'max:120'],
             'tag' => ['nullable', 'string', 'max:120'],
@@ -29,4 +30,3 @@ class SearchArticleRequest extends FormRequest
         ];
     }
 }
-

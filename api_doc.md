@@ -14,6 +14,7 @@ These endpoints power the React client for listing and searching passports and f
 List and search public articles (published only). Paginated by default.
 
 Query parameters
+- `title` (string): Prefix match on the title only (fast; uses index). If provided, this takes precedence over `q`.
 - `q` (string): Free-text search in title/excerpt/content (prefix + contains).
 - `category` (string): Category slug to filter by.
 - `tag` (string): Tag slug to filter by.
@@ -57,6 +58,7 @@ Response
 Examples
 - `GET /api/v1/articles?q=passport&per_page=20&page=1&sort=published_at&sort_dir=desc`
 - `GET /api/v1/articles?category=passports&tag=guides`
+- `GET /api/v1/articles?title=Passport` (title starts with "Passport")
 
 SEO tips
 - React page should render `<title>`, `<meta name=description>`, and `<link rel=canonical>` using `meta_title`, `meta_description`, `canonical_url`.
