@@ -37,10 +37,10 @@ class Passport extends Model
         $filters = $params->filters();
 
         if ($filters['request_number']) {
-            $query->where('requestNumber', 'like', $filters['request_number'].'%');
-        } else {
-            $this->applyNameFilters($query, $filters);
+            $query->where('requestNumber', 'like', $this->prefixPattern($filters['request_number']));
         }
+
+        $this->applyNameFilters($query, $filters);
 
         if ($filters['location']) {
             $query->where('location', $filters['location']);
@@ -83,17 +83,53 @@ class Passport extends Model
 
     protected function applyNameFilters(Builder $query, array $filters): void
     {
-        $query->when($filters['first_name'], function (Builder $q, string $value) {
-            $q->where('firstName', 'like', $value.'%');
-        });
+        $nameParts = [
+            'first' => $filters['first_name'] ?? null,
+            'middle' => $filters['middle_name'] ?? null,
+            'last' => $filters['last_name'] ?? null,
+        ];
 
-        $query->when($filters['middle_name'], function (Builder $q, string $value) {
-            $q->where('middleName', 'like', $value.'%');
-        });
+        $hasExplicit = false;
 
-        $query->when($filters['last_name'], function (Builder $q, string $value) {
-            $q->where('lastName', 'like', $value.'%');
-        });
+        foreach ($nameParts as $key => $value) {
+            if (! $value) {
+                continue;
+            }
+
+            $hasExplicit = true;
+
+            $column = match ($key) {
+                'first' => 'firstName',
+                'middle' => 'middleName',
+                default => 'lastName',
+            };
+
+            $query->where($column, 'like', $this->prefixPattern($value));
+        }
+
+        if (! $hasExplicit && isset($filters['name']) && $filters['name']) {
+            $tokens = preg_split('/\s+/u', $filters['name'], -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+            foreach ($tokens as $token) {
+                $token = Str::title($token);
+
+                $query->where(function (Builder $tokenQuery) use ($token) {
+                    $pattern = $this->prefixPattern($token);
+
+                    $tokenQuery
+                        ->where('firstName', 'like', $pattern)
+                        ->orWhere('middleName', 'like', $pattern)
+                        ->orWhere('lastName', 'like', $pattern);
+                });
+            }
+        }
+    }
+
+    protected function prefixPattern(string $value): string
+    {
+        $escaped = addcslashes($value, '%_');
+
+        return $escaped.'%';
     }
 
     /**

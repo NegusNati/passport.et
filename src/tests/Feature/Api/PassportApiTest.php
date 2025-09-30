@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\Passport\Models\Passport;
+use App\Support\PassportFilters;
 
 use function Pest\Laravel\getJson;
 
@@ -14,12 +15,14 @@ it('returns paginated passports with metadata', function () {
             'data' => [
                 '*' => ['id', 'request_number', 'first_name', 'last_name', 'location', 'date_of_publish'],
             ],
-            'meta' => ['current_page', 'per_page', 'total', 'last_page', 'has_more'],
+            'meta' => ['current_page', 'per_page', 'total', 'last_page', 'has_more', 'page_size', 'page_size_options'],
             'links' => ['first', 'last', 'prev', 'next'],
             'filters',
         ])
         ->assertJsonPath('meta.current_page', 2)
-        ->assertJsonPath('meta.per_page', 10);
+        ->assertJsonPath('meta.per_page', 10)
+        ->assertJsonPath('meta.page_size', 10)
+        ->assertJsonCount(count(PassportFilters::pageSizeOptions()), 'meta.page_size_options');
 });
 
 it('filters passports by request number via the api', function () {
@@ -31,6 +34,34 @@ it('filters passports by request number via the api', function () {
     $response->assertOk()
         ->assertJsonCount(1, 'data')
         ->assertJsonPath('data.0.request_number', 'AA12345');
+});
+
+it('filters passports by composite name via the api', function () {
+    $match = Passport::factory()->create([
+        'firstName' => 'Lensa',
+        'middleName' => 'Amanuel',
+        'lastName' => 'Bekele',
+    ]);
+
+    Passport::factory()->create([
+        'firstName' => 'Lensa',
+        'middleName' => 'Dawit',
+        'lastName' => 'Haile',
+    ]);
+
+    $response = getJson('/api/v1/passports?name=lensa%20amanuel%20bekele');
+
+    $response->assertOk()
+        ->assertJsonCount(1, 'data')
+        ->assertJsonPath('data.0.id', $match->id)
+        ->assertJsonPath('filters.name', 'Lensa Amanuel Bekele');
+});
+
+it('validates short request numbers are rejected', function () {
+    $response = getJson('/api/v1/passports?request_number=AA');
+
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['request_number']);
 });
 
 it('shows a single passport resource', function () {

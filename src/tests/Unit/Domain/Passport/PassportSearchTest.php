@@ -76,3 +76,52 @@ it('paginates when per_page is provided', function () {
         ->and($paginator->currentPage())->toBe(1)
         ->and($paginator->total())->toBeGreaterThanOrEqual(30);
 });
+
+it('splits composite name queries into first middle and last filters', function () {
+    $match = Passport::factory()->create([
+        'firstName' => 'Abebe',
+        'middleName' => 'Bekele',
+        'lastName' => 'Tesfaye',
+    ]);
+
+    Passport::factory()->create([
+        'firstName' => 'Abel',
+        'middleName' => 'B',
+        'lastName' => 'Tesfaye',
+    ]);
+
+    $params = PassportSearchParams::fromArray([
+        'name' => '  abebe    bekele tesfaye  ',
+    ], 'test');
+
+    $results = Passport::query()->filter($params)->get();
+
+    expect($results)->toHaveCount(1)
+        ->and($results->first()->is($match))->toBeTrue();
+});
+
+it('infers request number searches from the generic query parameter', function () {
+    $params = PassportSearchParams::fromArray([
+        'query' => 'aa-12345',
+    ], 'test');
+
+    expect($params->filters()['request_number'])->toBe('AA12345');
+});
+
+it('falls back to name search when the generic query has no digits', function () {
+    $params = PassportSearchParams::fromArray([
+        'query' => 'Lensa',
+    ], 'test');
+
+    expect($params->filters()['first_name'])->toBe('Lensa');
+});
+
+it('allows page size alias for pagination', function () {
+    $params = PassportSearchParams::fromArray([
+        'page_size' => 30,
+        'page' => 2,
+    ], 'api');
+
+    expect($params->perPage())->toBe(30)
+        ->and($params->page())->toBe(2);
+});

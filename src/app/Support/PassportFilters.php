@@ -9,6 +9,7 @@ class PassportFilters
     public const DEFAULT_LIMIT = 60;
     public const DEFAULT_PER_PAGE = 25;
     public const CACHE_TTL = 60; // seconds
+    public const PAGE_SIZE_OPTIONS = [10, 20, 25, 30, 40, 50];
 
     public static function sortableColumns(): array
     {
@@ -32,6 +33,11 @@ class PassportFilters
     public static function defaultPerPage(): int
     {
         return self::DEFAULT_PER_PAGE;
+    }
+
+    public static function pageSizeOptions(): array
+    {
+        return self::PAGE_SIZE_OPTIONS;
     }
 
     public static function cacheTtl(): int

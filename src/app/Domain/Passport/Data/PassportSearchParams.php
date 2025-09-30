@@ -25,6 +25,8 @@ class PassportSearchParams
         protected int $perPage,
         protected ?int $page,
         protected ?int $limit,
+        protected ?string $fullName,
+        protected ?string $rawQuery,
     ) {
     }
 
@@ -38,6 +40,10 @@ class PassportSearchParams
     public static function fromArray(array $payload, string $context = 'web'): self
     {
         $normalized = self::normalize($payload);
+        $rawQuery = $normalized['query'] ?? null;
+        $normalized = self::hydrateGeneralQuery($normalized);
+        $normalized = self::applyPageSizeAlias($normalized);
+        [$firstName, $middleName, $lastName, $fullName] = self::resolveNameParts($normalized);
 
         $paginate = self::shouldPaginate($normalized, $context);
         $perPageDefault = $context === 'api' ? PassportFilters::defaultPerPage() : PassportFilters::defaultLimit();
@@ -48,9 +54,9 @@ class PassportSearchParams
 
         return new self(
             requestNumber: $normalized['request_number'] ?? null,
-            firstName: $normalized['first_name'] ?? null,
-            middleName: $normalized['middle_name'] ?? null,
-            lastName: $normalized['last_name'] ?? null,
+            firstName: $firstName,
+            middleName: $middleName,
+            lastName: $lastName,
             location: $normalized['location'] ?? null,
             publishedAfter: $normalized['published_after'] ?? null,
             publishedBefore: $normalized['published_before'] ?? null,
@@ -60,6 +66,8 @@ class PassportSearchParams
             perPage: max(1, $perPage),
             page: isset($normalized['page']) ? (int) $normalized['page'] : null,
             limit: $limit,
+            fullName: $fullName,
+            rawQuery: $rawQuery ? Str::squish($rawQuery) : null,
         );
     }
 
@@ -73,6 +81,8 @@ class PassportSearchParams
             'location' => $this->location,
             'published_after' => $this->publishedAfter,
             'published_before' => $this->publishedBefore,
+            'name' => $this->fullName,
+            'query' => $this->rawQuery,
         ];
     }
 
@@ -134,12 +144,15 @@ class PassportSearchParams
             'first_name' => ['first_name', 'firstName'],
             'middle_name' => ['middle_name', 'middleName'],
             'last_name' => ['last_name', 'lastName'],
+            'name' => ['name', 'full_name', 'fullName'],
+            'query' => ['query', 'q', 'term'],
             'location' => ['location'],
             'published_after' => ['published_after', 'issued_after', 'dateOfPublish.from'],
             'published_before' => ['published_before', 'issued_before', 'dateOfPublish.to'],
             'sort' => ['sort', 'orderBy'],
             'sort_dir' => ['sort_dir', 'direction', 'order'],
             'per_page' => ['per_page', 'perPage'],
+            'page_size' => ['page_size', 'pageSize'],
             'limit' => ['limit'],
             'page' => ['page'],
             'paginate' => ['paginate'],
@@ -173,6 +186,10 @@ class PassportSearchParams
             return $value ? Str::title($value) : null;
         }
 
+        if (in_array($key, ['name', 'query'], true)) {
+            return $value ? Str::squish($value) : null;
+        }
+
         if (in_array($key, ['published_after', 'published_before'], true)) {
             if (! $value) {
                 return null;
@@ -189,7 +206,7 @@ class PassportSearchParams
             return $value ?: null;
         }
 
-        if (in_array($key, ['per_page', 'limit', 'page'], true)) {
+        if (in_array($key, ['per_page', 'page_size', 'limit', 'page'], true)) {
             return $value ? (int) $value : null;
         }
 
@@ -206,6 +223,107 @@ class PassportSearchParams
         }
 
         return $value;
+    }
+
+    protected static function applyPageSizeAlias(array $normalized): array
+    {
+        if (isset($normalized['page_size']) && ! isset($normalized['per_page'])) {
+            $normalized['per_page'] = $normalized['page_size'];
+        }
+
+        return $normalized;
+    }
+
+    protected static function hydrateGeneralQuery(array $normalized): array
+    {
+        if (! array_key_exists('query', $normalized) || $normalized['query'] === null) {
+            return $normalized;
+        }
+
+        $query = $normalized['query'];
+        $candidate = self::cleanValue('request_number', $query);
+        $hasDigits = $candidate && preg_match('/\d/u', $candidate);
+
+        if (! isset($normalized['request_number']) && $candidate && $hasDigits && strlen($candidate) >= 3) {
+            $normalized['request_number'] = $candidate;
+        } elseif (! isset($normalized['name'])) {
+            $normalized['name'] = $query;
+        }
+
+        return $normalized;
+    }
+
+    /**
+     * Resolve normalized name parts from discrete or composite inputs.
+     */
+    protected static function resolveNameParts(array &$normalized): array
+    {
+        $first = $normalized['first_name'] ?? null;
+        $middle = $normalized['middle_name'] ?? null;
+        $last = $normalized['last_name'] ?? null;
+
+        if (isset($normalized['name']) && $normalized['name']) {
+            $parts = self::splitCompositeName($normalized['name']);
+
+            $first ??= $parts['first'];
+
+            if (! $middle && $parts['middle']) {
+                $middle = $parts['middle'];
+            }
+
+            $last ??= $parts['last'];
+        }
+
+        $fullName = self::buildFullName($first, $middle, $last);
+
+        unset($normalized['name']);
+
+        return [$first, $middle, $last, $fullName];
+    }
+
+    /**
+     * Break a composite name string into first/middle/last segments.
+     */
+    protected static function splitCompositeName(string $value): array
+    {
+        $cleaned = preg_replace('/[^\p{L}\p{N}\s]+/u', ' ', $value);
+        $cleaned = $cleaned ? Str::squish($cleaned) : '';
+
+        if ($cleaned === '') {
+            return ['first' => null, 'middle' => null, 'last' => null];
+        }
+
+        $parts = preg_split('/\s+/u', $cleaned, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+        if (count($parts) === 1) {
+            return [
+                'first' => self::normalizeNameComponent($parts[0]),
+                'middle' => null,
+                'last' => null,
+            ];
+        }
+
+        $first = array_shift($parts);
+        $last = array_pop($parts);
+        $middle = $parts ? implode(' ', $parts) : null;
+
+        return [
+            'first' => self::normalizeNameComponent($first),
+            'middle' => $middle ? self::normalizeNameComponent($middle) : null,
+            'last' => $last ? self::normalizeNameComponent($last) : null,
+        ];
+    }
+
+    protected static function buildFullName(?string ...$parts): ?string
+    {
+        $parts = array_values(array_filter($parts));
+
+        return $parts ? implode(' ', $parts) : null;
+    }
+
+    protected static function normalizeNameComponent(?string $value): ?string
+    {
+        return $value ? Str::title(Str::lower($value)) : null;
     }
 
     protected static function shouldPaginate(array $normalized, string $context): bool
