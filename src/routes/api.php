@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\ArticleController;
 use App\Http\Controllers\Api\V1\CategoryController as PublicCategoryController;
 use App\Http\Controllers\Api\V1\LocationController;
 use App\Http\Controllers\Api\V1\PassportController;
+use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\TagController as PublicTagController;
 use App\Http\Controllers\Api\V1\Admin\ArticleAdminController;
 use App\Http\Controllers\Api\V1\FeedController;
@@ -21,6 +22,11 @@ Route::prefix('v1')
                 Route::get('/me', [AuthController::class, 'me'])->name('auth.me');
                 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
             });
+        });
+
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+            Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         });
 
         Route::get('/passports', [PassportController::class, 'index'])->name('passports.index');
