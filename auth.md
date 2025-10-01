@@ -3,7 +3,8 @@
 This guide explains how to wire the React SPA to the Laravel API v1 authentication stack using @tanstack/react-query and TanStack Router. It assumes the API is deployed under `/api/v1` and that personal access tokens (PATs) are issued via Laravel Sanctum.
 
 ## Endpoint Surface
-- `POST /api/v1/auth/login` – Issue a new PAT after validating email/password credentials. Anonymous clients only.
+- `POST /api/v1/auth/register` – Create a new account (first/last name, phone number, email, password) and auto-issue a PAT.
+- `POST /api/v1/auth/login` – Issue a new PAT after validating phone number/password credentials. Anonymous clients only.
 - `GET /api/v1/auth/me` – Return the authenticated user profile (requires `Authorization: Bearer <token>`).
 - `POST /api/v1/auth/logout` – Revoke the caller's current PAT (requires bearer token).
 - All routes run behind the `throttle:api.v1.default` limiter:
@@ -14,6 +15,47 @@ This guide explains how to wire the React SPA to the Laravel API v1 authenticati
 
 ## Request & Response Reference
 
+### POST /api/v1/auth/register
+Headers
+- `Accept: application/json`
+- `Content-Type: application/json`
+
+Body
+```json
+{
+  "first_name": "Abebe",
+  "last_name": "Bekele",
+  "phone_number": "0911223344",
+  "email": "abebe@example.com",
+  "password": "password123"
+}
+```
+
+Success `201 Created`
+```json
+{
+  "token_type": "Bearer",
+  "token": "1|990c1d...",
+  "user": {
+    "id": 42,
+    "first_name": "Abebe",
+    "last_name": "Bekele",
+    "phone_number": "0911223344",
+    "email": "abebe@example.com",
+    "email_verified_at": null,
+    "plan_type": null,
+    "created_at": "2025-10-01T12:00:00Z",
+    "updated_at": "2025-10-01T12:00:00Z"
+  }
+}
+```
+
+Notes
+- Phone number must be 10 digits starting with `09` or `07`; email must be unique and lowercase.
+- Passwords require at least 8 characters; enforce matching client-side policy.
+- The API emits the `Registered` event so email verification emails continue to send if enabled.
+- Response mirrors login payload; store the token the same way.
+
 ### POST /api/v1/auth/login
 Headers
 - `Accept: application/json`
@@ -22,7 +64,7 @@ Headers
 Body
 ```json
 {
-  "email": "user@example.com",
+  "phone_number": "0911223344",
   "password": "secret",
   "device_name": "edge-chrome" // optional, stored for auditing
 }
@@ -37,8 +79,7 @@ Success `200 OK`
     "id": 42,
     "first_name": "Abebe",
     "last_name": "Bekele",
-    "email": "user@example.com",
-    "phone_number": "+251911000000",
+    "phone_number": "0911000000",
     "email_verified_at": "2025-09-24T10:00:00Z",
     "plan_type": "premium",    // null if no subscription
     "created_at": "2024-04-12T08:21:54Z",
@@ -48,8 +89,8 @@ Success `200 OK`
 ```
 
 Error semantics
-- `422` with `{ "status": "error", "code": "invalid_credentials", "message": ... }` when the credentials fail.
-- Standard validation errors follow Laravel's JSON validation format if required fields are missing.
+- `422` with `{ "status": "error", "code": "invalid_credentials", "message": ... }` when the credentials fail (invalid phone number and/or password).
+- Standard validation errors follow Laravel's JSON validation format if required fields are missing (e.g., phone number must be digits and start with 09 or 07).
 - `429` throttle response as outlined above.
 
 ### GET /api/v1/auth/me
@@ -64,8 +105,7 @@ Success `200 OK`
     "id": 42,
     "first_name": "Abebe",
     "last_name": "Bekele",
-    "email": "user@example.com",
-    "phone_number": "+251911000000",
+    "phone_number": "0911000000",
     "email_verified_at": "2025-09-24T10:00:00Z",
     "plan_type": "premium",
     "created_at": "2024-04-12T08:21:54Z",
@@ -170,7 +210,7 @@ import { api, setAuthToken } from '@/api/client';
 import { queryClient } from '@/api/queryClient';
 
 interface LoginPayload {
-  email: string;
+  phone_number: string;  // 10 digits, starts with 09 or 07
   password: string;
   device_name?: string;
 }
@@ -179,6 +219,14 @@ interface LoginResponse {
   token_type: 'Bearer';
   token: string;
   user: User;
+}
+
+export async function register(payload: RegisterPayload) {
+  const { data } = await api.post<LoginResponse>('/auth/register', payload);
+  setAuthToken(data.token);
+  sessionStorage.setItem('auth-token', data.token);
+  queryClient.setQueryData(['auth', 'user'], data.user);
+  return data.user;
 }
 
 export async function login(payload: LoginPayload) {
@@ -207,13 +255,22 @@ Hook them into React components using @tanstack/react-query:
 ```ts
 // src/features/auth/hooks.ts
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { fetchMe, login, logout } from './api';
+import { fetchMe, login, logout, register } from './api';
 
 export function useAuthUser(enabled = true) {
   return useQuery({
     queryKey: ['auth', 'user'],
     queryFn: fetchMe,
     enabled,
+  });
+}
+
+export function useRegister() {
+  return useMutation({
+    mutationFn: register,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['auth', 'user'] });
+    },
   });
 }
 

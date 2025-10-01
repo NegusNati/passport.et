@@ -14,7 +14,7 @@ class ApiLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email'],
+            'phone_number' => ['required', 'numeric', 'digits:10', 'starts_with:09,07'],
             'password' => ['required', 'string'],
             'device_name' => ['nullable', 'string', 'max:255'],
         ];

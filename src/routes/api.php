@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\PassportController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\TagController as PublicTagController;
 use App\Http\Controllers\Api\V1\Admin\ArticleAdminController;
+use App\Http\Controllers\Api\V1\Admin\PDFToSQLiteController as AdminPDFToSQLiteController;
 use App\Http\Controllers\Api\V1\FeedController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,7 @@ Route::prefix('v1')
     ->middleware(['api', 'throttle:api.v1.default'])
     ->group(function () {
         Route::prefix('auth')->group(function () {
+            Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
             Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
             Route::middleware('auth:sanctum')->group(function () {
@@ -44,6 +46,11 @@ Route::prefix('v1')
             Route::post('/articles', [ArticleAdminController::class, 'store'])->name('admin.articles.store');
             Route::patch('/articles/{article:slug}', [ArticleAdminController::class, 'update'])->name('admin.articles.update');
             Route::delete('/articles/{article:slug}', [ArticleAdminController::class, 'destroy'])->name('admin.articles.destroy');
+        });
+
+        Route::prefix('admin')->middleware(['auth:sanctum', 'can:upload-files'])->group(function () {
+            Route::get('/pdf-to-sqlite', [AdminPDFToSQLiteController::class, 'create'])->name('admin.pdf-to-sqlite.create');
+            Route::post('/pdf-to-sqlite', [AdminPDFToSQLiteController::class, 'store'])->name('admin.pdf-to-sqlite.store');
         });
 
         // Feeds (XML)
