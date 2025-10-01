@@ -17,6 +17,9 @@ class UserResource extends JsonResource
             'phone_number' => $this->phone_number,
             'email_verified_at' => optional($this->email_verified_at)->toIso8601String(),
             'plan_type' => optional($this->subscription)->plan ?? null,
+            'is_admin' => $this->hasRole('admin'),
+            'roles' => $this->getRoleNames()->values()->all(),
+            'permissions' => $this->getAllPermissions()->pluck('name')->values()->all(),
             'created_at' => optional($this->created_at)->toIso8601String(),
             'updated_at' => optional($this->updated_at)->toIso8601String(),
         ];
