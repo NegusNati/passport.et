@@ -28,8 +28,7 @@ class ArticleController extends ApiController
 
     public function show(Article $article)
     {
-        $article->load(['tags:id,slug,name', 'categories:id,slug,name', 'author:id,name']);
+        $article->load(['tags:id,slug,name', 'categories:id,slug,name', 'author:id,first_name,last_name,email']);
         return $this->respond(new ArticleResource($article));
     }
 }
-

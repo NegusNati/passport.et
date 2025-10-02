@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\TagController as PublicTagController;
 use App\Http\Controllers\Api\V1\Admin\ArticleAdminController;
 use App\Http\Controllers\Api\V1\Admin\PDFToSQLiteController as AdminPDFToSQLiteController;
+use App\Http\Controllers\Api\V1\Admin\UserAdminController;
+use App\Http\Controllers\Api\V1\Admin\AdminAbilityController;
 use App\Http\Controllers\Api\V1\FeedController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,10 +55,13 @@ Route::prefix('v1')
             Route::post('/pdf-to-sqlite', [AdminPDFToSQLiteController::class, 'store'])->name('admin.pdf-to-sqlite.store');
         });
 
+        Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {
+            Route::get('/users', [UserAdminController::class, 'index'])->name('admin.users.index');
+            Route::patch('/users/{user}/role', [UserAdminController::class, 'updateRole'])->name('admin.users.update-role');
+            Route::get('/abilities', [AdminAbilityController::class, 'show'])->name('admin.abilities.show');
+        });
+
         // Feeds (XML)
         Route::get('/feeds/articles.rss', [FeedController::class, 'articlesRss'])->name('feeds.articles.rss');
         Route::get('/feeds/articles.atom', [FeedController::class, 'articlesAtom'])->name('feeds.articles.atom');
     });
-
-
-    

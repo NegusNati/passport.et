@@ -10,6 +10,7 @@ use App\Http\Requests\Article\StoreArticleRequest;
 use App\Http\Requests\Article\UpdateArticleRequest;
 use App\Http\Resources\ArticleResource;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ArticleAdminController extends ApiController
@@ -25,10 +26,16 @@ class ArticleAdminController extends ApiController
 
         $reading = self::estimateReading($data['content'] ?? '');
 
+        $authorId = (int) ($data['author_id'] ?? $request->user()->id);
+
         $article = new Article();
-        $article->fill(array_merge($data, [
+
+        // Handle file uploads first; files take precedence over *_url fields
+        $uploadChanges = $this->handleUploads($request);
+
+        $article->fill(array_merge($data, $uploadChanges, [
             'slug' => $slug,
-            'author_id' => $request->user()->id,
+            'author_id' => $authorId,
             'reading_time' => $reading['minutes'],
             'word_count' => $reading['words'],
         ]));
@@ -36,7 +43,7 @@ class ArticleAdminController extends ApiController
 
         $this->syncTaxonomies($article, $data);
 
-        $article->load(['tags:id,slug,name', 'categories:id,slug,name', 'author:id,name']);
+        $article->load(['tags:id,slug,name', 'categories:id,slug,name', 'author:id,first_name,last_name,email']);
 
         // Invalidate caches
         Cache::tags(['articles'])->flush();
@@ -59,11 +66,18 @@ class ArticleAdminController extends ApiController
             $data['word_count'] = $reading['words'];
         }
 
-        $article->fill($data);
+        if (array_key_exists('author_id', $data)) {
+            $data['author_id'] = (int) $data['author_id'];
+        }
+
+        // Apply uploads/removals; may delete old files if replaced or removed
+        $uploadChanges = $this->handleUploads($request, $article);
+
+        $article->fill(array_merge($data, $uploadChanges));
         $article->save();
 
         $this->syncTaxonomies($article, $data);
-        $article->load(['tags:id,slug,name', 'categories:id,slug,name', 'author:id,name']);
+        $article->load(['tags:id,slug,name', 'categories:id,slug,name', 'author:id,first_name,last_name,email']);
 
         Cache::tags(['articles'])->flush();
 
@@ -110,5 +124,54 @@ class ArticleAdminController extends ApiController
         $words = str_word_count($text);
         $minutes = max(1, (int) ceil($words / 225));
         return ['words' => $words, 'minutes' => $minutes];
+    }
+
+    /**
+     * Handle featured and OG image uploads/removals.
+     * Returns an array of model attribute changes (e.g., ['featured_image_url' => 'articles/featured/..']).
+     */
+    protected function handleUploads($request, ?Article $existing = null): array
+    {
+        $changes = [];
+
+        // Featured image
+        if ($request->boolean('remove_featured_image')) {
+            if ($existing && $this->isStoredPath($existing->featured_image_url)) {
+                Storage::disk('public')->delete($existing->featured_image_url);
+            }
+            $changes['featured_image_url'] = null;
+        }
+
+        if ($request->hasFile('featured_image')) {
+            $path = $request->file('featured_image')->store('articles/featured', 'public');
+            if ($existing && $this->isStoredPath($existing->featured_image_url)) {
+                Storage::disk('public')->delete($existing->featured_image_url);
+            }
+            $changes['featured_image_url'] = $path; // store relative path; resource resolves to public URL
+        }
+
+        // OG image
+        if ($request->boolean('remove_og_image')) {
+            if ($existing && $this->isStoredPath($existing->og_image_url)) {
+                Storage::disk('public')->delete($existing->og_image_url);
+            }
+            $changes['og_image_url'] = null;
+        }
+
+        if ($request->hasFile('og_image')) {
+            $path = $request->file('og_image')->store('articles/og', 'public');
+            if ($existing && $this->isStoredPath($existing->og_image_url)) {
+                Storage::disk('public')->delete($existing->og_image_url);
+            }
+            $changes['og_image_url'] = $path;
+        }
+
+        return $changes;
+    }
+
+    protected function isStoredPath(?string $value): bool
+    {
+        if (! $value) return false;
+        return ! Str::startsWith($value, ['http://', 'https://', 'data:']);
     }
 }
