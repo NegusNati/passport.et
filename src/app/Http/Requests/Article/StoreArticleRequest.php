@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Article;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class StoreArticleRequest extends FormRequest
 {
@@ -34,5 +35,17 @@ class StoreArticleRequest extends FormRequest
             'categories' => ['nullable', 'array'],
             'categories.*' => ['string'], // slugs or names
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('status')) {
+            $status = Str::lower(trim((string) $this->input('status')));
+            if ($status === '') {
+                $this->request->remove('status');
+            } else {
+                $this->merge(['status' => $status]);
+            }
+        }
     }
 }

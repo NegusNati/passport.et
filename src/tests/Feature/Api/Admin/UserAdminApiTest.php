@@ -8,6 +8,7 @@ use function Pest\Laravel\patchJson;
 
 beforeEach(function () {
     Role::findOrCreate('admin', 'web');
+    Role::findOrCreate('editor', 'web');
 });
 
 it('lists users for admins', function () {
@@ -28,9 +29,63 @@ it('lists users for admins', function () {
                 '*' => ['id', 'email', 'first_name', 'last_name', 'is_admin', 'roles'],
             ],
             'links',
-            'meta',
+            'meta' => ['page_size_options', 'has_more', 'page_size', 'total'],
+            'filters',
+            'sort' => ['column', 'direction'],
         ])
-        ->assertJsonPath('meta.per_page', 25);
+        ->assertJsonPath('meta.page_size', 25)
+        ->assertJsonPath('sort.column', 'created_at');
+});
+
+it('supports searching and role filters', function () {
+    $admin = User::factory()->create();
+    $admin->assignRole('admin');
+
+    $target = User::factory()->create([
+        'first_name' => 'Searchable',
+        'last_name' => 'Person',
+        'email' => 'search@example.com',
+        'phone_number' => '0911000000',
+    ]);
+    $target->assignRole('editor');
+
+    User::factory()->create([
+        'first_name' => 'Other',
+        'email' => 'other@example.com',
+    ]);
+
+    $token = $admin->createToken('testsuite')->plainTextToken;
+
+    $response = getJson('/api/v1/admin/users?search=Searchable&role=editor', [
+        'Authorization' => 'Bearer '.$token,
+    ]);
+
+    $response->assertOk()
+        ->assertJsonCount(1, 'data')
+        ->assertJsonPath('data.0.id', $target->id)
+        ->assertJsonPath('filters.role', 'editor');
+});
+
+it('filters by admin flag and verification', function () {
+    $admin = User::factory()->create();
+    $admin->assignRole('admin');
+
+    $verifiedAdmin = User::factory()->create([
+        'email_verified_at' => now(),
+    ]);
+    $verifiedAdmin->assignRole('admin');
+
+    $token = $admin->createToken('testsuite')->plainTextToken;
+
+    $response = getJson('/api/v1/admin/users?is_admin=1&email_verified=1', [
+        'Authorization' => 'Bearer '.$token,
+    ]);
+
+    $response->assertOk()
+        ->assertJsonMissingPath('filters.search')
+        ->assertJsonPath('filters.is_admin', true)
+        ->assertJsonPath('filters.email_verified', true)
+        ->assertJsonCount(2, 'data');
 });
 
 it('prevents non-admins from listing users', function () {

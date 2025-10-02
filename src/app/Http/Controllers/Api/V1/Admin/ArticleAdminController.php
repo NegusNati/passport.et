@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Article\StoreArticleRequest;
 use App\Http\Requests\Article\UpdateArticleRequest;
 use App\Http\Resources\ArticleResource;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -17,7 +18,8 @@ class ArticleAdminController extends ApiController
 {
     public function store(StoreArticleRequest $request)
     {
-        $data = $request->validated();
+        $request->validated();
+        $data = $this->extractAttributes($request);
 
         $slug = $data['slug'] ?? null;
         if (! $slug) {
@@ -41,9 +43,13 @@ class ArticleAdminController extends ApiController
         ]));
         $article->save();
 
-        $this->syncTaxonomies($article, $data);
+        $this->syncTaxonomies($article, $request);
 
-        $article->load(['tags:id,slug,name', 'categories:id,slug,name', 'author:id,first_name,last_name,email']);
+        $article->refresh()->load([
+            'tags:id,slug,name',
+            'categories:id,slug,name',
+            'author:id,first_name,last_name,email',
+        ]);
 
         // Invalidate caches
         Cache::tags(['articles'])->flush();
@@ -53,8 +59,8 @@ class ArticleAdminController extends ApiController
 
     public function update(UpdateArticleRequest $request, Article $article)
     {
-        $data = $request->validated();
-
+        $request->validated();
+        $data = $this->extractAttributes($request);
         if (isset($data['title']) && empty($data['slug'])) {
             // Update slug only if not provided explicitly
             $data['slug'] = Article::makeUniqueSlug($data['title'], $article->id);
@@ -74,10 +80,18 @@ class ArticleAdminController extends ApiController
         $uploadChanges = $this->handleUploads($request, $article);
 
         $article->fill(array_merge($data, $uploadChanges));
-        $article->save();
 
-        $this->syncTaxonomies($article, $data);
-        $article->load(['tags:id,slug,name', 'categories:id,slug,name', 'author:id,first_name,last_name,email']);
+        if ($article->isDirty()) {
+            $article->save();
+        }
+
+        $this->syncTaxonomies($article, $request);
+
+        $article->refresh()->load([
+            'tags:id,slug,name',
+            'categories:id,slug,name',
+            'author:id,first_name,last_name,email',
+        ]);
 
         Cache::tags(['articles'])->flush();
 
@@ -91,10 +105,10 @@ class ArticleAdminController extends ApiController
         return response()->noContent();
     }
 
-    protected function syncTaxonomies(Article $article, array $data): void
+    protected function syncTaxonomies(Article $article, Request $request): void
     {
-        if (array_key_exists('tags', $data)) {
-            $tagIds = collect($data['tags'] ?? [])
+        if ($request->exists('tags')) {
+            $tagIds = collect($request->input('tags', []))
                 ->filter()
                 ->map(fn ($slugOrName) => (string) $slugOrName)
                 ->map(function ($value) {
@@ -105,8 +119,8 @@ class ArticleAdminController extends ApiController
             $article->tags()->sync($tagIds);
         }
 
-        if (array_key_exists('categories', $data)) {
-            $categoryIds = collect($data['categories'] ?? [])
+        if ($request->exists('categories')) {
+            $categoryIds = collect($request->input('categories', []))
                 ->filter()
                 ->map(fn ($slugOrName) => (string) $slugOrName)
                 ->map(function ($value) {
@@ -173,5 +187,33 @@ class ArticleAdminController extends ApiController
     {
         if (! $value) return false;
         return ! Str::startsWith($value, ['http://', 'https://', 'data:']);
+    }
+
+    protected function extractAttributes(Request $request): array
+    {
+        $keys = [
+            'author_id',
+            'title',
+            'slug',
+            'excerpt',
+            'content',
+            'featured_image_url',
+            'canonical_url',
+            'meta_title',
+            'meta_description',
+            'og_image_url',
+            'status',
+            'published_at',
+        ];
+
+        $attributes = [];
+
+        foreach ($keys as $key) {
+            if ($request->exists($key)) {
+                $attributes[$key] = $request->input($key);
+            }
+        }
+
+        return $attributes;
     }
 }

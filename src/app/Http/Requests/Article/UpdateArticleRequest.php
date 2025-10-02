@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Article;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class UpdateArticleRequest extends FormRequest
 {
@@ -36,5 +37,17 @@ class UpdateArticleRequest extends FormRequest
             'categories' => ['sometimes', 'array'],
             'categories.*' => ['string'],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('status')) {
+            $status = Str::lower(trim((string) $this->input('status')));
+            if ($status === '') {
+                $this->request->remove('status');
+            } else {
+                $this->merge(['status' => $status]);
+            }
+        }
     }
 }

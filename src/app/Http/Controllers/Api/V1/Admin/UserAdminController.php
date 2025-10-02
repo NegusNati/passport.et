@@ -2,39 +2,40 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
+use App\Actions\User\SearchUsersAction;
+use App\Domain\User\Data\UserSearchParams;
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\Admin\SearchUserRequest;
 use App\Http\Requests\Admin\UpdateUserRoleRequest;
+use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserAdminController extends ApiController
 {
-    public function index(Request $request)
+    public function __construct(private SearchUsersAction $searchUsers)
+    {
+    }
+
+    public function index(SearchUserRequest $request)
     {
         $this->authorizeAdmin($request);
 
-        $perPage = (int) $request->integer('per_page', 25);
-        $perPage = max(1, min($perPage, 100));
+        $params = UserSearchParams::fromArray($request->validated());
+        $results = $this->searchUsers->execute($params);
 
-        $search = trim((string) $request->query('search', ''));
+        $resource = (new UserCollection($results))->additional([
+            'filters' => array_filter($params->filters(), static function ($value) {
+                return $value !== null && $value !== '';
+            }),
+            'sort' => [
+                'column' => $params->sort()[0],
+                'direction' => $params->sort()[1],
+            ],
+        ]);
 
-        $query = User::query()
-            ->with(['roles:id,name', 'permissions:id,name', 'subscription'])
-            ->latest('id');
-
-        if ($search !== '') {
-            $query->where(function ($q) use ($search) {
-                $q->where('first_name', 'like', "%{$search}%")
-                    ->orWhere('last_name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%")
-                    ->orWhere('phone_number', 'like', "%{$search}%");
-            });
-        }
-
-        $users = $query->paginate($perPage)->withQueryString();
-
-        return $this->respond(UserResource::collection($users));
+        return $this->respond($resource);
     }
 
     public function updateRole(UpdateUserRoleRequest $request, User $user)
