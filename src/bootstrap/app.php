@@ -1,6 +1,9 @@
 <?php
 
 use App\Console\Commands\RedisPingCommand;
+use App\Console\Commands\NotifyExpiringAdvertisements;
+use App\Console\Commands\AutoExpireAdvertisements;
+use App\Console\Commands\AutoActivateAdvertisements;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -14,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withCommands([
         RedisPingCommand::class,
+        NotifyExpiringAdvertisements::class,
+        AutoExpireAdvertisements::class,
+        AutoActivateAdvertisements::class,
     ])
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [

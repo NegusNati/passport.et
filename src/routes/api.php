@@ -11,6 +11,10 @@ use App\Http\Controllers\Api\V1\Admin\ArticleAdminController;
 use App\Http\Controllers\Api\V1\Admin\PDFToSQLiteController as AdminPDFToSQLiteController;
 use App\Http\Controllers\Api\V1\Admin\UserAdminController;
 use App\Http\Controllers\Api\V1\Admin\AdminAbilityController;
+use App\Http\Controllers\Api\V1\Admin\AdvertisementRequestAdminController;
+use App\Http\Controllers\Api\V1\Admin\AdvertisementAdminController;
+use App\Http\Controllers\Api\V1\AdvertisementRequestController;
+use App\Http\Controllers\Api\V1\AdvertisementController;
 use App\Http\Controllers\Api\V1\FeedController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +47,14 @@ Route::prefix('v1')
         Route::get('/categories', [PublicCategoryController::class, 'index'])->name('categories.index');
         Route::get('/tags', [PublicTagController::class, 'index'])->name('tags.index');
 
+        // Advertisement Requests - public
+        Route::post('/advertisement-requests', [AdvertisementRequestController::class, 'store'])->name('advertisement-requests.store');
+
+        // Advertisements - public (for frontend display and tracking)
+        Route::get('/advertisements/active', [AdvertisementController::class, 'active'])->name('advertisements.active');
+        Route::post('/advertisements/{advertisement}/impression', [AdvertisementController::class, 'impression'])->name('advertisements.impression');
+        Route::post('/advertisements/{advertisement}/click', [AdvertisementController::class, 'click'])->name('advertisements.click');
+
         // Articles - admin (manage content)
         Route::prefix('admin')->middleware(['auth:sanctum', 'can:manage-articles'])->group(function () {
             Route::post('/articles', [ArticleAdminController::class, 'store'])->name('admin.articles.store');
@@ -59,6 +71,22 @@ Route::prefix('v1')
             Route::get('/users', [UserAdminController::class, 'index'])->name('admin.users.index');
             Route::patch('/users/{user}/role', [UserAdminController::class, 'updateRole'])->name('admin.users.update-role');
             Route::get('/abilities', [AdminAbilityController::class, 'show'])->name('admin.abilities.show');
+        });
+
+        Route::prefix('admin')->middleware(['auth:sanctum', 'can:manage-advertisements'])->group(function () {
+            Route::get('/advertisement-requests', [AdvertisementRequestAdminController::class, 'index'])->name('admin.advertisement-requests.index');
+            Route::get('/advertisement-requests/{advertisementRequest}', [AdvertisementRequestAdminController::class, 'show'])->name('admin.advertisement-requests.show');
+            Route::patch('/advertisement-requests/{advertisementRequest}', [AdvertisementRequestAdminController::class, 'update'])->name('admin.advertisement-requests.update');
+            Route::delete('/advertisement-requests/{advertisementRequest}', [AdvertisementRequestAdminController::class, 'destroy'])->name('admin.advertisement-requests.destroy');
+
+            // Advertisement CRM - admin
+            Route::get('/advertisements', [AdvertisementAdminController::class, 'index'])->name('admin.advertisements.index');
+            Route::get('/advertisements/stats', [AdvertisementAdminController::class, 'stats'])->name('admin.advertisements.stats');
+            Route::post('/advertisements', [AdvertisementAdminController::class, 'store'])->name('admin.advertisements.store');
+            Route::get('/advertisements/{advertisement}', [AdvertisementAdminController::class, 'show'])->name('admin.advertisements.show');
+            Route::patch('/advertisements/{advertisement}', [AdvertisementAdminController::class, 'update'])->name('admin.advertisements.update');
+            Route::delete('/advertisements/{advertisement}', [AdvertisementAdminController::class, 'destroy'])->name('admin.advertisements.destroy');
+            Route::post('/advertisements/{id}/restore', [AdvertisementAdminController::class, 'restore'])->name('admin.advertisements.restore');
         });
 
         // Feeds (XML)

@@ -31,6 +31,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             \App\Listeners\NotifyTelegramUserRegistered::class,
         ],
+        \App\Events\AdvertisementRequestCreated::class => [
+            \App\Listeners\NotifyTelegramAdvertisementRequest::class,
+        ],
+        \App\Events\AdvertisementExpiring::class => [
+            \App\Listeners\NotifyTelegramAdvertisementExpiring::class,
+        ],
     ];
 
     public function boot(): void

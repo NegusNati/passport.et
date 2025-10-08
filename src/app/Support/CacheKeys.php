@@ -54,4 +54,36 @@ class CacheKeys
     {
         return 'articles.tags.list';
     }
+
+    // Advertisement Requests
+    public static function advertisementSearch(string $hash): string
+    {
+        return "advertisements.search.$hash";
+    }
+
+    public static function advertisementsList(int $page): string
+    {
+        return "advertisements.list.page.$page";
+    }
+
+    // Advertisement CRM (Ad Slots)
+    public static function adCrmSearch(string $hash): string
+    {
+        return "ad_crm.search.$hash";
+    }
+
+    public static function adCrmList(int $page): string
+    {
+        return "ad_crm.list.page.$page";
+    }
+
+    public static function adCrmBySlot(string $slotNumber): string
+    {
+        return "ad_crm.slot.$slotNumber";
+    }
+
+    public static function adCrmActiveSlots(): string
+    {
+        return 'ad_crm.active_slots';
+    }
 }

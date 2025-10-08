@@ -5,8 +5,12 @@ namespace App\Providers;
 use App\Domain\Passport\Models\Passport;
 use App\Models\User;
 use App\Domain\Article\Models\Article;
+use App\Domain\Advertisement\Models\AdvertisementRequest;
+use App\Domain\Advertisement\Models\Advertisement;
 use App\Observers\ArticleObserver;
 use App\Observers\PassportObserver;
+use App\Observers\AdvertisementRequestObserver;
+use App\Observers\AdvertisementObserver;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +42,8 @@ class AppServiceProvider extends ServiceProvider
 
         Passport::observe(PassportObserver::class);
         Article::observe(ArticleObserver::class);
+        AdvertisementRequest::observe(AdvertisementRequestObserver::class);
+        Advertisement::observe(AdvertisementObserver::class);
 
         $this->defineGates();
 
@@ -119,6 +125,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Gate::define('manage-articles', function (User $user) {
+            return method_exists($user, 'hasRole') ? $user->hasRole('admin') : true;
+        });
+
+        Gate::define('manage-advertisements', function (User $user) {
             return method_exists($user, 'hasRole') ? $user->hasRole('admin') : true;
         });
     }
