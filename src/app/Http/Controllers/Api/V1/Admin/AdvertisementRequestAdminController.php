@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Actions\Advertisement\SearchAdvertisementRequestsAction;
-use App\Domain\Advertisement\Data\AdvertisementSearchParams;
+use App\Domain\Advertisement\Data\AdvertisementRequestSearchParams;
 use App\Domain\Advertisement\Models\AdvertisementRequest;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Advertisement\SearchAdvertisementRequestRequest;
@@ -19,7 +19,7 @@ class AdvertisementRequestAdminController extends ApiController
 
     public function index(SearchAdvertisementRequestRequest $request)
     {
-        $params = AdvertisementSearchParams::fromArray($request->validated());
+        $params = AdvertisementRequestSearchParams::fromArray($request->validated());
         $results = $this->search->execute($params);
 
         $resource = (new AdvertisementRequestCollection($results))->additional([

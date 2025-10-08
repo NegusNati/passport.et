@@ -2,7 +2,7 @@
 
 namespace App\Domain\Advertisement\Models;
 
-use App\Domain\Advertisement\Data\AdvertisementSearchParams;
+use App\Domain\Advertisement\Data\AdvertisementRequestSearchParams;
 use App\Support\AdvertisementFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,49 +52,56 @@ class AdvertisementRequest extends Model
         return $this->status === self::STATUS_CONTACTED;
     }
 
-    public function scopeFilter(Builder $query, AdvertisementSearchParams $params): Builder
+    public function scopeFilter(Builder $query, AdvertisementRequestSearchParams $params): Builder
     {
         $filters = $params->filters();
 
-        if ($filters['full_name']) {
+        if (!empty($filters['full_name'])) {
             $query->where('full_name', 'like', '%'.$filters['full_name'].'%');
         }
 
-        if ($filters['company_name']) {
+        if (!empty($filters['company_name'])) {
             $query->where('company_name', 'like', '%'.$filters['company_name'].'%');
         }
 
-        if ($filters['phone_number']) {
+        if (!empty($filters['phone_number'])) {
             $query->where('phone_number', 'like', $filters['phone_number'].'%');
         }
 
-        if ($filters['status']) {
+        if (!empty($filters['email'])) {
+            $query->where('email', 'like', '%'.$filters['email'].'%');
+        }
+
+        if (!empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
 
-        if ($filters['created_after']) {
+        if (!empty($filters['created_after'])) {
             $query->whereDate('created_at', '>=', $filters['created_after']);
         }
 
-        if ($filters['created_before']) {
+        if (!empty($filters['created_before'])) {
             $query->whereDate('created_at', '<=', $filters['created_before']);
         }
 
         return $query;
     }
 
-    public function scopeSort(Builder $query, AdvertisementSearchParams $params): Builder
+    public function scopeSort(Builder $query, AdvertisementRequestSearchParams $params): Builder
     {
         [$column, $direction] = $params->sort();
 
-        if (! in_array($column, AdvertisementFilters::sortableColumns(), true)) {
-            [$column, $direction] = AdvertisementFilters::defaultSort();
+        $sortableColumns = ['full_name', 'company_name', 'phone_number', 'email', 'status', 'created_at', 'contacted_at'];
+
+        if (! in_array($column, $sortableColumns, true)) {
+            $column = 'created_at';
+            $direction = 'desc';
         }
 
         return $query->orderBy($column, $direction);
     }
 
-    public function scopeLimitForSearch(Builder $query, AdvertisementSearchParams $params): Builder
+    public function scopeLimitForSearch(Builder $query, AdvertisementRequestSearchParams $params): Builder
     {
         $limit = $params->limit() ?? AdvertisementFilters::defaultLimit();
         return $query->limit($limit);

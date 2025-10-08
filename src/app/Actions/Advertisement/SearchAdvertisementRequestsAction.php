@@ -2,7 +2,7 @@
 
 namespace App\Actions\Advertisement;
 
-use App\Domain\Advertisement\Data\AdvertisementSearchParams;
+use App\Domain\Advertisement\Data\AdvertisementRequestSearchParams;
 use App\Domain\Advertisement\Models\AdvertisementRequest;
 use App\Support\CacheKeys;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
@@ -13,7 +13,7 @@ class SearchAdvertisementRequestsAction
 {
     public function __construct(private CacheRepository $cache) {}
 
-    public function execute(AdvertisementSearchParams $params, bool $useCache = true): Collection|LengthAwarePaginator
+    public function execute(AdvertisementRequestSearchParams $params, bool $useCache = true): Collection|LengthAwarePaginator
     {
         $resolver = function () use ($params) {
             $query = AdvertisementRequest::query()
