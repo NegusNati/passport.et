@@ -74,7 +74,7 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
-      APP_URL: https://passport.et
+      APP_URL: https://api.passport.et
       DB_CONNECTION: mysql
       DB_HOST: mysql
       DB_PORT: 3306
@@ -106,7 +106,7 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
-      APP_URL: https://passport.et
+      APP_URL: https://api.passport.et
       DB_CONNECTION: mysql
       DB_HOST: mysql
       DB_PORT: 3306
@@ -152,7 +152,7 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
-      APP_URL: https://passport.et
+      APP_URL: https://api.passport.et
       DB_CONNECTION: mysql
       DB_HOST: mysql
       DB_PORT: 3306
@@ -184,7 +184,7 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
-      APP_URL: https://passport.et
+      APP_URL: https://api.passport.et
       DB_CONNECTION: mysql
       DB_HOST: mysql
       DB_PORT: 3306
