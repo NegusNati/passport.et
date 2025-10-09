@@ -171,12 +171,15 @@ services:
     build:
       context: ./src/natnael
       dockerfile: Dockerfile
-    # volumes:
-    #   - ./src/natnael/dist:/usr/share/nginx/html
-    depends_on:
-      - traefik
-    networks:
-      - laravel
+    networks: [laravel]
+    depends_on: [traefik]
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.portfolio.rule=Host(`natnael.passport.et`) || Host(`www.natnael.passport.et`)
+      - traefik.http.routers.portfolio.entrypoints=websecure
+      - traefik.http.routers.portfolio.tls=true
+      - traefik.http.routers.portfolio.tls.certresolver=myresolver
+      - traefik.http.services.portfolio.loadbalancer.server.port=80
 
 volumes:
   redis-data:
