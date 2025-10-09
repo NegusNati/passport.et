@@ -11,8 +11,9 @@ class NotifyTelegramUserRegistered
     public function handle(Registered $event): void
     {
         $chatId = config('services.telegram-bot.chat_id');
+        $token = config('services.telegram-bot.token');
 
-        if (! $chatId) {
+        if (! $chatId || ! $token) {
             return;
         }
 
