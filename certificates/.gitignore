@@ -1,0 +1,5 @@
+# Ignore actual certificate files (keep only README)
+*.pem
+*.key
+*.crt
+*.csr

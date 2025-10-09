@@ -1,6 +1,9 @@
 # API Rollout & Fallback Checklist
 
 ## Pre-deployment
+- [ ] **SSL/TLS Setup**: Ensure Cloudflare Origin certificates are installed (see `docs/cloudflare-ssl-setup.md`)
+  - Verify `certificates/cloudflare-origin.pem` and `certificates/cloudflare-origin.key` exist
+  - Confirm Cloudflare SSL mode is set to "Full (strict)"
 - [ ] Confirm `.env` values for Redis, Horizon, Sanctum, and Horizon queue vars.
 - [ ] Ensure GitHub Actions CI (ci.yml) completes successfully.
 - [ ] Execute k6 smoke test: `BASE_URL=<staging> k6 run tests/Performance/PassportLoadTest.js`.
