@@ -40,22 +40,34 @@ export default function Index({ auth, cities }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
                     <div className="bg-gradient-to-r from-slate-500 to-slate-100 dark:from-slate-700 dark:to-zinc-900 dark:text-white/50 overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100 space-y-6">
-                            {cities.map((city, index) => (
-                                <Link
-                                    key={index}
-                                    href={route("passport.by-location", {
-                                        location: city.location,
-                                    })}
-                                    className="block mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300"
-                                >
-                                    <h3 className="text-lg font-semibold">
-                                        {city.location}
-                                    </h3>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                                        View all passports for this location
-                                    </p>
-                                </Link>
-                            ))}
+                            {cities.map((city, index) => {
+                                const raw =
+                                    typeof city === "string"
+                                        ? city
+                                        : city?.location ?? "";
+                                const location = raw.trim();
+
+                                if (!location) {
+                                    return null;
+                                }
+
+                                return (
+                                    <Link
+                                        key={index}
+                                        href={route("passport.by-location", {
+                                            location,
+                                        })}
+                                        className="block mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300"
+                                    >
+                                        <h3 className="text-lg font-semibold">
+                                            {location}
+                                        </h3>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                                            View all passports for this location
+                                        </p>
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

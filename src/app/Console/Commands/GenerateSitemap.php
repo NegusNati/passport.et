@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use App\Domain\Article\Models\Article;
 use Spatie\Sitemap\SitemapGenerator;
 use Spatie\Sitemap\Tags\Url;
 
@@ -50,7 +51,7 @@ class GenerateSitemap extends Command
         //     ->writeToFile(public_path('sitemap.xml'));
 
 
-        SitemapGenerator::create(config('app.url'))
+        $sitemap = SitemapGenerator::create(config('app.url'))
             ->getSitemap()
             ->add(Url::create('/')
                 ->setLastModificationDate(Carbon::yesterday())
@@ -159,7 +160,26 @@ class GenerateSitemap extends Command
             ->add(Url::create('/telegram')
                 ->setLastModificationDate(Carbon::yesterday())
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_YEARLY)
-                ->setPriority(0.1))
-            ->writeToFile(public_path('sitemap.xml'));
+                ->setPriority(0.1));
+
+        // Include article listing and individual article pages for SEO
+        $sitemap->add(Url::create('/articles')
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
+            ->setPriority(0.6));
+
+        Article::published()
+            ->orderByDesc('published_at')
+            ->limit(5000)
+            ->get(['slug', 'updated_at', 'published_at', 'canonical_url'])
+            ->each(function ($article) use ($sitemap) {
+                $path = '/articles/'.$article->slug;
+                $url = Url::create($path)
+                    ->setLastModificationDate($article->updated_at ?: $article->published_at)
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                    ->setPriority(0.7);
+                $sitemap->add($url);
+            });
+
+        $sitemap->writeToFile(public_path('sitemap.xml'));
     }
 }

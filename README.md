@@ -37,8 +37,14 @@ https://github.com/NegusNati/passport-site/assets/84500378/3564eea0-9faf-4a6a-b2
   - Detailed info about your Passport and where to pick it up
  <img src="https://github.com/NegusNati/Airbnb-Experiences-Clone/assets/84500378/8d8ec474-db7f-41ac-b428-19988054924d">
 
-  - Paginated list of Latest Passport ready for pick up 
+ - Paginated list of Latest Passport ready for pick up 
  <img src="https://github.com/NegusNati/Airbnb-Experiences-Clone/assets/84500378/ae3132ca-28f6-43cc-b342-1e2322eb18b7">
+
+
+## API v1 (work in progress)
+- Versioned API routes now live under `src/routes/api.php` and are mounted at `/api/v1/*`.
+- Stub controllers in `App\Http\Controllers\Api\V1` currently return placeholder JSON while the domain layer is extracted.
+- Apply the `api` middleware stack plus the new `throttle:api.v1.default` limiter to keep behaviour isolated from the legacy Inertia flows.
 
 
 
@@ -56,9 +62,23 @@ Start by forking the repository to your GitHub account.
     git clone https://github.com/NegusNati/passport.et.git
 ```
 ##### 3. Configure .env and docker-compose.yml file.
+   - Ensure Redis variables are set (`CACHE_STORE=redis`, `QUEUE_CONNECTION=redis`, `SESSION_DRIVER=redis`, `REDIS_HOST=redis`).
 ##### 4. Then just build the images and containers 
  ```bash
     docker-compose up -d --build
+```
+   You can validate the cache infrastructure with `docker compose exec php php artisan redis:ping`.
+##### 5. Horizon health check
+After workers come up, confirm Horizon is running:
+ ```bash
+    docker compose exec php php artisan horizon:status
+ ```
+
+If you enable Telegram alerts for Horizon failures, remember to set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in your environment. The listener will automatically forward `JobFailed` and long-wait events once your bot is configured.
+Install the Telegram notification channel package if you haven’t already:
+
+```bash
+docker compose exec php composer require laravel-notification-channels/telegram
 ```
 ##### 5. check it at `app.localhost` (if you didn't change it)
 ##### 6. Submit a Pull Request
@@ -78,3 +98,12 @@ If you encounter a bug or have a feature request, please open an issue on the re
 ## Follow me for updates
  [Telegram](https://t.me/negusnatiChannel)
 
+### Load Testing
+
+Run a k6 smoke test against the API (requires k6 installed locally):
+
+```bash
+BASE_URL=http://app.localhost k6 run tests/Performance/PassportLoadTest.js
+```
+
+Adjust `BASE_URL` to your staging/prod domain before running a heavier test.

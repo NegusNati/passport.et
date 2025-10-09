@@ -17,6 +17,7 @@ services:
       - traefik
       - php
       - mysql
+      - redis
     networks:
       - laravel
     labels:
@@ -45,6 +46,21 @@ services:
     networks:
       - laravel
 
+  redis:
+    image: redis:8.2-alpine
+    restart: unless-stopped
+    command:
+      - "redis-server"
+      - "--save"
+      - "60"
+      - "1"
+      - "--loglevel"
+      - "warning"
+    volumes:
+      - redis-data:/data
+    networks:
+      - laravel
+
   php:
     build:
       context: ./dockerfiles
@@ -58,6 +74,8 @@ services:
       - ./src:/var/www/html:delegated
     networks:
       - laravel
+    depends_on:
+      - redis
 
   composer:
     build:
@@ -100,7 +118,25 @@ services:
       - ./src:/var/www/html:delegated
     depends_on:
       - mysql
+      - redis
     entrypoint: ["php", "/var/www/html/artisan"]
+    networks:
+      - laravel
+
+  horizon:
+    build:
+      context: ./dockerfiles
+      dockerfile: php.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    command: ["php", "/var/www/html/artisan", "horizon"]
+    volumes:
+      - ./src:/var/www/html:delegated
+    depends_on:
+      - redis
+      - mysql
+    restart: unless-stopped
     networks:
       - laravel
   traefik:
@@ -141,6 +177,9 @@ services:
       - traefik
     networks:
       - laravel
+
+volumes:
+  redis-data:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.portfolio.rule=Host(`natnael.passport.et`) || Host(`www.natnael.passport.et`)"

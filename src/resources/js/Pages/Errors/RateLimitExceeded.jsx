@@ -1,5 +1,4 @@
 import { Head, Link } from "@inertiajs/react"
-import Welcome from './../../../../vendor/laravel/breeze/stubs/inertia-react-ts/resources/js/Pages/Welcome';
 
 function RateLimitExceeded({ message }) {
     return (

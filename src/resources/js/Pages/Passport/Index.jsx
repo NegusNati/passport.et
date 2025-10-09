@@ -1,33 +1,67 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import Authenticated from "@/Layouts/AuthenticatedLayout";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
-import InputError from "@/Components/InputError";
+import { Head, Link } from "@inertiajs/react";
+import { fetchPassports } from "@/api/passports";
 
 function Index({ auth }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        requestNumber: "",
-        firstName: "",
-        middleName: "",
-        lastName: "",
+    const [form, setForm] = useState({
+        first_name: "",
+        middle_name: "",
+        last_name: "",
+        request_number: "",
     });
     const [showRequestNumber, setShowRequestNumber] = useState(false);
+    const [results, setResults] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    useEffect(() => {
-        return () => {
-            reset("password", "password_confirmation");
-        };
-    }, []);
-
-    const submit = (e) => {
-        e.preventDefault();
-
-        post(route("passport.show"));
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setForm((prev) => ({ ...prev, [name]: value }));
     };
+
+    const submit = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+        setError(null);
+
+        const payload = showRequestNumber
+            ? { request_number: form.request_number }
+            : {
+                  first_name: form.first_name,
+                  middle_name: form.middle_name,
+                  last_name: form.last_name,
+              };
+
+        const sanitized = Object.entries(payload).reduce((acc, [key, value]) => {
+            if (value && value.trim() !== "") {
+                acc[key] = value.trim();
+            }
+            return acc;
+        }, {});
+
+        if (Object.keys(sanitized).length === 0) {
+            setError("Please enter at least one search term.");
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const response = await fetchPassports({ ...sanitized, limit: 25 });
+            setResults(response.data ?? []);
+        } catch (err) {
+            setError(
+                err?.response?.data?.message || err.message || "Unable to fetch passports."
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <AuthGuestLayout
             user={auth.user}
@@ -39,133 +73,148 @@ function Index({ auth }) {
         >
             <Head title="Find Passport" />
 
-            <main className="px-4 pt-6 max-[990px]:mx-auto max-[990px]:mt-6 selection:bg-[#FF2D20] selection:text-white ">
-                <form
-                    onSubmit={submit}
-                    className="py-12 px-2 sm:px-6 lg:px-8   "
-                >
-                    <div className=" my-4 mx-2">
+            <main className="px-4 pt-6 max-w-[990px] mx-auto selection:bg-[#FF2D20] selection:text-white">
+                <form onSubmit={submit} className="py-12 px-2 sm:px-6 lg:px-8">
+                    <div className="my-4 mx-2">
                         <p>Input Your Name</p>
                     </div>
-                    <div className="  sm:px-2 flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
-                        <div className="mt-4">
-                            <InputLabel
-                                htmlFor="firstName"
-                                value="First Name"
-                            />
+                    <div className="sm:px-2 flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700">
+                        {!showRequestNumber && (
+                            <>
+                                <div className="mt-4 w-full">
+                                    <InputLabel htmlFor="first_name" value="First Name" />
 
-                            <TextInput
-                                id="firstName"
-                                name="firstName"
-                                value={data.firstName}
-                                isFocused={!showRequestNumber}
-                                className="mt-1 block w-full"
-                                autoComplete="firstName"
-                                placeholder="Natnael"
-                                onChange={(e) =>
-                                    setData("firstName", e.target.value)
-                                }
-                            />
+                                    <TextInput
+                                        id="first_name"
+                                        name="first_name"
+                                        value={form.first_name}
+                                        className="mt-1 block w-full"
+                                        autoComplete="given-name"
+                                        placeholder="Natnael"
+                                        onChange={handleChange}
+                                        isFocused
+                                    />
+                                </div>
+                                <div className="mt-4 w-full">
+                                    <InputLabel htmlFor="middle_name" value="Middle Name / Father's Name" />
 
-                            <InputError
-                                message={errors.firstName}
-                                className="mt-2"
-                            />
-                        </div>
-                        <div className="mt-4">
-                            <InputLabel
-                                htmlFor="middleName"
-                                value="Middle Name/Father's Name"
-                            />
+                                    <TextInput
+                                        id="middle_name"
+                                        name="middle_name"
+                                        value={form.middle_name}
+                                        className="mt-1 block w-full"
+                                        autoComplete="additional-name"
+                                        placeholder="Birhanu"
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="mt-4 w-full">
+                                    <InputLabel htmlFor="last_name" value="Last Name / Grandfather's Name" />
 
-                            <TextInput
-                                id="middleName"
-                                name="middleName"
-                                value={data.middleName}
-                                className="mt-1 block w-full"
-                                autoComplete="middleName"
-                                placeholder="Birhanu"
-                                onChange={(e) =>
-                                    setData("middleName", e.target.value)
-                                }
-                            />
+                                    <TextInput
+                                        id="last_name"
+                                        name="last_name"
+                                        value={form.last_name}
+                                        className="mt-1 block w-full"
+                                        autoComplete="family-name"
+                                        placeholder="Gezahegn"
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </>
+                        )}
+                        {showRequestNumber && (
+                            <div className="mt-4 w-full">
+                                <InputLabel htmlFor="request_number" value="Request Number" />
 
-                            <InputError
-                                message={errors.middleName}
-                                className="mt-2"
-                            />
-                        </div>
-                        <div className="mt-4">
-                            <InputLabel
-                                htmlFor="lastName"
-                                value="Last Name/Grandfather's Name"
-                            />
-
-                            <TextInput
-                                id="lastName"
-                                name="lastName"
-                                value={data.lastName}
-                                className="mt-1 block w-full"
-                                autoComplete="lastName"
-                                placeholder="Gezahegn"
-                                onChange={(e) =>
-                                    setData("lastName", e.target.value)
-                                }
-                            />
-
-                            <InputError
-                                message={errors.lastName}
-                                className="mt-2"
-                            />
-                        </div>
+                                <TextInput
+                                    id="request_number"
+                                    name="request_number"
+                                    value={form.request_number}
+                                    className="mt-1 block w-full"
+                                    autoComplete="off"
+                                    placeholder="AAL3912660"
+                                    onChange={handleChange}
+                                    isFocused
+                                />
+                            </div>
+                        )}
                     </div>
-                    {/* <div className=" my-4 mx-2">
-                        <p>Or Find By Request Number</p>
-                    </div> */}
 
                     <button
                         type="button"
-                        onClick={() => setShowRequestNumber(!showRequestNumber)}
+                        onClick={() => setShowRequestNumber((prev) => !prev)}
                         className="my-4 p-2 rounded-xl hover:bg-white hover:text-black transition duration-300"
                     >
-                        {showRequestNumber
-                            ? "Search By Name"
-                            : "Or Find By Request Number"}
+                        {showRequestNumber ? "Search By Name" : "Or Find By Request Number"}
                     </button>
-                    {showRequestNumber ? (
-                        <div className="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20] animate-slide-in">
-                            <InputLabel
-                                htmlFor="requestNumber"
-                                value="Request Number"
-                            />
 
-                            <TextInput
-                                id="requestNumber"
-                                name="requestNumber"
-                                value={data.requestNumber}
-                                className="mt-1 block w-full"
-                                autoComplete="requestNumber"
-                                isFocused={showRequestNumber}
-                                placeholder="AAL3912660"
-                                onChange={(e) =>
-                                    setData("requestNumber", e.target.value)
-                                }
-                            />
-
-                            <InputError
-                                message={errors.requestNumber}
-                                className="mt-2"
-                            />
-                        </div>
-                    ) : (
-                        ""
-                    )}
-                    <div className="flex items-center justify-end mt-4">
-                        <PrimaryButton className="mt-4 transition ease-in-out delay-100 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-100">
-                            Find Passport
-                        </PrimaryButton>
-                    </div>
+                    <PrimaryButton className="mt-4" disabled={loading}>
+                        {loading ? "Searching..." : "Search"}
+                    </PrimaryButton>
                 </form>
+
+                {error && (
+                    <div className="mb-6 rounded-md border border-red-300 bg-red-50 p-4 text-sm text-red-700">
+                        {error}
+                    </div>
+                )}
+
+                {results.length > 0 && (
+                    <div className="overflow-x-auto rounded-lg bg-white p-6 shadow ring-1 ring-black/5 dark:bg-zinc-900 dark:text-white/80">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        Request #
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        Name
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        Location
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        Publish Date
+                                    </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200">
+                                {results.map((passport) => (
+                                    <tr key={passport.id} className="hover:bg-gray-100 transition">
+                                        <td className="px-4 py-3 font-medium text-gray-900">
+                                            {passport.request_number ?? passport.requestNumber}
+                                        </td>
+                                        <td className="px-4 py-3 text-gray-700">
+                                            {[passport.first_name ?? passport.firstName, passport.middle_name ?? passport.middleName, passport.last_name ?? passport.lastName]
+                                                .filter(Boolean)
+                                                .join(" ")}
+                                        </td>
+                                        <td className="px-4 py-3 text-gray-700">
+                                            {passport.location}
+                                        </td>
+                                        <td className="px-4 py-3 text-gray-700">
+                                            {passport.date_of_publish ?? passport.dateOfPublish}
+                                        </td>
+                                        <td className="px-4 py-3 text-gray-700">
+                                            <Link
+                                                href={route("passport.showDetail", {
+                                                    id: passport.id,
+                                                })}
+                                                className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 hover:bg-[#FF2D20] duration-200"
+                                            >
+                                                Detail
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </main>
         </AuthGuestLayout>
     );

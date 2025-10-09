@@ -1,0 +1,12 @@
+includes:
+    - vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+        - bootstrap/app.php
+        - config
+        - database
+        - routes
+    tmpDir: storage/framework/cache/phpstan
+    level: max
