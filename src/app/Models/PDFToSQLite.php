@@ -2,14 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Domain\Passport\Models\Passport as DomainPassport;
 
-class PDFToSQLite extends Model
+class PDFToSQLite extends DomainPassport
 {
-    use HasFactory;
-
-    protected $table = 'p_d_f_to_s_q_lites';
-
-    protected $guarded = [];
+    // Intentionally empty: extends the shared Passport domain model for legacy references.
 }

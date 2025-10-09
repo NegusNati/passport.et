@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Support\CacheKeys;
 use Inertia\Inertia;
 
 
@@ -24,9 +25,13 @@ Route::post('/pdf-to-sqlite',  [PDFToSQLiteController::class, 'store'])->name('p
 Route::get('/pdf-to-sqlite',  [PDFToSQLiteController::class, 'create'])->can('upload-files');
 
 Route::get('/', function () {
-    $passportCount = Cache::remember('passport_count', 3600, function () { // Cache for 1 hour
-        return DB::table('p_d_f_to_s_q_lites')->count();
-    });
+    $passportCount = Cache::tags(['passports', 'passports.metrics'])->remember(
+        CacheKeys::passportCount(),
+        3600,
+        function () {
+            return DB::table('p_d_f_to_s_q_lites')->count();
+        }
+    );
 
     // $passportCount = DB::table('p_d_f_to_s_q_lites')->count();
     return Inertia::render('Welcome', [

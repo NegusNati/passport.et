@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
+<<<<<<< HEAD
         <loc>https://passport.et</loc>
         <lastmod>2024-10-02T00:00:00+00:00</lastmod>
 
@@ -128,6 +129,154 @@
     <url>
         <loc>https://passport.et/subscribe</loc>
         <lastmod>2024-10-02T00:00:00+00:00</lastmod>
+=======
+        <loc>http://app.localhost</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/dashboard</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/passport</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/passport/search</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/passport/{id}</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/all-passports</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/locations</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/Gotera,%20Addis%20Ababa</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Gambela</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Jijiga</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Jimma</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Dire%20Dawa</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Dessie</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Adama</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Hawassa</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Asosa</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Bahir%20Dar</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Semera</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Mekele</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/location/ICS%20branch%20office,%20Hosaena</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/login</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/register</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/privacy</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/telegram</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/payment</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/subscribe</loc>
+        <lastmod>2025-09-24T00:00:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/articles</loc>
+    
+            </url>
+    <url>
+        <loc>http://app.localhost/articles/processing-timeline-updates-september-2025</loc>
+        <lastmod>2025-09-25T12:20:18+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/articles/how-to-apply-for-an-ethiopian-passport-2025-guide</loc>
+        <lastmod>2025-09-25T12:20:18+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://app.localhost/articles/passport-appointment-tips-what-to-bring</loc>
+        <lastmod>2025-09-25T12:20:18+00:00</lastmod>
+>>>>>>> 7d2499f492edb73ed6ce11ad4b3e71b79fb3ae24
 
             </url>
 </urlset>

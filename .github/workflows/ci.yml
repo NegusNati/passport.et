@@ -1,0 +1,138 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, api ]
+  pull_request:
+    branches: [ main, api ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: >-
+          --add-host redis:127.0.0.1
+          --health-cmd "redis-cli -p 6379 ping"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=5
+      mysql:
+        image: mariadb:11.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MARIADB_ROOT_PASSWORD: root
+          MYSQL_ROOT_HOST: '%'
+          MARIADB_ROOT_HOST: '%'
+          MYSQL_DATABASE: laravel
+          MARIADB_DATABASE: laravel
+        ports: ['33306:3306']
+        options: >-
+          --add-host redis:127.0.0.1
+          --health-cmd="mariadb-admin ping --protocol=tcp -h 127.0.0.1 -uroot -proot --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=6
+          --health-start-period=30s
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add redis host alias
+        run: sudo sh -c 'echo "127.0.0.1 redis" >> /etc/hosts'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pcntl, redis, pdo_mysql
+          tools: composer
+
+      - name: Copy .env example
+        run: cp src/.env.example src/.env
+
+      - name: Install PHP dependencies
+        working-directory: ./src
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Generate key
+        working-directory: ./src
+        run: php artisan key:generate
+
+      - name: Install Node dependencies
+        working-directory: ./src
+        run: npm ci
+
+      - name: Build assets
+        working-directory: ./src
+        run: npm run build
+
+      - name: Run migrations
+        working-directory: ./src
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 33306
+          DB_DATABASE: laravel
+          DB_USERNAME: root
+          DB_PASSWORD: root
+          QUEUE_CONNECTION: sync
+          CACHE_STORE: array
+          SESSION_DRIVER: array
+        run: php artisan migrate --force
+
+      - name: Run unit tests
+        working-directory: ./src
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 33306
+          DB_DATABASE: laravel
+          DB_USERNAME: root
+          DB_PASSWORD: root
+          CACHE_STORE: array
+          SESSION_DRIVER: array
+          QUEUE_CONNECTION: sync
+        run: php artisan test --testsuite=Unit
+
+      - name: Run API feature tests
+        working-directory: ./src
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 33306
+          DB_DATABASE: laravel
+          DB_USERNAME: root
+          DB_PASSWORD: root
+          QUEUE_CONNECTION: redis
+          CACHE_STORE: redis
+          SESSION_DRIVER: redis
+          REDIS_CLIENT: phpredis
+          REDIS_HOST: redis
+          REDIS_PORT: 6379
+        run: php artisan test --testsuite=Feature --filter=Api
+
+      # - name: Static analysis (PHPStan)
+      #   working-directory: ./src
+      #   run: vendor/bin/phpstan analyse
+
+      # - name: Code style (Pint)
+      #   working-directory: ./src
+      #   run: vendor/bin/pint --test
+
+      - name: Horizon status check
+        working-directory: ./src
+        env:
+          QUEUE_CONNECTION: redis
+          CACHE_STORE: redis
+          SESSION_DRIVER: redis
+          REDIS_CLIENT: phpredis
+          REDIS_HOST: redis
+          REDIS_PORT: 6379
+        run: php artisan horizon:status || php artisan horizon:status || true

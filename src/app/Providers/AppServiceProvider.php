@@ -2,7 +2,15 @@
 
 namespace App\Providers;
 
+use App\Domain\Passport\Models\Passport;
 use App\Models\User;
+use App\Domain\Article\Models\Article;
+use App\Domain\Advertisement\Models\AdvertisementRequest;
+use App\Domain\Advertisement\Models\Advertisement;
+use App\Observers\ArticleObserver;
+use App\Observers\PassportObserver;
+use App\Observers\AdvertisementRequestObserver;
+use App\Observers\AdvertisementObserver;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,9 +40,12 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        Gate::define('viewPulse', function (User $user) {
-            return $user->hasRole('admin');
-        });
+        Passport::observe(PassportObserver::class);
+        Article::observe(ArticleObserver::class);
+        AdvertisementRequest::observe(AdvertisementRequestObserver::class);
+        Advertisement::observe(AdvertisementObserver::class);
+
+        $this->defineGates();
 
         RateLimiter::for('rateLimiter', function ($request) {
             $user = Auth::user();
@@ -70,7 +81,55 @@ class AppServiceProvider extends ServiceProvider
             });
         });
 
-        
-        
+        RateLimiter::for('api.v1.default', function (Request $request) {
+            $user = $request->user();
+
+            if ($user && $user->subscription && $user->subscription->plan === 'premium') {
+                return Limit::perMinute(240)
+                    ->by('user:'.$user->id)
+                    ->response(fn () => $this->apiThrottleResponse());
+            }
+
+            if ($user) {
+                return Limit::perMinute(120)
+                    ->by('user:'.$user->id)
+                    ->response(fn () => $this->apiThrottleResponse());
+            }
+
+            return Limit::perMinute(60)
+                ->by('ip:'.$request->ip())
+                ->response(fn () => $this->apiThrottleResponse());
+        });
+    }
+
+    /**
+     * Standard JSON payload for throttled API responses.
+     */
+    protected function apiThrottleResponse()
+    {
+        return response()->json([
+            'status' => 'error',
+            'code' => 'rate_limit_exceeded',
+            'message' => 'Too many requests. Please slow down and try again shortly.',
+        ], 429);
+    }
+
+    protected function defineGates(): void
+    {
+        Gate::define('viewPulse', function (User $user) {
+            return $user->hasRole('admin');
+        });
+
+        Gate::define('viewHorizon', function (User $user) {
+            return $user->hasRole('admin');
+        });
+
+        Gate::define('manage-articles', function (User $user) {
+            return method_exists($user, 'hasRole') ? $user->hasRole('admin') : true;
+        });
+
+        Gate::define('manage-advertisements', function (User $user) {
+            return method_exists($user, 'hasRole') ? $user->hasRole('admin') : true;
+        });
     }
 }
