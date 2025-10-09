@@ -13,7 +13,7 @@ jobs:
     services:
       redis:
         image: redis:7-alpine
-        ports: ['36379:6379']
+        ports: ['6379:6379']
         options: >-
           --add-host redis:127.0.0.1
           --health-cmd "redis-cli -p 6379 ping"
@@ -153,6 +153,7 @@ jobs:
           QUEUE_CONNECTION: redis
           CACHE_STORE: redis
           SESSION_DRIVER: redis
-          REDIS_HOST: 127.0.0.1
-          REDIS_PORT: 36379
+          REDIS_CLIENT: phpredis
+          REDIS_HOST: redis
+          REDIS_PORT: 6379
         run: php artisan horizon:status || php artisan horizon:status || true
