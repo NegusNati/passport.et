@@ -4,7 +4,7 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthGuestLayout from "@/Layouts/AuthGuestLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import { fetchPassports } from "@/api/passports";
 
 function Index({ auth }) {
@@ -177,6 +177,9 @@ function Index({ auth }) {
                                     <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
                                         Publish Date
                                     </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        Action
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
@@ -195,6 +198,16 @@ function Index({ auth }) {
                                         </td>
                                         <td className="px-4 py-3 text-gray-700">
                                             {passport.date_of_publish ?? passport.dateOfPublish}
+                                        </td>
+                                        <td className="px-4 py-3 text-gray-700">
+                                            <Link
+                                                href={route("passport.showDetail", {
+                                                    id: passport.id,
+                                                })}
+                                                className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 hover:bg-[#FF2D20] duration-200"
+                                            >
+                                                Detail
+                                            </Link>
                                         </td>
                                     </tr>
                                 ))}

@@ -1,1 +1,0 @@
-import{d as o}from"./app-ixwgkWA6.js";const a=o.create({baseURL:"/api/v1",headers:{Accept:"application/json"}}),c=(t={})=>a.get("/passports",{params:t}).then(s=>s.data),n=()=>a.get("/locations").then(t=>t.data);export{n as a,c as f};
