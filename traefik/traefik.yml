@@ -29,4 +29,4 @@ certificatesResolvers:
       email: natnaelbirhanu22@gmail.com
       storage: /letsencrypt/acme.json
       tlsChallenge: {}
-      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      caServer: https://acme-v02.api.letsencrypt.org/directory
