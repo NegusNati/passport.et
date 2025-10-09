@@ -175,7 +175,7 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    command: ["php", "/var/www/html/artisan", "horizon"]
+    command: ["sh", "-lc", "if [ ! -f vendor/autoload.php ]; then composer install --no-dev -o; fi && php artisan horizon"]
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
