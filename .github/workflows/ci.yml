@@ -82,12 +82,9 @@ jobs:
           DB_DATABASE: laravel
           DB_USERNAME: root
           DB_PASSWORD: root
-          QUEUE_CONNECTION: redis
-          CACHE_STORE: redis
-          SESSION_DRIVER: redis
-          REDIS_CLIENT: phpredis
-          REDIS_HOST: redis
-          REDIS_PORT: 6379
+          QUEUE_CONNECTION: sync
+          CACHE_STORE: array
+          SESSION_DRIVER: array
         run: php artisan migrate --force
 
       - name: Prepare sqlite database for unit tests
@@ -101,12 +98,9 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: "database/database.sqlite"
-          QUEUE_CONNECTION: redis
-          CACHE_STORE: redis
-          SESSION_DRIVER: redis
-          REDIS_CLIENT: phpredis
-          REDIS_HOST: redis
-          REDIS_PORT: 6379
+          CACHE_STORE: array
+          SESSION_DRIVER: array
+          QUEUE_CONNECTION: sync
         run: php artisan migrate --force
 
       - name: Run unit tests
@@ -114,12 +108,9 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: "database/database.sqlite"
-          QUEUE_CONNECTION: redis
-          CACHE_STORE: redis
-          SESSION_DRIVER: redis
-          REDIS_CLIENT: phpredis
-          REDIS_HOST: redis
-          REDIS_PORT: 6379
+          CACHE_STORE: array
+          SESSION_DRIVER: array
+          QUEUE_CONNECTION: sync
         run: php artisan test --testsuite=Unit
 
       - name: Run API feature tests
