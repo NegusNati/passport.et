@@ -22,11 +22,10 @@ services:
       - laravel
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`passport.et`) || Host(`www.passport.et`)"
-      - "traefik.http.routers.app.entrypoints=websecure"
-      - "traefik.http.services.app.loadbalancer.server.port=80"
-      - "traefik.http.routers.app.tls=true"
-      - "traefik.http.routers.app.tls.certresolver=myresolver"
+      - "traefik.http.routers.api.rule=Host(`api.passport.et`)"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls.certresolver=myresolver"
+      - "traefik.http.services.api.loadbalancer.server.port=80"
 
   mysql:
     image: mariadb:11.0
@@ -217,19 +216,5 @@ services:
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=myresolver"
       - "traefik.http.routers.traefik.service=api@internal"
-  natnael:
-    build:
-      context: ./src/natnael
-      dockerfile: Dockerfile
-    networks: [laravel]
-    depends_on: [traefik]
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.portfolio.rule=Host(`natnael.passport.et`) || Host(`www.natnael.passport.et`)"
-      - "traefik.http.routers.portfolio.entrypoints=websecure"
-      - "traefik.http.routers.portfolio.tls=true"
-      - "traefik.http.routers.portfolio.tls.certresolver=myresolver"
-      - "traefik.http.services.portfolio.loadbalancer.server.port=80"
-
 volumes:
   redis-data:
