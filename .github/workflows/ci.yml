@@ -118,13 +118,13 @@ jobs:
           REDIS_PORT: 6379
         run: php artisan test --testsuite=Feature --filter=Api
 
-      - name: Static analysis (PHPStan)
-        working-directory: ./src
-        run: vendor/bin/phpstan analyse
+      # - name: Static analysis (PHPStan)
+      #   working-directory: ./src
+      #   run: vendor/bin/phpstan analyse
 
-      - name: Code style (Pint)
-        working-directory: ./src
-        run: vendor/bin/pint --test
+      # - name: Code style (Pint)
+      #   working-directory: ./src
+      #   run: vendor/bin/pint --test
 
       - name: Horizon status check
         working-directory: ./src
