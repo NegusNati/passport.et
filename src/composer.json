@@ -33,7 +33,8 @@
         "nunomaduro/collision": "^8.0",
         "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
-        "phpstan/phpstan": "^1.11"
+        "phpstan/phpstan": "^1.11",
+        "nunomaduro/larastan": "^2.9"
     },
     "autoload": {
         "psr-4": {
