@@ -17,7 +17,7 @@ class TelegramSimpleNotification extends Notification
 
     public function via($notifiable): array
     {
-        return ['telegram'];
+        return app()->environment('testing') ? [] : ['telegram'];
     }
 
     public function toTelegram($notifiable): TelegramMessage
