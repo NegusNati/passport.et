@@ -1,0 +1,32 @@
+log:
+  level: INFO
+
+api:
+  dashboard: true
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: myresolver
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: natnaelbirhanu22@gmail.com
+      storage: /letsencrypt/acme.json
+      tlsChallenge: {}
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
