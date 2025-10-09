@@ -84,12 +84,40 @@ jobs:
           REDIS_PORT: 36379
         run: php artisan migrate --force
 
+      - name: Prepare sqlite database for unit tests
+        working-directory: ./src
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+
+      - name: Run sqlite migrations for unit tests
+        working-directory: ./src
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: "database/database.sqlite"
+        run: php artisan migrate --force
+
       - name: Run unit tests
         working-directory: ./src
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: "database/database.sqlite"
         run: php artisan test --testsuite=Unit
 
       - name: Run API feature tests
         working-directory: ./src
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 33306
+          DB_DATABASE: laravel
+          DB_USERNAME: root
+          DB_PASSWORD: root
+          QUEUE_CONNECTION: redis
+          CACHE_STORE: redis
+          SESSION_DRIVER: redis
+          REDIS_HOST: 127.0.0.1
+          REDIS_PORT: 36379
         run: php artisan test --testsuite=Feature --filter=Api
 
       - name: Static analysis (PHPStan)
