@@ -132,7 +132,7 @@ services:
     working_dir: /var/www/html
     entrypoint: ["sh", "-c"]
     command: >
-      npm ci && npx vite build && cp public/build/.vite/manifest.json public/build/
+      npm ci && chmod +x node_modules/.bin/vite && npm run build && cp public/build/.vite/manifest.json public/build/
     networks:
       - laravel
 
