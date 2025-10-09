@@ -24,14 +24,17 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MARIADB_ROOT_PASSWORD: root
+          MYSQL_ROOT_HOST: '%'
+          MARIADB_ROOT_HOST: '%'
           MYSQL_DATABASE: laravel
           MARIADB_DATABASE: laravel
         ports: ['33306:3306']
         options: >-
-          --health-cmd="mysqladmin ping -u root -proot"
+          --health-cmd="mariadb-admin ping --protocol=tcp -h 127.0.0.1 -uroot -proot --silent"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=5
+          --health-retries=6
+          --health-start-period=30s
 
     steps:
       - uses: actions/checkout@v4
