@@ -72,6 +72,21 @@ services:
     #     - "9000:9000"
     volumes:
       - ./src:/var/www/html:delegated
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://passport.et
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     networks:
       - laravel
     depends_on:
@@ -89,6 +104,21 @@ services:
     depends_on:
       - php
     entrypoint: ["sh", "-c", 'composer "$@"', "--"]
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://passport.et
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     networks:
       - laravel
 
@@ -103,7 +133,7 @@ services:
     working_dir: /var/www/html
     entrypoint: ["sh", "-c"]
     command: >
-      npm ci && chmod +x node_modules/.bin/vite && npm run build && cp public/build/.vite/manifest.json public/build/
+      npm ci && npx vite build && cp public/build/.vite/manifest.json public/build/
     networks:
       - laravel
 
@@ -120,6 +150,21 @@ services:
       - mysql
       - redis
     entrypoint: ["php", "/var/www/html/artisan"]
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://passport.et
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     networks:
       - laravel
 
@@ -137,6 +182,21 @@ services:
       - redis
       - mysql
     restart: unless-stopped
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://passport.et
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     networks:
       - laravel
   traefik:
