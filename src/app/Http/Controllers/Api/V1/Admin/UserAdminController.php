@@ -51,6 +51,11 @@ class UserAdminController extends ApiController
     {
         $role = $request->validated('role');
 
+        // Ensure role exists before syncing
+        $roleModel = \Spatie\Permission\Models\Role::firstOrCreate(
+            ['name' => $role, 'guard_name' => 'web']
+        );
+
         // Sync roles - this will remove all existing roles and assign the new one
         $user->syncRoles([$role]);
 

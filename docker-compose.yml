@@ -1,7 +1,6 @@
 networks:
   laravel:
 
-
 services:
   app:
     build:
@@ -11,15 +10,12 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
-      - "8082:80"
-    labels:
-      - "traefik.http.routers.app.rule=Host(`app.localhost`)"
-      - "traefik.http.routers.app.entrypoints=web"
-      - "traefik.http.services.app.loadbalancer.server.port=80"
+      - "80:80"
+      - "443:443"
     volumes:
       - ./src:/var/www/html:delegated
+      - ./certificates:/etc/nginx/ssl:ro
     depends_on:
-      - traefik
       - php
       - mysql
       - redis
@@ -33,10 +29,10 @@ services:
     ports:
       - "3329:3306"
     environment:
-      MYSQL_DATABASE: homestead
-      MYSQL_USER: homestead
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
@@ -47,9 +43,13 @@ services:
   redis:
     image: redis:8.2-alpine
     restart: unless-stopped
-    ports:
-      - "6379:6379"
-    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    command:
+      - "redis-server"
+      - "--save"
+      - "60"
+      - "1"
+      - "--loglevel"
+      - "warning"
     volumes:
       - redis-data:/data
     networks:
@@ -62,10 +62,25 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    ports:
-      - "9000:9000"
+    # ports:
+    #     - "9000:9000"
     volumes:
       - ./src:/var/www/html:delegated
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://api.passport.et
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     networks:
       - laravel
     depends_on:
@@ -82,7 +97,22 @@ services:
       - ./src:/var/www/html
     depends_on:
       - php
-    entrypoint: [ 'sh', '-c', 'composer --ignore-platform-reqs "$@"', '--' ]
+    entrypoint: ["sh", "-c", 'composer "$@"', "--"]
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://api.passport.et
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     networks:
       - laravel
 
@@ -95,9 +125,9 @@ services:
       - "3001:3001"
       - "5173:5173"
     working_dir: /var/www/html
-    entrypoint: [ 'sh', '-c' ]
+    entrypoint: ["sh", "-c"]
     command: >
-      "npm install && npm run build && cd /var/www/html/public/build/.vite/ && cp manifest.json ../"
+      npm ci && chmod +x node_modules/.bin/vite && npm run build && cp public/build/.vite/manifest.json public/build/
     networks:
       - laravel
 
@@ -113,7 +143,22 @@ services:
     depends_on:
       - mysql
       - redis
-    entrypoint: [ 'php', '/var/www/html/artisan' ]
+    entrypoint: ["php", "/var/www/html/artisan"]
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://api.passport.et
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     networks:
       - laravel
 
@@ -124,26 +169,29 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    command: ["php", "/var/www/html/artisan", "horizon"]
+    command: ["sh", "-lc", "if [ ! -f vendor/autoload.php ]; then composer install --no-dev -o; fi && php artisan horizon"]
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
       - redis
       - mysql
     restart: unless-stopped
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://api.passport.et
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     networks:
       - laravel
-
-  traefik:
-    image: traefik:v3.1
-    command: --api.insecure=true --providers.docker --entrypoints.web.address=:80
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - laravel
-
 volumes:
   redis-data:
