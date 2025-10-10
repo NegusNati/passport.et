@@ -69,6 +69,7 @@ Route::prefix('v1')
 
         Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {
             Route::get('/users', [UserAdminController::class, 'index'])->name('admin.users.index');
+            Route::get('/users/{user}', [UserAdminController::class, 'show'])->name('admin.users.show');
             Route::patch('/users/{user}/role', [UserAdminController::class, 'updateRole'])->name('admin.users.update-role');
             Route::get('/abilities', [AdminAbilityController::class, 'show'])->name('admin.abilities.show');
         });

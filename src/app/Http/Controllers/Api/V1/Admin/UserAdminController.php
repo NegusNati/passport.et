@@ -38,6 +38,15 @@ class UserAdminController extends ApiController
         return $this->respond($resource);
     }
 
+    public function show(Request $request, User $user)
+    {
+        $this->authorizeAdmin($request);
+
+        $user->load(['roles:id,name', 'permissions:id,name', 'subscription']);
+
+        return $this->respond(new UserResource($user));
+    }
+
     public function updateRole(UpdateUserRoleRequest $request, User $user)
     {
         $role = $request->validated('role');
