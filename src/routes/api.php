@@ -37,6 +37,24 @@ Route::prefix('v1')
             Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         });
 
+        // Debug route to check proxy headers (temporary)
+        Route::get('/debug-headers', function () {
+            return response()->json([
+                'scheme' => request()->getScheme(),
+                'is_secure' => request()->isSecure(),
+                'host' => request()->getHost(),
+                'url' => request()->url(),
+                'client_ip' => request()->ip(),
+                'headers' => [
+                    'x-forwarded-proto' => request()->header('X-Forwarded-Proto'),
+                    'x-forwarded-for' => request()->header('X-Forwarded-For'),
+                    'x-forwarded-host' => request()->header('X-Forwarded-Host'),
+                    'x-real-ip' => request()->header('X-Real-IP'),
+                    'all_headers' => request()->headers->all(),
+                ],
+            ], 200, [], JSON_PRETTY_PRINT);
+        })->name('debug.headers');
+
         Route::get('/passports', [PassportController::class, 'index'])->name('passports.index');
         Route::get('/passports/{passport}', [PassportController::class, 'show'])->name('passports.show');
         Route::get('/locations', [LocationController::class, 'index'])->name('locations.index');
