@@ -35,8 +35,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
-
+        // Force HTTPS in production, respecting proxy headers
+        if (config('app.env') === 'production') {
+            // Check if the original request was HTTPS (from proxy headers)
+            if (request()->header('X-Forwarded-Proto') === 'https') {
+                URL::forceScheme('https');
+            }
+        }
 
         Passport::observe(PassportObserver::class);
         Article::observe(ArticleObserver::class);
