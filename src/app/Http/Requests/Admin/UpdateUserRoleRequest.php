@@ -14,14 +14,14 @@ class UpdateUserRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role' => ['required', 'string', 'in:admin'],
+            'role' => ['required', 'string', 'in:admin,editor,user'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'role.in' => 'Only admin role assignments are currently supported.',
+            'role.in' => 'Role must be one of: admin, editor, or user.',
         ];
     }
 }

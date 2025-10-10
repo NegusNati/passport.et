@@ -14,25 +14,40 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create or find permission
-        $permission = Permission::findOrCreate('upload-files', 'web');
+        // Create or find permissions
+        $uploadPermission = Permission::findOrCreate('upload-files', 'web');
+        $manageArticlesPermission = Permission::findOrCreate('manage-articles', 'web');
+        $manageAdsPermission = Permission::findOrCreate('manage-advertisements', 'web');
 
-        // Create or find role
-        $role = Role::findOrCreate('admin', 'web');
+        // Create or find roles
+        $adminRole = Role::findOrCreate('admin', 'web');
+        $editorRole = Role::findOrCreate('editor', 'web');
+        $userRole = Role::findOrCreate('user', 'web');
 
-        // Give permission to role if not already assigned
-        if (! $role->hasPermissionTo($permission)) {
-            $role->givePermissionTo($permission);
+        // Give permissions to admin role
+        if (! $adminRole->hasPermissionTo($uploadPermission)) {
+            $adminRole->givePermissionTo($uploadPermission);
+        }
+        if (! $adminRole->hasPermissionTo($manageArticlesPermission)) {
+            $adminRole->givePermissionTo($manageArticlesPermission);
+        }
+        if (! $adminRole->hasPermissionTo($manageAdsPermission)) {
+            $adminRole->givePermissionTo($manageAdsPermission);
+        }
+
+        // Give permissions to editor role
+        if (! $editorRole->hasPermissionTo($manageArticlesPermission)) {
+            $editorRole->givePermissionTo($manageArticlesPermission);
         }
 
         $userAtThisNumber = 1;
 
-        // Assign role to first user
+        // Assign admin role to first user
         $user = User::find($userAtThisNumber);
 
         if ($user) {
-            if (! $user->hasRole($role->name)) {
-                $user->assignRole($role);
+            if (! $user->hasRole($adminRole->name)) {
+                $user->assignRole($adminRole);
                 $this->command->info("Admin role assigned to User #{$userAtThisNumber} ({$user->email}).");
             } else {
                 $this->command->info("User #{$userAtThisNumber} ({$user->email}) already has the admin role.");

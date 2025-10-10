@@ -51,9 +51,8 @@ class UserAdminController extends ApiController
     {
         $role = $request->validated('role');
 
-        if (! $user->hasRole($role)) {
-            $user->assignRole($role);
-        }
+        // Sync roles - this will remove all existing roles and assign the new one
+        $user->syncRoles([$role]);
 
         $user->load(['roles:id,name', 'permissions:id,name', 'subscription']);
 
