@@ -1,5 +1,9 @@
 networks:
   laravel:
+    driver: bridge
+  passport-web:
+    external: true
+    name: passport-frontend_web
 
 services:
   app:
@@ -9,9 +13,9 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    ports:
-      - "80:80"
-      - "443:443"
+    # ports:
+    #   - "80:80"
+    #   - "443:443"
     volumes:
       - ./src:/var/www/html:delegated
       - ./certificates:/etc/nginx/ssl:ro
@@ -21,6 +25,8 @@ services:
       - redis
     networks:
       - laravel
+      - passport-web  # Add this line
+    container_name: laravel-nginx
 
   mysql:
     image: mariadb:11.0
