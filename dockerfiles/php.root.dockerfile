@@ -14,6 +14,7 @@ RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 # Install intl extension (needed for Laravel Number formatting)
 RUN apk add --no-cache icu-libs \
     && apk add --no-cache --virtual .build-intl icu-dev \
+    && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && apk del .build-intl
 
