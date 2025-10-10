@@ -1,5 +1,7 @@
 FROM php:8.3-fpm-alpine
 
+ENV PHPIZE_DEPS="autoconf file g++ gcc libc-dev make pkgconf re2c"
+
 RUN mkdir -p /var/www/html
 
 WORKDIR /var/www/html
@@ -12,10 +14,15 @@ RUN sed -i "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /usr/local/etc/ph
 RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 
 # Install intl extension (needed for Laravel Number formatting)
-RUN apk add --no-cache icu-libs \
-    && apk add --no-cache --virtual .build-intl icu-dev \
+RUN apk add --no-cache icu-libs
+RUN apk add --no-cache --virtual .build-intl \
+    $PHPIZE_DEPS \
+    icu-dev \
+    g++ \
+    zlib-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
+    && docker-php-ext-enable intl \
     && apk del .build-intl
 
 RUN apk add --no-cache $PHPIZE_DEPS \
