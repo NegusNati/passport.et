@@ -58,8 +58,8 @@ Route::prefix('v1')
         // Articles - admin (manage content)
         Route::prefix('admin')->middleware(['auth:sanctum', 'can:manage-articles'])->group(function () {
             Route::post('/articles', [ArticleAdminController::class, 'store'])->name('admin.articles.store');
-            // Support both PUT (for JSON) and POST with _method=PUT (for multipart/form-data with files)
-            Route::match(['put', 'post'], '/articles/{article:slug}', [ArticleAdminController::class, 'update'])->name('admin.articles.update');
+            // Support PUT, PATCH (for JSON) and POST with _method=PUT (for multipart/form-data with files)
+            Route::match(['put', 'patch', 'post'], '/articles/{article:slug}', [ArticleAdminController::class, 'update'])->name('admin.articles.update');
             Route::delete('/articles/{article:slug}', [ArticleAdminController::class, 'destroy'])->name('admin.articles.destroy');
         });
 
