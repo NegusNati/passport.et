@@ -20,20 +20,21 @@ class TelegramSimpleNotification extends Notification
         return app()->environment('testing') ? [] : ['telegram'];
     }
 
-    public function toTelegram($notifiable): TelegramMessage
+    public function shouldSend($notifiable, string $channel): bool
     {
-        $shouldSend = $this->shouldSendToTelegram($notifiable);
+        if ($channel !== 'telegram') {
+            return true;
+        }
 
-        return TelegramMessage::create()
-            ->content($this->message)
-            ->sendWhen($shouldSend);
-    }
-
-    protected function shouldSendToTelegram($notifiable): bool
-    {
         $key = $this->notificationCacheKey($notifiable);
 
         return Cache::add($key, true, $this->deduplicateForSeconds);
+    }
+
+    public function toTelegram($notifiable): TelegramMessage
+    {
+        return TelegramMessage::create()
+            ->content($this->message);
     }
 
     protected function notificationCacheKey($notifiable): string
