@@ -11,6 +11,12 @@ RUN sed -i "s/group = www-data/group = root/g" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/g" /usr/local/etc/php-fpm.d/www.conf
 RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 
+# Install intl extension (needed for Laravel Number formatting)
+RUN apk add --no-cache icu-libs \
+    && apk add --no-cache --virtual .build-intl icu-dev \
+    && docker-php-ext-install intl \
+    && apk del .build-intl
+
 RUN apk add --no-cache $PHPIZE_DEPS \
     && docker-php-ext-install pdo pdo_mysql pcntl \
     && pecl install redis \
