@@ -23,11 +23,18 @@ RUN sed -i "s/group = www-data/group = laravel/g" /usr/local/etc/php-fpm.d/www.c
 RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 
 
+# ---- intl (needs ICU) ----
+# Keep icu-libs at runtime; use icu-dev only while compiling intl
+RUN set -eux; \
+    apk add --no-cache icu-libs; \
+    apk add --no-cache --virtual .build-intl icu-dev; \
+    docker-php-ext-install intl; \
+    apk del .build-intl
+
 
 RUN apk add --no-cache $PHPIZE_DEPS \
     && docker-php-ext-install pdo pdo_mysql pcntl \
     && pecl install redis \
-    && docker-php-ext-install intl \
     && docker-php-ext-enable redis \
     && apk del $PHPIZE_DEPS
 
