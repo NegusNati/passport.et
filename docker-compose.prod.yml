@@ -132,8 +132,7 @@ services:
       - "5173:5173"
     working_dir: /var/www/html
     entrypoint: ["sh", "-c"]
-    command: >
-      npm ci && chmod +x node_modules/.bin/vite && npm run build && cp public/build/.vite/manifest.json public/build/
+    command: "npm ci && chmod +x node_modules/.bin/vite && npm run build && cp public/build/.vite/manifest.json public/build/manifest.json"
     networks:
       - laravel
 
