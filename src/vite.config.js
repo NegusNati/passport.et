@@ -25,7 +25,7 @@ export default defineConfig({
         },
         hmr: {
             host: "api.passport.et",
-            protocol: "https",
+            protocol: "http",
         },
     },
     plugins: [
