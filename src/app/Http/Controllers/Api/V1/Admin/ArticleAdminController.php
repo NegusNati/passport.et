@@ -18,8 +18,21 @@ class ArticleAdminController extends ApiController
 {
     public function store(StoreArticleRequest $request)
     {
-        $request->validated();
-        $data = $this->extractAttributes($request);
+        $validated = $request->validated();
+        $data = [];
+
+        // Extract only the fields that are present in validated data
+        $fillableKeys = [
+            'author_id', 'title', 'slug', 'excerpt', 'content',
+            'featured_image_url', 'canonical_url', 'meta_title',
+            'meta_description', 'og_image_url', 'status', 'published_at'
+        ];
+
+        foreach ($fillableKeys as $key) {
+            if (array_key_exists($key, $validated)) {
+                $data[$key] = $validated[$key];
+            }
+        }
 
         $slug = $data['slug'] ?? null;
         if (! $slug) {
@@ -59,8 +72,22 @@ class ArticleAdminController extends ApiController
 
     public function update(UpdateArticleRequest $request, Article $article)
     {
-        $request->validated();
-        $data = $this->extractAttributes($request);
+        $validated = $request->validated();
+        $data = [];
+
+        // Extract only the fields that are present in validated data
+        $fillableKeys = [
+            'author_id', 'title', 'slug', 'excerpt', 'content',
+            'featured_image_url', 'canonical_url', 'meta_title',
+            'meta_description', 'og_image_url', 'status', 'published_at'
+        ];
+
+        foreach ($fillableKeys as $key) {
+            if (array_key_exists($key, $validated)) {
+                $data[$key] = $validated[$key];
+            }
+        }
+
         if (isset($data['title']) && empty($data['slug'])) {
             // Update slug only if not provided explicitly
             $data['slug'] = Article::makeUniqueSlug($data['title'], $article->id);
@@ -187,33 +214,5 @@ class ArticleAdminController extends ApiController
     {
         if (! $value) return false;
         return ! Str::startsWith($value, ['http://', 'https://', 'data:']);
-    }
-
-    protected function extractAttributes(Request $request): array
-    {
-        $keys = [
-            'author_id',
-            'title',
-            'slug',
-            'excerpt',
-            'content',
-            'featured_image_url',
-            'canonical_url',
-            'meta_title',
-            'meta_description',
-            'og_image_url',
-            'status',
-            'published_at',
-        ];
-
-        $attributes = [];
-
-        foreach ($keys as $key) {
-            if ($request->exists($key)) {
-                $attributes[$key] = $request->input($key);
-            }
-        }
-
-        return $attributes;
     }
 }
