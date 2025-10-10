@@ -106,11 +106,12 @@ class ArticleAdminController extends ApiController
         // Apply uploads/removals; may delete old files if replaced or removed
         $uploadChanges = $this->handleUploads($request, $article);
 
+        // Merge all changes and fill the model
         $article->fill(array_merge($data, $uploadChanges));
 
-        if ($article->isDirty()) {
-            $article->save();
-        }
+        // Always save for PUT requests, even if no changes detected
+        // This ensures proper behavior with PUT semantics
+        $article->save();
 
         $this->syncTaxonomies($article, $request);
 

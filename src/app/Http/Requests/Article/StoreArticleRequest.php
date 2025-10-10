@@ -16,7 +16,7 @@ class StoreArticleRequest extends FormRequest
     {
         return [
             'author_id' => ['sometimes', 'integer', 'exists:users,id'],
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string'],
             'slug' => ['nullable', 'string', 'max:255'],
             'excerpt' => ['nullable', 'string'],
             'content' => ['nullable', 'string'],
@@ -24,7 +24,7 @@ class StoreArticleRequest extends FormRequest
             'featured_image_url' => ['nullable', 'string', 'max:2048'],
             'featured_image' => ['sometimes', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'canonical_url' => ['nullable', 'url'],
-            'meta_title' => ['nullable', 'string', 'max:255'],
+            'meta_title' => ['nullable', 'string'],
             'meta_description' => ['nullable', 'string'],
             'og_image_url' => ['nullable', 'string', 'max:2048'],
             'og_image' => ['sometimes', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],

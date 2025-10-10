@@ -16,7 +16,7 @@ class UpdateArticleRequest extends FormRequest
     {
         return [
             'author_id' => ['sometimes', 'integer', 'exists:users,id'],
-            'title' => ['sometimes', 'string', 'max:255'],
+            'title' => ['sometimes', 'string'],
             'slug' => ['sometimes', 'nullable', 'string', 'max:255'],
             'excerpt' => ['sometimes', 'nullable', 'string'],
             'content' => ['sometimes', 'nullable', 'string'],
@@ -25,7 +25,7 @@ class UpdateArticleRequest extends FormRequest
             'featured_image' => ['sometimes', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'remove_featured_image' => ['sometimes', 'boolean'],
             'canonical_url' => ['sometimes', 'nullable', 'url'],
-            'meta_title' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'meta_title' => ['sometimes', 'nullable', 'string'],
             'meta_description' => ['sometimes', 'nullable', 'string'],
             'og_image_url' => ['sometimes', 'nullable', 'string', 'max:2048'],
             'og_image' => ['sometimes', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
