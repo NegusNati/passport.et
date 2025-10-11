@@ -26,6 +26,9 @@ dist-ssr
 *.sln
 *.sw?
 
-.env
+./src/.env
+./src/.env.local
+./src/.env.development
+./src/.env.production
 
 localDev.md
