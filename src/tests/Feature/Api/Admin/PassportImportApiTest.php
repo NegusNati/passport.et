@@ -40,7 +40,7 @@ it('creates an import batch and dispatches the processing job', function () {
             'data' => ['path', 'batch_id', 'status', 'status_url'],
         ]);
 
-    $batch = PassportImportBatch::query()->firstOrFail();
+    $batch = PassportImportBatch::query()->findOrFail($response->json('data.batch_id'));
 
     expect($batch->start_after_text)->toBe('REQUEST_No.')
         ->and($batch->location)->toBe('ICS branch office, Jimma');
