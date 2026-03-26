@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
+use App\Domain\Passport\Models\PassportImportBatch;
+use App\Domain\Passport\Enums\PassportImportBatchStatus;
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\Passport\StorePassportImportRequest;
 use App\Jobs\PDFToSQLiteJob;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class PDFToSQLiteController extends ApiController
 {
-    public function store(Request $request)
+    public function store(StorePassportImportRequest $request)
     {
         try {
-            $validated = $request->validate([
-                'pdf_file' => 'required|file|mimes:pdf|max:10240',
-                'date' => 'required|date',
-                'location' => 'required',
-                'linesToSkip' => 'required',
-            ]);
+            $validated = $request->validated();
 
             $uploadedFile = $request->file('pdf_file');
             $path = $uploadedFile?->store('pdfs', 'public');
@@ -29,12 +26,18 @@ class PDFToSQLiteController extends ApiController
             $filePath = storage_path('app/public/'.$path);
             Log::info("File stored at: {$filePath}");
 
-            dispatch(new PDFToSQLiteJob(
-                $filePath,
-                $validated['date'],
-                $validated['location'],
-                $validated['linesToSkip']
-            ));
+            $batch = PassportImportBatch::query()->create([
+                'status' => PassportImportBatchStatus::Queued,
+                'file_path' => $path,
+                'original_filename' => $uploadedFile?->getClientOriginalName() ?? basename($path),
+                'source_format' => $validated['format'],
+                'date_of_publish' => $validated['date'],
+                'location' => $validated['location'],
+                'start_after_text' => $validated['start_after_text'],
+                'created_by' => $request->user()?->id,
+            ]);
+
+            dispatch(new PDFToSQLiteJob($batch->id));
 
             Log::info('PDF to SQLite job dispatched successfully.');
 
@@ -43,6 +46,9 @@ class PDFToSQLiteController extends ApiController
                 'message' => 'PDF uploaded and processing started.',
                 'data' => [
                     'path' => $path,
+                    'batch_id' => $batch->id,
+                    'status' => $batch->status->value,
+                    'status_url' => route('api.v1.admin.passport-imports.show', ['passportImportBatch' => $batch->id], false),
                 ],
             ], 202);
         } catch (\Throwable $e) {
@@ -68,7 +74,9 @@ class PDFToSQLiteController extends ApiController
                 'pdf_file' => 'required PDF file up to 10MB',
                 'date' => 'required date (YYYY-MM-DD)',
                 'location' => 'required string',
-                'linesToSkip' => 'required (integer or numeric)',
+                'start_after_text' => 'required string matched before row parsing starts',
+                'linesToSkip' => 'legacy alias for start_after_text',
+                'format' => 'optional: auto | legacy_5col | application_4col',
             ],
         ]);
     }

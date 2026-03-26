@@ -2,8 +2,13 @@
 
 use App\Domain\Passport\Models\Passport;
 use App\Support\PassportFilters;
+use Illuminate\Support\Facades\Cache;
 
 use function Pest\Laravel\getJson;
+
+beforeEach(function () {
+    Cache::flush();
+});
 
 it('returns paginated passports with metadata', function () {
     Passport::factory()->count(30)->create();
@@ -74,7 +79,28 @@ it('shows a single passport resource', function () {
         ->assertJsonPath('data.request_number', $passport->requestNumber);
 });
 
+it('keeps request number search working for records imported from the new four-column format', function () {
+    Passport::factory()->create([
+        'requestNumber' => 'BRPP525001B2D2P',
+        'applicationNumber' => 'BRPP525001B2D2P',
+        'firstName' => 'Abato',
+        'middleName' => 'Anu',
+        'lastName' => 'Ahmed',
+        'sourceFormat' => 'application_4col',
+        'sourceSurname' => 'Anu Ahmed',
+        'sourceGivenname' => 'Abato',
+    ]);
+
+    $response = getJson('/api/v1/passports?request_number=BRPP5250');
+
+    $response->assertOk()
+        ->assertJsonCount(1, 'data')
+        ->assertJsonPath('data.0.request_number', 'BRPP525001B2D2P');
+});
+
 it('lists distinct locations', function () {
+    Passport::query()->delete();
+
     Passport::factory()->create(['location' => 'Addis Ababa']);
     Passport::factory()->create(['location' => 'Dire Dawa']);
     Passport::factory()->create(['location' => 'Addis Ababa']);

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\TagController as PublicTagController;
 use App\Http\Controllers\Api\V1\Admin\ArticleAdminController;
 use App\Http\Controllers\Api\V1\Admin\PDFToSQLiteController as AdminPDFToSQLiteController;
+use App\Http\Controllers\Api\V1\Admin\PassportImportBatchController;
 use App\Http\Controllers\Api\V1\Admin\UserAdminController;
 use App\Http\Controllers\Api\V1\Admin\AdminAbilityController;
 use App\Http\Controllers\Api\V1\Admin\AdvertisementRequestAdminController;
@@ -84,6 +85,7 @@ Route::prefix('v1')
         Route::prefix('admin')->middleware(['auth:sanctum', 'can:upload-files'])->group(function () {
             Route::get('/pdf-to-sqlite', [AdminPDFToSQLiteController::class, 'create'])->name('admin.pdf-to-sqlite.create');
             Route::post('/pdf-to-sqlite', [AdminPDFToSQLiteController::class, 'store'])->name('admin.pdf-to-sqlite.store');
+            Route::get('/passport-imports/{passportImportBatch}', [PassportImportBatchController::class, 'show'])->name('admin.passport-imports.show');
         });
 
         Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {

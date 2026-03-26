@@ -89,6 +89,7 @@ return [
 
     'waits' => [
         'redis:default' => 60,
+        'redis:imports' => 60,
     ],
 
     /*
@@ -205,7 +206,7 @@ return [
     'defaults' => [
         'supervisor-1' => [
             'connection' => env('HORIZON_QUEUE_CONNECTION', 'redis'),
-            'queue' => explode(',', env('HORIZON_QUEUES', 'default')),
+            'queue' => explode(',', env('HORIZON_QUEUES', 'default,imports,notifications')),
             'balance' => env('HORIZON_BALANCE', 'auto'),
             'autoScalingStrategy' => env('HORIZON_SCALE_STRATEGY', 'time'),
             'maxProcesses' => (int) env('HORIZON_MAX_PROCESSES', 2),
@@ -213,44 +214,33 @@ return [
             'maxJobs' => (int) env('HORIZON_MAX_JOBS', 0),
             'memory' => (int) env('HORIZON_WORKER_MEMORY', 128),
             'tries' => (int) env('HORIZON_WORKER_TRIES', 1),
-            'timeout' => (int) env('HORIZON_WORKER_TIMEOUT', 60),
+            'timeout' => (int) env('HORIZON_WORKER_TIMEOUT', 300),
             'nice' => (int) env('HORIZON_WORKER_NICE', 0),
         ],
     ],
 
     'environments' => [
         'local' => [
-            'supervisor-local' => [
+            'supervisor-1' => [
                 'connection' => env('HORIZON_QUEUE_CONNECTION', 'redis'),
-                'queue' => explode(',', env('HORIZON_QUEUES_LOCAL', 'default')),
+                'queue' => explode(',', env('HORIZON_QUEUES_LOCAL', 'default,imports')),
                 'maxProcesses' => (int) env('HORIZON_MAX_PROCESSES_LOCAL', 1),
+                'balanceMaxShift' => (int) env('HORIZON_BALANCE_MAX_SHIFT_LOCAL', 1),
+                'balanceCooldown' => (int) env('HORIZON_BALANCE_COOLDOWN_LOCAL', 3),
                 'balance' => env('HORIZON_BALANCE_LOCAL', 'simple'),
+                'timeout' => (int) env('HORIZON_WORKER_TIMEOUT', 300),
             ],
         ],
 
         'production' => [
-            'supervisor-production' => [
+            'supervisor-1' => [
                 'connection' => env('HORIZON_QUEUE_CONNECTION', 'redis'),
-                'queue' => explode(',', env('HORIZON_QUEUES', 'default')),
+                'queue' => explode(',', env('HORIZON_QUEUES', 'default,imports,notifications')),
                 'maxProcesses' => (int) env('HORIZON_MAX_PROCESSES', 4),
                 'balance' => env('HORIZON_BALANCE', 'auto'),
-                'timeout' => (int) env('HORIZON_WORKER_TIMEOUT', 60),
-            ],
-        ],
-    ],
-
-    'environments' => [
-        'production' => [
-            'supervisor-1' => [
-                'maxProcesses' => 10,
-                'balanceMaxShift' => 1,
-                'balanceCooldown' => 3,
-            ],
-        ],
-
-        'local' => [
-            'supervisor-1' => [
-                'maxProcesses' => 3,
+                'timeout' => (int) env('HORIZON_WORKER_TIMEOUT', 300),
+                'balanceMaxShift' => (int) env('HORIZON_BALANCE_MAX_SHIFT', 1),
+                'balanceCooldown' => (int) env('HORIZON_BALANCE_COOLDOWN', 3),
             ],
         ],
     ],

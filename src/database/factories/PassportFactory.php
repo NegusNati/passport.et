@@ -25,6 +25,11 @@ class PassportFactory extends Factory
             'middleName' => $middle,
             'lastName' => $last,
             'requestNumber' => Str::upper($this->faker->bothify('??#####')),
+            'applicationNumber' => null,
+            'sourceSurname' => null,
+            'sourceGivenname' => null,
+            'sourceFormat' => null,
+            'importBatchId' => null,
             'location' => $this->faker->city(),
             'dateOfPublish' => $this->faker->date(),
         ];

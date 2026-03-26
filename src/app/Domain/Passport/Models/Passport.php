@@ -3,10 +3,12 @@
 namespace App\Domain\Passport\Models;
 
 use App\Domain\Passport\Data\PassportSearchParams;
+use App\Domain\Passport\Enums\PassportPdfSourceFormat;
 use App\Support\PassportFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class Passport extends Model
@@ -21,12 +23,18 @@ class Passport extends Model
         'middleName',
         'lastName',
         'requestNumber',
+        'applicationNumber',
+        'sourceSurname',
+        'sourceGivenname',
+        'sourceFormat',
+        'importBatchId',
         'location',
         'dateOfPublish',
     ];
 
     protected $casts = [
         'dateOfPublish' => 'date',
+        'sourceFormat' => PassportPdfSourceFormat::class,
     ];
 
     /**
@@ -138,6 +146,11 @@ class Passport extends Model
     public function getCacheIdentifier(): string
     {
         return Str::slug(sprintf('%s-%s', $this->requestNumber, optional($this->dateOfPublish)->format('Ymd')));
+    }
+
+    public function importBatch(): BelongsTo
+    {
+        return $this->belongsTo(PassportImportBatch::class, 'importBatchId');
     }
 
     protected static function newFactory()
