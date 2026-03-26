@@ -2,13 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
 <head>
+    @php
+        $isLocalHost = in_array(request()->getHost(), ['localhost', '127.0.0.1'], true);
+        $shouldLoadThirdPartyTracking = app()->environment('production') && ! $isLocalHost;
+    @endphp
 
     {{-- umami script  --}}
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="c5a13314-68fb-4528-8f6a-b4edfb743294"></script>
+    @if ($shouldLoadThirdPartyTracking)
+        <script defer src="https://cloud.umami.is/script.js" data-website-id="c5a13314-68fb-4528-8f6a-b4edfb743294"></script>
+    @endif
 
     <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-        data-cf-beacon='{"token": "a9bcb1d97b42448789842972c3848ebc"}'></script><!-- End Cloudflare Web Analytics -->
+    @if ($shouldLoadThirdPartyTracking)
+        <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+            data-cf-beacon='{"token": "a9bcb1d97b42448789842972c3848ebc"}'></script>
+    @endif
+    <!-- End Cloudflare Web Analytics -->
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -69,15 +78,19 @@
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 
     {{-- Google Ads --}}
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1062387645972505"
-        crossorigin="anonymous"></script>
+    @if ($shouldLoadThirdPartyTracking)
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1062387645972505"
+            crossorigin="anonymous"></script>
+    @endif
     <!-- End Google Ads -->
 </head>
 
 <body class="font-sans antialiased">
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P7R4V8B3" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
+    @if ($shouldLoadThirdPartyTracking)
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P7R4V8B3" height="0" width="0"
+                style="display:none;visibility:hidden"></iframe></noscript>
+    @endif
     <!-- End Google Tag Manager (noscript) -->
     @inertia
 </body>

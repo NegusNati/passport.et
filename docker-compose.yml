@@ -10,8 +10,9 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     ports:
-      - "80:80"
-      - "443:443"
+      # Use high, non-privileged host ports to avoid clashes with system web servers
+      - "8080:80"
+      - "8443:443"
     volumes:
       - ./src:/var/www/html:delegated
       - ./certificates:/etc/nginx/ssl:ro
