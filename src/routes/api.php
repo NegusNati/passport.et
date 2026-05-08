@@ -70,7 +70,12 @@ Route::prefix('v1')
         Route::post('/advertisement-requests', [AdvertisementRequestController::class, 'store'])->name('advertisement-requests.store');
 
         // Advertisements - public (for frontend display and tracking)
+        Route::get('/advertisements/slots', [AdvertisementController::class, 'slots'])->name('advertisements.slots');
+        Route::get('/advertisements/slots/{code}', [AdvertisementController::class, 'slot'])->name('advertisements.slot');
+        Route::get('/advertisements/placement', [AdvertisementController::class, 'placement'])->name('advertisements.placement');
         Route::get('/advertisements/active', [AdvertisementController::class, 'active'])->name('advertisements.active');
+        Route::post('/advertisements/impression', [AdvertisementController::class, 'impressionByPayload'])->name('advertisements.impression-payload');
+        Route::post('/advertisements/click', [AdvertisementController::class, 'clickByPayload'])->name('advertisements.click-payload');
         Route::post('/advertisements/{advertisement}/impression', [AdvertisementController::class, 'impression'])->name('advertisements.impression');
         Route::post('/advertisements/{advertisement}/click', [AdvertisementController::class, 'click'])->name('advertisements.click');
 
@@ -102,6 +107,7 @@ Route::prefix('v1')
             Route::delete('/advertisement-requests/{advertisementRequest}', [AdvertisementRequestAdminController::class, 'destroy'])->name('admin.advertisement-requests.destroy');
 
             // Advertisement CRM - admin
+            Route::get('/advertisement-slots', [AdvertisementAdminController::class, 'slots'])->name('admin.advertisement-slots.index');
             Route::get('/advertisements', [AdvertisementAdminController::class, 'index'])->name('admin.advertisements.index');
             Route::get('/advertisements/stats', [AdvertisementAdminController::class, 'stats'])->name('admin.advertisements.stats');
             Route::post('/advertisements', [AdvertisementAdminController::class, 'store'])->name('admin.advertisements.store');

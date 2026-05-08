@@ -11,14 +11,24 @@ class AdvertisementFactory extends Factory
 
     public function definition(): array
     {
+        $slotCode = 'slot-' . $this->faker->unique()->numberBetween(1, 10000);
+        $targetUrl = $this->faker->url();
+
         return [
-            'ad_slot_number' => 'slot-' . $this->faker->unique()->numberBetween(1, 10000),
+            'ad_slot_number' => $slotCode,
+            'slot_code' => $slotCode,
             'ad_title' => $this->faker->sentence(4),
+            'alt_text' => $this->faker->sentence(5),
             'ad_desc' => $this->faker->paragraph(3),
             'ad_excerpt' => $this->faker->sentence(10),
             'ad_desktop_asset' => null,
+            'desktop_width' => 1200,
+            'desktop_height' => 300,
             'ad_mobile_asset' => null,
-            'ad_client_link' => $this->faker->url(),
+            'mobile_width' => 640,
+            'mobile_height' => 360,
+            'ad_client_link' => $targetUrl,
+            'target_url' => $targetUrl,
             'status' => Advertisement::STATUS_DRAFT, // Default to draft to avoid test pollution
             'package_type' => $this->faker->randomElement(Advertisement::packageTypes()),
             'ad_published_date' => now()->addDays(rand(1, 30))->toDateString(), // Future date by default

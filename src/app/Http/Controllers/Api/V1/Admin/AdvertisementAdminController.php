@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Actions\Advertisement\SearchAdvertisementsAction;
 use App\Domain\Advertisement\Data\AdvertisementSearchParams;
+use App\Domain\Advertisement\Models\AdSlot;
 use App\Domain\Advertisement\Models\Advertisement;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\AdvertisementCrm\SearchAdvertisementRequest;
@@ -11,6 +12,7 @@ use App\Http\Requests\AdvertisementCrm\StoreAdvertisementRequest;
 use App\Http\Requests\AdvertisementCrm\UpdateAdvertisementRequest;
 use App\Http\Resources\AdvertisementCollection;
 use App\Http\Resources\AdvertisementResource;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,19 +37,46 @@ class AdvertisementAdminController extends ApiController
         return $this->respond(new AdvertisementResource($advertisement));
     }
 
+    public function slots()
+    {
+        $slots = AdSlot::query()
+            ->where('is_active', true)
+            ->orderBy('page_context')
+            ->orderBy('code')
+            ->get()
+            ->map(fn (AdSlot $slot) => [
+                'id' => $slot->id,
+                'code' => $slot->code,
+                'name' => $slot->name,
+                'page_context' => $slot->page_context,
+                'format' => $slot->format,
+                'desktop_width' => $slot->desktop_width,
+                'desktop_height' => $slot->desktop_height,
+                'mobile_width' => $slot->mobile_width,
+                'mobile_height' => $slot->mobile_height,
+                'is_active' => $slot->is_active,
+            ]);
+
+        return $this->respond(['data' => $slots]);
+    }
+
     public function store(StoreAdvertisementRequest $request)
     {
         $data = $request->validated();
 
         // Handle file uploads
         if ($request->hasFile('ad_desktop_asset')) {
-            $path = $request->file('ad_desktop_asset')->store('advertisements/desktop', 'public');
+            $file = $request->file('ad_desktop_asset');
+            $path = $file->store('advertisements/desktop', 'public');
             $data['ad_desktop_asset'] = $path;
+            $data = array_merge($data, $this->imageDimensions($file, 'desktop'));
         }
 
         if ($request->hasFile('ad_mobile_asset')) {
-            $path = $request->file('ad_mobile_asset')->store('advertisements/mobile', 'public');
+            $file = $request->file('ad_mobile_asset');
+            $path = $file->store('advertisements/mobile', 'public');
             $data['ad_mobile_asset'] = $path;
+            $data = array_merge($data, $this->imageDimensions($file, 'mobile'));
         }
 
         // Auto-set status to scheduled if published date is in the future
@@ -70,8 +99,10 @@ class AdvertisementAdminController extends ApiController
             if ($advertisement->ad_desktop_asset && Storage::disk('public')->exists($advertisement->ad_desktop_asset)) {
                 Storage::disk('public')->delete($advertisement->ad_desktop_asset);
             }
-            $path = $request->file('ad_desktop_asset')->store('advertisements/desktop', 'public');
+            $file = $request->file('ad_desktop_asset');
+            $path = $file->store('advertisements/desktop', 'public');
             $data['ad_desktop_asset'] = $path;
+            $data = array_merge($data, $this->imageDimensions($file, 'desktop'));
         }
 
         if ($request->hasFile('ad_mobile_asset')) {
@@ -79,13 +110,37 @@ class AdvertisementAdminController extends ApiController
             if ($advertisement->ad_mobile_asset && Storage::disk('public')->exists($advertisement->ad_mobile_asset)) {
                 Storage::disk('public')->delete($advertisement->ad_mobile_asset);
             }
-            $path = $request->file('ad_mobile_asset')->store('advertisements/mobile', 'public');
+            $file = $request->file('ad_mobile_asset');
+            $path = $file->store('advertisements/mobile', 'public');
             $data['ad_mobile_asset'] = $path;
+            $data = array_merge($data, $this->imageDimensions($file, 'mobile'));
         }
+
+        unset($data['remove_ad_desktop_asset'], $data['remove_ad_mobile_asset']);
 
         // If status is being changed to active and published date is null, set it to now
         if (isset($data['status']) && $data['status'] === Advertisement::STATUS_ACTIVE && !$advertisement->ad_published_date) {
             $data['ad_published_date'] = now()->toDateString();
+        }
+
+        if ($request->boolean('remove_ad_desktop_asset') && ! $request->hasFile('ad_desktop_asset')) {
+            if ($advertisement->ad_desktop_asset && Storage::disk('public')->exists($advertisement->ad_desktop_asset)) {
+                Storage::disk('public')->delete($advertisement->ad_desktop_asset);
+            }
+
+            $data['ad_desktop_asset'] = null;
+            $data['desktop_width'] = null;
+            $data['desktop_height'] = null;
+        }
+
+        if ($request->boolean('remove_ad_mobile_asset') && ! $request->hasFile('ad_mobile_asset')) {
+            if ($advertisement->ad_mobile_asset && Storage::disk('public')->exists($advertisement->ad_mobile_asset)) {
+                Storage::disk('public')->delete($advertisement->ad_mobile_asset);
+            }
+
+            $data['ad_mobile_asset'] = null;
+            $data['mobile_width'] = null;
+            $data['mobile_height'] = null;
         }
 
         // Reset expiry notification flag if ending date changes
@@ -153,5 +208,19 @@ class AdvertisementAdminController extends ApiController
             });
 
         return $this->respond(['data' => $stats]);
+    }
+
+    protected function imageDimensions(UploadedFile $file, string $prefix): array
+    {
+        $size = @getimagesize($file->getRealPath());
+
+        if (! is_array($size)) {
+            return [];
+        }
+
+        return [
+            "{$prefix}_width" => $size[0],
+            "{$prefix}_height" => $size[1],
+        ];
     }
 }

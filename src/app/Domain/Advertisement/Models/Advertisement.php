@@ -7,6 +7,7 @@ use App\Support\AdvertisementCrmFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Advertisement extends Model
@@ -16,12 +17,19 @@ class Advertisement extends Model
 
     protected $fillable = [
         'ad_slot_number',
+        'slot_code',
         'ad_title',
+        'alt_text',
         'ad_desc',
         'ad_excerpt',
         'ad_desktop_asset',
+        'desktop_width',
+        'desktop_height',
         'ad_mobile_asset',
+        'mobile_width',
+        'mobile_height',
         'ad_client_link',
+        'target_url',
         'status',
         'package_type',
         'ad_published_date',
@@ -41,6 +49,10 @@ class Advertisement extends Model
         'impressions_count' => 'integer',
         'clicks_count' => 'integer',
         'priority' => 'integer',
+        'desktop_width' => 'integer',
+        'desktop_height' => 'integer',
+        'mobile_width' => 'integer',
+        'mobile_height' => 'integer',
         'expiry_notification_sent' => 'boolean',
     ];
 
@@ -98,6 +110,11 @@ class Advertisement extends Model
         return $this->belongsTo(AdvertisementRequest::class);
     }
 
+    public function adSlot(): BelongsTo
+    {
+        return $this->belongsTo(AdSlot::class, 'slot_code', 'code');
+    }
+
     // Scopes
     public function scopeActive(Builder $query): Builder
     {
@@ -130,7 +147,10 @@ class Advertisement extends Model
 
     public function scopeBySlot(Builder $query, string $slotNumber): Builder
     {
-        return $query->where('ad_slot_number', $slotNumber);
+        return $query->where(function (Builder $q) use ($slotNumber) {
+            $q->where('slot_code', $slotNumber)
+                ->orWhere('ad_slot_number', $slotNumber);
+        });
     }
 
     public function scopeFilter(Builder $query, AdvertisementSearchParams $params): Builder
@@ -233,5 +253,20 @@ class Advertisement extends Model
     {
         $this->expiry_notification_sent = true;
         $this->save();
+    }
+
+    public function publicSlotCode(): string
+    {
+        return $this->slot_code ?: $this->ad_slot_number;
+    }
+
+    public function publicTargetUrl(): ?string
+    {
+        return $this->target_url ?: $this->ad_client_link;
+    }
+
+    public function publicAltText(): string
+    {
+        return $this->alt_text ?: $this->ad_title;
     }
 }

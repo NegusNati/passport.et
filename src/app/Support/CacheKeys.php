@@ -86,4 +86,11 @@ class CacheKeys
     {
         return 'ad_crm.active_slots';
     }
+
+    public static function adPublicSlots(array $codes): string
+    {
+        sort($codes);
+
+        return 'ad_crm.public_slots.'.md5(implode('|', $codes));
+    }
 }

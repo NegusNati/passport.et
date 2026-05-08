@@ -86,10 +86,13 @@ class AdvertisementAdminApiTest extends TestCase
 
         $response = $this->postJson(route('api.v1.admin.advertisements.store'), [
             'ad_slot_number' => 'homepage-banner-1',
+            'slot_code' => 'home-alerts-banner',
             'ad_title' => 'Test Advertisement',
+            'alt_text' => 'Test advertisement image',
             'ad_desc' => 'Test description',
             'ad_excerpt' => 'Test excerpt',
             'ad_client_link' => 'https://example.com',
+            'target_url' => 'https://example.com',
             'package_type' => Advertisement::PACKAGE_MONTHLY,
             'ad_published_date' => now()->addDay()->toDateString(),
             'status' => Advertisement::STATUS_DRAFT,
@@ -104,8 +107,94 @@ class AdvertisementAdminApiTest extends TestCase
 
         $this->assertDatabaseHas('advertisements', [
             'ad_slot_number' => 'homepage-banner-1',
+            'slot_code' => 'home-alerts-banner',
             'ad_title' => 'Test Advertisement',
         ]);
+    }
+
+    public function test_admin_can_list_advertisement_slots(): void
+    {
+        Sanctum::actingAs($this->admin);
+
+        $response = $this->getJson(route('api.v1.admin.advertisement-slots.index'));
+
+        $response->assertOk()
+            ->assertJsonPath('data.0.is_active', true)
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => [
+                        'id',
+                        'code',
+                        'name',
+                        'page_context',
+                        'format',
+                        'desktop_width',
+                        'desktop_height',
+                        'mobile_width',
+                        'mobile_height',
+                        'is_active',
+                    ],
+                ],
+            ]);
+    }
+
+    public function test_publishable_ad_requires_desktop_mobile_assets_target_and_alt_text(): void
+    {
+        Sanctum::actingAs($this->admin);
+
+        $response = $this->postJson(route('api.v1.admin.advertisements.store'), [
+            'slot_code' => 'home-alerts-banner',
+            'ad_title' => 'Test Advertisement',
+            'ad_excerpt' => 'Test excerpt',
+            'client_name' => 'Passport',
+            'package_type' => Advertisement::PACKAGE_MONTHLY,
+            'ad_published_date' => now()->addDay()->toDateString(),
+            'status' => Advertisement::STATUS_ACTIVE,
+            'payment_status' => Advertisement::PAYMENT_PAID,
+            'payment_amount' => 500.00,
+        ]);
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors([
+                'target_url',
+                'ad_desktop_asset',
+                'ad_mobile_asset',
+            ]);
+    }
+
+    public function test_publishable_ads_cannot_overlap_same_slot_schedule(): void
+    {
+        Sanctum::actingAs($this->admin);
+        Storage::fake('public');
+
+        Advertisement::factory()->create([
+            'slot_code' => 'home-alerts-banner',
+            'status' => Advertisement::STATUS_ACTIVE,
+            'ad_published_date' => now()->addDay()->toDateString(),
+            'ad_ending_date' => now()->addDays(10)->toDateString(),
+            'payment_status' => Advertisement::PAYMENT_PAID,
+        ]);
+
+        $response = $this->post(route('api.v1.admin.advertisements.store'), [
+            'slot_code' => 'home-alerts-banner',
+            'ad_title' => 'Overlapping Advertisement',
+            'alt_text' => 'Overlapping ad image',
+            'ad_excerpt' => 'Test excerpt',
+            'client_name' => 'Passport',
+            'target_url' => 'https://example.com',
+            'ad_client_link' => 'https://example.com',
+            'package_type' => Advertisement::PACKAGE_MONTHLY,
+            'ad_published_date' => now()->addDays(2)->toDateString(),
+            'ad_ending_date' => now()->addDays(5)->toDateString(),
+            'status' => Advertisement::STATUS_ACTIVE,
+            'payment_status' => Advertisement::PAYMENT_PAID,
+            'payment_amount' => 500.00,
+            'ad_desktop_asset' => UploadedFile::fake()->image('desktop.png', 1200, 300),
+            'ad_mobile_asset' => UploadedFile::fake()->image('mobile.png', 640, 360),
+        ], ['Accept' => 'application/json']);
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['slot_code']);
     }
 
     public function test_admin_can_update_advertisement(): void
@@ -213,6 +302,7 @@ class AdvertisementAdminApiTest extends TestCase
 
         $response = $this->postJson(route('api.v1.admin.advertisements.store'), [
             'ad_slot_number' => 'homepage-banner-1',
+            'slot_code' => 'home-alerts-banner',
             'ad_title' => 'Test Advertisement',
             'package_type' => Advertisement::PACKAGE_MONTHLY,
             'ad_published_date' => now()->toDateString(),
@@ -231,6 +321,7 @@ class AdvertisementAdminApiTest extends TestCase
 
         $response = $this->postJson(route('api.v1.admin.advertisements.store'), [
             'ad_slot_number' => 'homepage-banner-1',
+            'slot_code' => 'home-alerts-banner',
             'ad_title' => 'Test Advertisement',
             'package_type' => Advertisement::PACKAGE_MONTHLY,
             'ad_published_date' => now()->addDays(5)->toDateString(),

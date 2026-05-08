@@ -77,6 +77,66 @@ class AdvertisementPublicApiTest extends TestCase
             ->assertJsonPath('data.0.ad_slot_number', 'homepage-banner-1');
     }
 
+    public function test_can_fetch_public_advertisements_by_slot_codes(): void
+    {
+        Advertisement::factory()->create([
+            'ad_slot_number' => 'legacy-home-alerts',
+            'slot_code' => 'home-alerts-banner',
+            'ad_title' => 'Home Alerts',
+            'alt_text' => 'Home alerts ad',
+            'target_url' => 'https://passport.et/alerts',
+            'ad_client_link' => 'https://passport.et/alerts',
+            'ad_desktop_asset' => 'advertisements/desktop/home.webp',
+            'ad_mobile_asset' => 'advertisements/mobile/home.webp',
+            'status' => Advertisement::STATUS_ACTIVE,
+            'ad_published_date' => now()->subDay(),
+            'ad_ending_date' => now()->addDays(10),
+            'payment_status' => Advertisement::PAYMENT_PAID,
+        ]);
+
+        $response = $this->getJson(route('api.v1.advertisements.slots', [
+            'codes' => ['home-alerts-banner', 'home-download-app'],
+        ]));
+
+        $response->assertOk()
+            ->assertJsonPath('data.home-alerts-banner.slot_code', 'home-alerts-banner')
+            ->assertJsonPath('data.home-alerts-banner.target_url', 'https://passport.et/alerts')
+            ->assertJsonPath('data.home-alerts-banner.desktop_asset.width', 1200)
+            ->assertJsonPath('data.home-download-app', null);
+    }
+
+    public function test_can_fetch_single_public_advertisement_slot(): void
+    {
+        Advertisement::factory()->create([
+            'slot_code' => 'passport-detail-result',
+            'ad_slot_number' => 'passport-detail-result',
+            'status' => Advertisement::STATUS_ACTIVE,
+            'ad_published_date' => now()->subDay(),
+            'ad_ending_date' => now()->addDays(10),
+            'payment_status' => Advertisement::PAYMENT_PAID,
+        ]);
+
+        $response = $this->getJson(route('api.v1.advertisements.slot', [
+            'code' => 'passport-detail-result',
+        ]));
+
+        $response->assertOk()
+            ->assertJsonPath('data.slot_code', 'passport-detail-result')
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'slot_code',
+                    'title',
+                    'alt_text',
+                    'target_url',
+                    'desktop_asset',
+                    'mobile_asset',
+                    'impression_url',
+                    'click_url',
+                ],
+            ]);
+    }
+
     public function test_active_ads_are_ordered_by_priority(): void
     {
         // NOTE: Test isolation issue - database cleanup timing in test environment
