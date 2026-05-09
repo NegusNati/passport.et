@@ -25,11 +25,17 @@ RUN apk add --no-cache --virtual .build-intl \
     && docker-php-ext-enable intl \
     && apk del .build-intl
 
-RUN apk add --no-cache $PHPIZE_DEPS \
-    && docker-php-ext-install pdo pdo_mysql pcntl \
+RUN apk add --no-cache freetype libjpeg-turbo libpng \
+    && apk add --no-cache --virtual .build-core-exts \
+        $PHPIZE_DEPS \
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql pcntl \
     && pecl install redis \
     && docker-php-ext-enable redis \
-    && apk del $PHPIZE_DEPS
+    && apk del .build-core-exts
     
 
 RUN echo "upload_max_filesize = 50M" > /usr/local/etc/php/conf.d/uploads.ini

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             CategoryTagSeeder::class,
             ArticleSeeder::class,
+            AdFeatureSeeder::class,
         ]);
     }
 }

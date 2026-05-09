@@ -30,7 +30,7 @@ class StoreAdvertisementRequest extends FormRequest
             'target_url' => ['nullable', 'url', 'max:255'],
             'client_name' => ['required', 'string', 'max:255'],
             'package_type' => ['required', Rule::in(Advertisement::packageTypes())],
-            'ad_published_date' => ['required', 'date', 'after_or_equal:today'],
+            'ad_published_date' => ['required', 'date'],
             'ad_ending_date' => ['nullable', 'date', 'after:ad_published_date'],
             'status' => ['required', Rule::in(Advertisement::statuses())],
             'payment_status' => ['required', Rule::in(Advertisement::paymentStatuses())],
@@ -44,7 +44,6 @@ class StoreAdvertisementRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'ad_published_date.after_or_equal' => 'The publication date must be today or in the future.',
             'ad_ending_date.after' => 'The ending date must be after the publication date.',
             'ad_desktop_asset.max' => 'The desktop asset must not exceed 10MB.',
             'ad_mobile_asset.max' => 'The mobile asset must not exceed 10MB.',
@@ -53,12 +52,6 @@ class StoreAdvertisementRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        // Ensure status consistency with payment status
-        if ($this->status === Advertisement::STATUS_ACTIVE && $this->payment_status === Advertisement::PAYMENT_PENDING) {
-            // Auto-correct to scheduled or draft if payment is pending
-            $this->merge(['status' => Advertisement::STATUS_SCHEDULED]);
-        }
-
         if (! $this->slot_code && $this->ad_slot_number) {
             $this->merge(['slot_code' => $this->ad_slot_number]);
         }

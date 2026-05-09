@@ -55,19 +55,10 @@ class UpdateAdvertisementRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        // Prevent activating an ad with pending payment
         $advertisement = $this->route('advertisement');
 
         if ($this->has('ad_slot_number') && ! $this->ad_slot_number) {
             $this->merge(['ad_slot_number' => $advertisement->ad_slot_number]);
-        }
-        
-        if ($this->status === Advertisement::STATUS_ACTIVE) {
-            $currentPaymentStatus = $this->payment_status ?? $advertisement->payment_status;
-            
-            if ($currentPaymentStatus === Advertisement::PAYMENT_PENDING) {
-                $this->merge(['status' => Advertisement::STATUS_SCHEDULED]);
-            }
         }
 
         if ($this->has('ad_slot_number') && ! $this->slot_code) {

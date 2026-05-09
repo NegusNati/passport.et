@@ -91,6 +91,7 @@ class AdvertisementAdminApiTest extends TestCase
             'alt_text' => 'Test advertisement image',
             'ad_desc' => 'Test description',
             'ad_excerpt' => 'Test excerpt',
+            'client_name' => 'Passport',
             'ad_client_link' => 'https://example.com',
             'target_url' => 'https://example.com',
             'package_type' => Advertisement::PACKAGE_MONTHLY,
@@ -109,6 +110,41 @@ class AdvertisementAdminApiTest extends TestCase
             'ad_slot_number' => 'homepage-banner-1',
             'slot_code' => 'home-alerts-banner',
             'ad_title' => 'Test Advertisement',
+        ]);
+    }
+
+    public function test_admin_can_create_active_advertisement_with_past_publish_date(): void
+    {
+        Sanctum::actingAs($this->admin);
+        Storage::fake('public');
+
+        $response = $this->post(route('api.v1.admin.advertisements.store'), [
+            'slot_code' => 'home-alerts-banner',
+            'ad_title' => 'Already Live Advertisement',
+            'alt_text' => 'Already live advertisement image',
+            'ad_excerpt' => 'Test excerpt',
+            'client_name' => 'Passport',
+            'target_url' => 'https://example.com',
+            'ad_client_link' => 'https://example.com',
+            'package_type' => Advertisement::PACKAGE_MONTHLY,
+            'ad_published_date' => now()->subDay()->toDateString(),
+            'ad_ending_date' => now()->addDays(10)->toDateString(),
+            'status' => Advertisement::STATUS_ACTIVE,
+            'payment_status' => Advertisement::PAYMENT_PENDING,
+            'payment_amount' => 500.00,
+            'ad_desktop_asset' => UploadedFile::fake()->image('desktop.png', 1200, 300),
+            'ad_mobile_asset' => UploadedFile::fake()->image('mobile.png', 640, 360),
+        ], ['Accept' => 'application/json']);
+
+        $response->assertCreated()
+            ->assertJsonPath('data.status', Advertisement::STATUS_ACTIVE)
+            ->assertJsonPath('data.ad_published_date', now()->subDay()->toDateString());
+
+        $this->assertDatabaseHas('advertisements', [
+            'ad_title' => 'Already Live Advertisement',
+            'status' => Advertisement::STATUS_ACTIVE,
+            'payment_status' => Advertisement::PAYMENT_PENDING,
+            'ad_published_date' => now()->subDay()->toDateString(),
         ]);
     }
 
@@ -216,6 +252,35 @@ class AdvertisementAdminApiTest extends TestCase
         $this->assertDatabaseHas('advertisements', [
             'id' => $advertisement->id,
             'ad_title' => 'Updated Title',
+        ]);
+    }
+
+    public function test_admin_can_activate_pending_payment_advertisement_with_current_publish_date(): void
+    {
+        Sanctum::actingAs($this->admin);
+
+        $advertisement = Advertisement::factory()->create([
+            'slot_code' => 'articles-list-top',
+            'status' => Advertisement::STATUS_SCHEDULED,
+            'payment_status' => Advertisement::PAYMENT_PENDING,
+            'ad_published_date' => now()->toDateString(),
+            'ad_desktop_asset' => 'advertisements/desktop/existing.png',
+            'ad_mobile_asset' => 'advertisements/mobile/existing.png',
+        ]);
+
+        $response = $this->patchJson(
+            route('api.v1.admin.advertisements.update', $advertisement),
+            ['status' => Advertisement::STATUS_ACTIVE]
+        );
+
+        $response->assertOk()
+            ->assertJsonPath('data.status', Advertisement::STATUS_ACTIVE)
+            ->assertJsonPath('data.payment_status', Advertisement::PAYMENT_PENDING);
+
+        $this->assertDatabaseHas('advertisements', [
+            'id' => $advertisement->id,
+            'status' => Advertisement::STATUS_ACTIVE,
+            'payment_status' => Advertisement::PAYMENT_PENDING,
         ]);
     }
 
