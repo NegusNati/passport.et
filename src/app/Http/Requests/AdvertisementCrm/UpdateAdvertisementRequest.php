@@ -26,7 +26,9 @@ class UpdateAdvertisementRequest extends FormRequest
             'ad_desc' => ['nullable', 'string', 'max:2000'],
             'ad_excerpt' => ['nullable', 'string', 'max:500'],
             'ad_desktop_asset' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,svg,mp4,webp,avif', 'max:10240'],
+            'ad_desktop_dark_asset' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,svg,mp4,webp,avif', 'max:10240'],
             'ad_mobile_asset' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,svg,mp4,webp,avif', 'max:10240'],
+            'ad_mobile_dark_asset' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,svg,mp4,webp,avif', 'max:10240'],
             'ad_client_link' => ['nullable', 'url', 'max:255'],
             'target_url' => ['nullable', 'url', 'max:255'],
             'client_name' => ['nullable', 'string', 'max:255'],
@@ -40,7 +42,9 @@ class UpdateAdvertisementRequest extends FormRequest
             'admin_notes' => ['nullable', 'string', 'max:1000'],
             'advertisement_request_id' => ['nullable', 'integer', 'exists:advertisement_requests,id'],
             'remove_ad_desktop_asset' => ['nullable', 'boolean'],
+            'remove_ad_desktop_dark_asset' => ['nullable', 'boolean'],
             'remove_ad_mobile_asset' => ['nullable', 'boolean'],
+            'remove_ad_mobile_dark_asset' => ['nullable', 'boolean'],
         ];
     }
 
@@ -49,7 +53,9 @@ class UpdateAdvertisementRequest extends FormRequest
         return [
             'ad_ending_date.after' => 'The ending date must be after the publication date.',
             'ad_desktop_asset.max' => 'The desktop asset must not exceed 10MB.',
+            'ad_desktop_dark_asset.max' => 'The desktop dark mode asset must not exceed 10MB.',
             'ad_mobile_asset.max' => 'The mobile asset must not exceed 10MB.',
+            'ad_mobile_dark_asset.max' => 'The mobile dark mode asset must not exceed 10MB.',
         ];
     }
 

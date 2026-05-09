@@ -11,7 +11,7 @@ class AdvertisementFactory extends Factory
 
     public function definition(): array
     {
-        $slotCode = 'slot-' . $this->faker->unique()->numberBetween(1, 10000);
+        $slotCode = 'slot-'.$this->faker->unique()->numberBetween(1, 10000);
         $targetUrl = $this->faker->url();
 
         return [
@@ -22,9 +22,11 @@ class AdvertisementFactory extends Factory
             'ad_desc' => $this->faker->paragraph(3),
             'ad_excerpt' => $this->faker->sentence(10),
             'ad_desktop_asset' => null,
+            'ad_desktop_dark_asset' => null,
             'desktop_width' => 1200,
             'desktop_height' => 300,
             'ad_mobile_asset' => null,
+            'ad_mobile_dark_asset' => null,
             'mobile_width' => 640,
             'mobile_height' => 360,
             'ad_client_link' => $targetUrl,

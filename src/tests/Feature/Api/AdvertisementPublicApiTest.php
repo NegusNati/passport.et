@@ -15,10 +15,10 @@ class AdvertisementPublicApiTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Clear all advertisements (hard delete including soft-deleted)
         Advertisement::query()->forceDelete();
-        
+
         // Clear ad caches
         Cache::tags(['ad_crm'])->flush();
     }
@@ -49,8 +49,8 @@ class AdvertisementPublicApiTest extends TestCase
                         'ad_mobile_asset',
                         'ad_client_link',
                         'priority',
-                    ]
-                ]
+                    ],
+                ],
             ]);
     }
 
@@ -87,7 +87,9 @@ class AdvertisementPublicApiTest extends TestCase
             'target_url' => 'https://passport.et/alerts',
             'ad_client_link' => 'https://passport.et/alerts',
             'ad_desktop_asset' => 'advertisements/desktop/home.webp',
+            'ad_desktop_dark_asset' => 'advertisements/desktop-dark/home.webp',
             'ad_mobile_asset' => 'advertisements/mobile/home.webp',
+            'ad_mobile_dark_asset' => 'advertisements/mobile-dark/home.webp',
             'status' => Advertisement::STATUS_ACTIVE,
             'ad_published_date' => now()->subDay(),
             'ad_ending_date' => now()->addDays(10),
@@ -102,6 +104,8 @@ class AdvertisementPublicApiTest extends TestCase
             ->assertJsonPath('data.home-alerts-banner.slot_code', 'home-alerts-banner')
             ->assertJsonPath('data.home-alerts-banner.target_url', 'https://passport.et/alerts')
             ->assertJsonPath('data.home-alerts-banner.desktop_asset.width', 1200)
+            ->assertJsonPath('data.home-alerts-banner.desktop_dark_asset.url', '/storage/advertisements/desktop-dark/home.webp')
+            ->assertJsonPath('data.home-alerts-banner.mobile_dark_asset.url', '/storage/advertisements/mobile-dark/home.webp')
             ->assertJsonPath('data.home-download-app', null);
     }
 
@@ -130,7 +134,9 @@ class AdvertisementPublicApiTest extends TestCase
                     'alt_text',
                     'target_url',
                     'desktop_asset',
+                    'desktop_dark_asset',
                     'mobile_asset',
+                    'mobile_dark_asset',
                     'impression_url',
                     'click_url',
                 ],
@@ -142,7 +148,7 @@ class AdvertisementPublicApiTest extends TestCase
         // NOTE: Test isolation issue - database cleanup timing in test environment
         // Functionality verified manually and works correctly in production
         $this->markTestSkipped('Test environment isolation issue - functionality verified working');
-        
+
         $lowPriority = Advertisement::factory()->create([
             'ad_title' => 'Low Priority Test',
             'priority' => 1,
@@ -234,7 +240,7 @@ class AdvertisementPublicApiTest extends TestCase
         // NOTE: Test isolation issue - cache timing in test environment
         // Functionality verified via unit tests and works correctly in production
         $this->markTestSkipped('Test environment isolation issue - functionality verified working');
-        
+
         // Create an expired ad (ending date in the past)
         $expiredAd = Advertisement::factory()->create([
             'status' => Advertisement::STATUS_ACTIVE,
@@ -256,7 +262,7 @@ class AdvertisementPublicApiTest extends TestCase
         // NOTE: Test isolation issue - cache timing in test environment
         // Functionality verified via unit tests and works correctly in production
         $this->markTestSkipped('Test environment isolation issue - functionality verified working');
-        
+
         // Create a scheduled ad (status is scheduled, not active)
         $scheduledAd = Advertisement::factory()->create([
             'status' => Advertisement::STATUS_SCHEDULED,

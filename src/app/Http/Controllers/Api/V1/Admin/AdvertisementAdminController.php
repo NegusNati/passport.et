@@ -64,20 +64,10 @@ class AdvertisementAdminController extends ApiController
     {
         $data = $request->validated();
 
-        // Handle file uploads
-        if ($request->hasFile('ad_desktop_asset')) {
-            $file = $request->file('ad_desktop_asset');
-            $path = $file->store('advertisements/desktop', 'public');
-            $data['ad_desktop_asset'] = $path;
-            $data = array_merge($data, $this->imageDimensions($file, 'desktop'));
-        }
-
-        if ($request->hasFile('ad_mobile_asset')) {
-            $file = $request->file('ad_mobile_asset');
-            $path = $file->store('advertisements/mobile', 'public');
-            $data['ad_mobile_asset'] = $path;
-            $data = array_merge($data, $this->imageDimensions($file, 'mobile'));
-        }
+        $this->storeUploadedAsset($request, $data, 'ad_desktop_asset', 'advertisements/desktop', 'desktop');
+        $this->storeUploadedAsset($request, $data, 'ad_desktop_dark_asset', 'advertisements/desktop-dark');
+        $this->storeUploadedAsset($request, $data, 'ad_mobile_asset', 'advertisements/mobile', 'mobile');
+        $this->storeUploadedAsset($request, $data, 'ad_mobile_dark_asset', 'advertisements/mobile-dark');
 
         // Auto-set status to scheduled if published date is in the future
         if (isset($data['ad_published_date']) && $data['ad_published_date'] > now()->toDateString()) {
@@ -93,54 +83,45 @@ class AdvertisementAdminController extends ApiController
     {
         $data = $request->validated();
 
-        // Handle file uploads
-        if ($request->hasFile('ad_desktop_asset')) {
-            // Delete old file if exists
-            if ($advertisement->ad_desktop_asset && Storage::disk('public')->exists($advertisement->ad_desktop_asset)) {
-                Storage::disk('public')->delete($advertisement->ad_desktop_asset);
-            }
-            $file = $request->file('ad_desktop_asset');
-            $path = $file->store('advertisements/desktop', 'public');
-            $data['ad_desktop_asset'] = $path;
-            $data = array_merge($data, $this->imageDimensions($file, 'desktop'));
-        }
+        $this->replaceUploadedAsset($request, $advertisement, $data, 'ad_desktop_asset', 'advertisements/desktop', 'desktop');
+        $this->replaceUploadedAsset($request, $advertisement, $data, 'ad_desktop_dark_asset', 'advertisements/desktop-dark');
+        $this->replaceUploadedAsset($request, $advertisement, $data, 'ad_mobile_asset', 'advertisements/mobile', 'mobile');
+        $this->replaceUploadedAsset($request, $advertisement, $data, 'ad_mobile_dark_asset', 'advertisements/mobile-dark');
 
-        if ($request->hasFile('ad_mobile_asset')) {
-            // Delete old file if exists
-            if ($advertisement->ad_mobile_asset && Storage::disk('public')->exists($advertisement->ad_mobile_asset)) {
-                Storage::disk('public')->delete($advertisement->ad_mobile_asset);
-            }
-            $file = $request->file('ad_mobile_asset');
-            $path = $file->store('advertisements/mobile', 'public');
-            $data['ad_mobile_asset'] = $path;
-            $data = array_merge($data, $this->imageDimensions($file, 'mobile'));
-        }
-
-        unset($data['remove_ad_desktop_asset'], $data['remove_ad_mobile_asset']);
+        unset(
+            $data['remove_ad_desktop_asset'],
+            $data['remove_ad_desktop_dark_asset'],
+            $data['remove_ad_mobile_asset'],
+            $data['remove_ad_mobile_dark_asset'],
+        );
 
         // If status is being changed to active and published date is null, set it to now
-        if (isset($data['status']) && $data['status'] === Advertisement::STATUS_ACTIVE && !$advertisement->ad_published_date) {
+        if (isset($data['status']) && $data['status'] === Advertisement::STATUS_ACTIVE && ! $advertisement->ad_published_date) {
             $data['ad_published_date'] = now()->toDateString();
         }
 
         if ($request->boolean('remove_ad_desktop_asset') && ! $request->hasFile('ad_desktop_asset')) {
-            if ($advertisement->ad_desktop_asset && Storage::disk('public')->exists($advertisement->ad_desktop_asset)) {
-                Storage::disk('public')->delete($advertisement->ad_desktop_asset);
-            }
-
+            $this->deleteStoredAsset($advertisement->ad_desktop_asset);
             $data['ad_desktop_asset'] = null;
             $data['desktop_width'] = null;
             $data['desktop_height'] = null;
         }
 
-        if ($request->boolean('remove_ad_mobile_asset') && ! $request->hasFile('ad_mobile_asset')) {
-            if ($advertisement->ad_mobile_asset && Storage::disk('public')->exists($advertisement->ad_mobile_asset)) {
-                Storage::disk('public')->delete($advertisement->ad_mobile_asset);
-            }
+        if ($request->boolean('remove_ad_desktop_dark_asset') && ! $request->hasFile('ad_desktop_dark_asset')) {
+            $this->deleteStoredAsset($advertisement->ad_desktop_dark_asset);
+            $data['ad_desktop_dark_asset'] = null;
+        }
 
+        if ($request->boolean('remove_ad_mobile_asset') && ! $request->hasFile('ad_mobile_asset')) {
+            $this->deleteStoredAsset($advertisement->ad_mobile_asset);
             $data['ad_mobile_asset'] = null;
             $data['mobile_width'] = null;
             $data['mobile_height'] = null;
+        }
+
+        if ($request->boolean('remove_ad_mobile_dark_asset') && ! $request->hasFile('ad_mobile_dark_asset')) {
+            $this->deleteStoredAsset($advertisement->ad_mobile_dark_asset);
+            $data['ad_mobile_dark_asset'] = null;
         }
 
         // Reset expiry notification flag if ending date changes
@@ -156,13 +137,10 @@ class AdvertisementAdminController extends ApiController
     public function destroy(Advertisement $advertisement)
     {
         // Delete associated asset files
-        if ($advertisement->ad_desktop_asset && Storage::disk('public')->exists($advertisement->ad_desktop_asset)) {
-            Storage::disk('public')->delete($advertisement->ad_desktop_asset);
-        }
-
-        if ($advertisement->ad_mobile_asset && Storage::disk('public')->exists($advertisement->ad_mobile_asset)) {
-            Storage::disk('public')->delete($advertisement->ad_mobile_asset);
-        }
+        $this->deleteStoredAsset($advertisement->ad_desktop_asset);
+        $this->deleteStoredAsset($advertisement->ad_desktop_dark_asset);
+        $this->deleteStoredAsset($advertisement->ad_mobile_asset);
+        $this->deleteStoredAsset($advertisement->ad_mobile_dark_asset);
 
         $advertisement->delete();
 
@@ -222,5 +200,47 @@ class AdvertisementAdminController extends ApiController
             "{$prefix}_width" => $size[0],
             "{$prefix}_height" => $size[1],
         ];
+    }
+
+    protected function storeUploadedAsset(
+        StoreAdvertisementRequest|UpdateAdvertisementRequest $request,
+        array &$data,
+        string $field,
+        string $directory,
+        ?string $dimensionPrefix = null,
+    ): void {
+        if (! $request->hasFile($field)) {
+            return;
+        }
+
+        $file = $request->file($field);
+        $data[$field] = $file->store($directory, 'public');
+
+        if ($dimensionPrefix) {
+            $data = array_merge($data, $this->imageDimensions($file, $dimensionPrefix));
+        }
+    }
+
+    protected function replaceUploadedAsset(
+        UpdateAdvertisementRequest $request,
+        Advertisement $advertisement,
+        array &$data,
+        string $field,
+        string $directory,
+        ?string $dimensionPrefix = null,
+    ): void {
+        if (! $request->hasFile($field)) {
+            return;
+        }
+
+        $this->deleteStoredAsset($advertisement->{$field});
+        $this->storeUploadedAsset($request, $data, $field, $directory, $dimensionPrefix);
+    }
+
+    protected function deleteStoredAsset(?string $path): void
+    {
+        if ($path && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
+        }
     }
 }

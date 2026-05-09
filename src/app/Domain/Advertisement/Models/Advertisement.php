@@ -23,9 +23,11 @@ class Advertisement extends Model
         'ad_desc',
         'ad_excerpt',
         'ad_desktop_asset',
+        'ad_desktop_dark_asset',
         'desktop_width',
         'desktop_height',
         'ad_mobile_asset',
+        'ad_mobile_dark_asset',
         'mobile_width',
         'mobile_height',
         'ad_client_link',
@@ -58,20 +60,29 @@ class Advertisement extends Model
 
     // Status constants
     public const STATUS_DRAFT = 'draft';
+
     public const STATUS_ACTIVE = 'active';
+
     public const STATUS_PAUSED = 'paused';
+
     public const STATUS_EXPIRED = 'expired';
+
     public const STATUS_SCHEDULED = 'scheduled';
 
     // Payment status constants
     public const PAYMENT_PENDING = 'pending';
+
     public const PAYMENT_PAID = 'paid';
+
     public const PAYMENT_REFUNDED = 'refunded';
+
     public const PAYMENT_FAILED = 'failed';
 
     // Package type constants
     public const PACKAGE_WEEKLY = 'weekly';
+
     public const PACKAGE_MONTHLY = 'monthly';
+
     public const PACKAGE_YEARLY = 'yearly';
 
     public static function statuses(): array
@@ -119,12 +130,12 @@ class Advertisement extends Model
     public function scopeActive(Builder $query): Builder
     {
         $today = now()->toDateString();
-        
+
         return $query->where('status', self::STATUS_ACTIVE)
             ->where('ad_published_date', '<=', $today)
             ->where(function ($q) use ($today) {
                 $q->whereNull('ad_ending_date')
-                  ->orWhere('ad_ending_date', '>=', $today);
+                    ->orWhere('ad_ending_date', '>=', $today);
             });
     }
 
@@ -134,7 +145,7 @@ class Advertisement extends Model
             ->whereNotNull('ad_ending_date')
             ->whereBetween('ad_ending_date', [
                 now()->startOfDay(),
-                now()->addDays($days)->endOfDay()
+                now()->addDays($days)->endOfDay(),
             ])
             ->where('expiry_notification_sent', false);
     }
@@ -214,6 +225,7 @@ class Advertisement extends Model
     public function scopeLimitForSearch(Builder $query, AdvertisementSearchParams $params): Builder
     {
         $limit = $params->limit() ?? AdvertisementCrmFilters::defaultLimit();
+
         return $query->limit($limit);
     }
 

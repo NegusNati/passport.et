@@ -20,10 +20,10 @@ class AdvertisementAdminApiTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Create admin role if it doesn't exist
         $adminRole = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        
+
         $this->admin = User::factory()->create();
         $this->admin->assignRole($adminRole);
     }
@@ -45,7 +45,7 @@ class AdvertisementAdminApiTest extends TestCase
                         'ad_title',
                         'status',
                         'package_type',
-                    ]
+                    ],
                 ],
                 'meta',
             ]);
@@ -133,12 +133,17 @@ class AdvertisementAdminApiTest extends TestCase
             'payment_status' => Advertisement::PAYMENT_PENDING,
             'payment_amount' => 500.00,
             'ad_desktop_asset' => UploadedFile::fake()->image('desktop.png', 1200, 300),
+            'ad_desktop_dark_asset' => UploadedFile::fake()->image('desktop-dark.png', 1200, 300),
             'ad_mobile_asset' => UploadedFile::fake()->image('mobile.png', 640, 360),
+            'ad_mobile_dark_asset' => UploadedFile::fake()->image('mobile-dark.png', 640, 360),
         ], ['Accept' => 'application/json']);
 
         $response->assertCreated()
             ->assertJsonPath('data.status', Advertisement::STATUS_ACTIVE)
             ->assertJsonPath('data.ad_published_date', now()->subDay()->toDateString());
+
+        $this->assertStringContainsString('/storage/advertisements/desktop-dark/', $response->json('data.ad_desktop_dark_asset'));
+        $this->assertStringContainsString('/storage/advertisements/mobile-dark/', $response->json('data.ad_mobile_dark_asset'));
 
         $this->assertDatabaseHas('advertisements', [
             'ad_title' => 'Already Live Advertisement',
@@ -255,6 +260,43 @@ class AdvertisementAdminApiTest extends TestCase
         ]);
     }
 
+    public function test_admin_can_update_and_remove_dark_mode_assets(): void
+    {
+        Sanctum::actingAs($this->admin);
+        Storage::fake('public');
+
+        Storage::disk('public')->put('advertisements/desktop-dark/existing.png', 'desktop-dark');
+        Storage::disk('public')->put('advertisements/mobile-dark/existing.png', 'mobile-dark');
+
+        $advertisement = Advertisement::factory()->create([
+            'ad_desktop_dark_asset' => 'advertisements/desktop-dark/existing.png',
+            'ad_mobile_dark_asset' => 'advertisements/mobile-dark/existing.png',
+        ]);
+
+        $response = $this->post(
+            route('api.v1.admin.advertisements.update', $advertisement),
+            [
+                '_method' => 'PATCH',
+                'ad_desktop_dark_asset' => UploadedFile::fake()->image('desktop-dark-new.png', 1200, 300),
+                'remove_ad_mobile_dark_asset' => '1',
+            ],
+            ['Accept' => 'application/json']
+        );
+
+        $response->assertOk()
+            ->assertJsonPath('data.ad_mobile_dark_asset', null);
+
+        $this->assertStringContainsString('/storage/advertisements/desktop-dark/', $response->json('data.ad_desktop_dark_asset'));
+
+        Storage::disk('public')->assertMissing('advertisements/desktop-dark/existing.png');
+        Storage::disk('public')->assertMissing('advertisements/mobile-dark/existing.png');
+
+        $advertisement->refresh();
+
+        $this->assertNotNull($advertisement->ad_desktop_dark_asset);
+        $this->assertNull($advertisement->ad_mobile_dark_asset);
+    }
+
     public function test_admin_can_activate_pending_payment_advertisement_with_current_publish_date(): void
     {
         Sanctum::actingAs($this->admin);
@@ -338,7 +380,7 @@ class AdvertisementAdminApiTest extends TestCase
                     'total_clicks',
                     'avg_ctr',
                     'revenue_this_month',
-                ]
+                ],
             ]);
     }
 

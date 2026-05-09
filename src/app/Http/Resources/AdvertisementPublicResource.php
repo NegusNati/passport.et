@@ -28,10 +28,24 @@ class AdvertisementPublicResource extends JsonResource
                 'width' => $this->desktop_width ?: $slot?->desktop_width ?: 1200,
                 'height' => $this->desktop_height ?: $slot?->desktop_height ?: 300,
             ],
+            'desktop_dark_asset' => [
+                'url' => self::resolvePublicUrl($this->ad_desktop_dark_asset),
+                'width' => $this->desktop_width ?: $slot?->desktop_width ?: 1200,
+                'height' => $this->desktop_height ?: $slot?->desktop_height ?: 300,
+            ],
             'mobile_asset' => [
                 'url' => self::resolvePublicUrl($this->ad_mobile_asset ?: $this->ad_desktop_asset),
                 'width' => $this->mobile_width ?: $slot?->mobile_width ?: 640,
                 'height' => $this->mobile_height ?: $slot?->mobile_height ?: 360,
+            ],
+            'mobile_dark_asset' => [
+                'url' => self::resolvePublicUrl($this->ad_mobile_dark_asset ?: $this->ad_desktop_dark_asset),
+                'width' => $this->ad_mobile_dark_asset
+                    ? ($this->mobile_width ?: $slot?->mobile_width ?: 640)
+                    : ($this->desktop_width ?: $slot?->desktop_width ?: 1200),
+                'height' => $this->ad_mobile_dark_asset
+                    ? ($this->mobile_height ?: $slot?->mobile_height ?: 360)
+                    : ($this->desktop_height ?: $slot?->desktop_height ?: 300),
             ],
             'impression_url' => route('api.v1.advertisements.impression', $this->resource, false),
             'click_url' => route('api.v1.advertisements.click', $this->resource, false),
