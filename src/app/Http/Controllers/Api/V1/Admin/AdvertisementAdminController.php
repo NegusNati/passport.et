@@ -161,27 +161,81 @@ class AdvertisementAdminController extends ApiController
 
         $stats = Cache::tags(['ad_crm', 'ad_crm.stats'])
             ->remember($cacheKey, 600, function () {
+                $statusCounts = Advertisement::query()
+                    ->selectRaw('status, COUNT(*) as total')
+                    ->groupBy('status')
+                    ->pluck('total', 'status');
+
+                $paymentCounts = Advertisement::query()
+                    ->selectRaw('payment_status, COUNT(*) as total')
+                    ->groupBy('payment_status')
+                    ->pluck('total', 'payment_status');
+
                 $totalActive = Advertisement::active()->count();
                 $expiringSoon = Advertisement::expiringSoon(3)->count();
                 $expired = Advertisement::expired()->count();
 
-                $impressionsSum = Advertisement::sum('impressions_count');
-                $clicksSum = Advertisement::sum('clicks_count');
+                $totalAdvertisements = Advertisement::count();
+                $impressionsSum = (int) Advertisement::sum('impressions_count');
+                $clicksSum = (int) Advertisement::sum('clicks_count');
                 $avgCtr = $impressionsSum > 0 ? round(($clicksSum / $impressionsSum) * 100, 2) : 0;
 
-                $revenueThisMonth = Advertisement::where('payment_status', Advertisement::PAYMENT_PAID)
+                $paidAdvertisements = Advertisement::where('payment_status', Advertisement::PAYMENT_PAID);
+                $totalRevenue = (float) (clone $paidAdvertisements)->sum('payment_amount');
+                $revenueThisMonth = (float) (clone $paidAdvertisements)
                     ->whereYear('ad_published_date', now()->year)
                     ->whereMonth('ad_published_date', now()->month)
                     ->sum('payment_amount');
 
+                $revenueLast30Days = (float) (clone $paidAdvertisements)
+                    ->whereDate('ad_published_date', '>=', now()->subDays(30)->toDateString())
+                    ->sum('payment_amount');
+
+                $topPerformers = Advertisement::query()
+                    ->select([
+                        'id',
+                        'ad_title',
+                        'slot_code',
+                        'status',
+                        'impressions_count',
+                        'clicks_count',
+                        'payment_amount',
+                    ])
+                    ->orderByDesc('clicks_count')
+                    ->orderByDesc('impressions_count')
+                    ->limit(5)
+                    ->get()
+                    ->map(fn (Advertisement $advertisement) => [
+                        'id' => (int) $advertisement->id,
+                        'ad_title' => $advertisement->ad_title,
+                        'slot_code' => $advertisement->slot_code,
+                        'status' => $advertisement->status,
+                        'impressions_count' => (int) $advertisement->impressions_count,
+                        'clicks_count' => (int) $advertisement->clicks_count,
+                        'ctr' => $advertisement->impressions_count > 0
+                            ? round(($advertisement->clicks_count / $advertisement->impressions_count) * 100, 2)
+                            : 0.0,
+                        'payment_amount' => (float) $advertisement->payment_amount,
+                    ])
+                    ->values();
+
                 return [
-                    'total_active' => $totalActive,
-                    'expiring_soon' => $expiringSoon,
-                    'expired_pending_renewal' => $expired,
+                    'total_advertisements' => (int) $totalAdvertisements,
+                    'total_active' => (int) $totalActive,
+                    'total_draft' => (int) ($statusCounts[Advertisement::STATUS_DRAFT] ?? 0),
+                    'total_scheduled' => (int) ($statusCounts[Advertisement::STATUS_SCHEDULED] ?? 0),
+                    'total_paused' => (int) ($statusCounts[Advertisement::STATUS_PAUSED] ?? 0),
+                    'expiring_soon' => (int) $expiringSoon,
+                    'expired_pending_renewal' => (int) $expired,
+                    'paid_advertisements' => (int) ($paymentCounts[Advertisement::PAYMENT_PAID] ?? 0),
+                    'pending_payment' => (int) ($paymentCounts[Advertisement::PAYMENT_PENDING] ?? 0),
                     'total_impressions' => $impressionsSum,
                     'total_clicks' => $clicksSum,
-                    'avg_ctr' => $avgCtr,
+                    'avg_ctr' => (float) $avgCtr,
+                    'total_revenue' => round($totalRevenue, 2),
                     'revenue_this_month' => round($revenueThisMonth, 2),
+                    'revenue_last_30_days' => round($revenueLast30Days, 2),
+                    'top_performers' => $topPerformers,
                 ];
             });
 

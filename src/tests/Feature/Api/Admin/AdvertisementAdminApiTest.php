@@ -362,10 +362,23 @@ class AdvertisementAdminApiTest extends TestCase
     {
         Sanctum::actingAs($this->admin);
 
-        Advertisement::factory()->create(['status' => Advertisement::STATUS_ACTIVE]);
         Advertisement::factory()->create([
             'status' => Advertisement::STATUS_ACTIVE,
-            'ad_ending_date' => now()->addDays(2),
+            'ad_published_date' => now()->subDays(10)->toDateString(),
+            'ad_ending_date' => now()->addDays(20)->toDateString(),
+            'payment_status' => Advertisement::PAYMENT_PAID,
+            'payment_amount' => 1500.50,
+            'impressions_count' => 1000,
+            'clicks_count' => 50,
+        ]);
+        Advertisement::factory()->create([
+            'status' => Advertisement::STATUS_ACTIVE,
+            'ad_published_date' => now()->subDays(3)->toDateString(),
+            'ad_ending_date' => now()->addDays(2)->toDateString(),
+            'payment_status' => Advertisement::PAYMENT_PENDING,
+            'payment_amount' => 500,
+            'impressions_count' => 500,
+            'clicks_count' => 25,
         ]);
 
         $response = $this->getJson(route('api.v1.admin.advertisements.stats'));
@@ -373,15 +386,46 @@ class AdvertisementAdminApiTest extends TestCase
         $response->assertOk()
             ->assertJsonStructure([
                 'data' => [
+                    'total_advertisements',
                     'total_active',
+                    'total_draft',
+                    'total_scheduled',
+                    'total_paused',
                     'expiring_soon',
                     'expired_pending_renewal',
+                    'paid_advertisements',
+                    'pending_payment',
                     'total_impressions',
                     'total_clicks',
                     'avg_ctr',
+                    'total_revenue',
                     'revenue_this_month',
+                    'revenue_last_30_days',
+                    'top_performers' => [
+                        '*' => [
+                            'id',
+                            'ad_title',
+                            'slot_code',
+                            'status',
+                            'impressions_count',
+                            'clicks_count',
+                            'ctr',
+                            'payment_amount',
+                        ],
+                    ],
                 ],
-            ]);
+            ])
+            ->assertJsonPath('data.total_advertisements', 2)
+            ->assertJsonPath('data.total_active', 2)
+            ->assertJsonPath('data.expiring_soon', 1)
+            ->assertJsonPath('data.total_impressions', 1500)
+            ->assertJsonPath('data.total_clicks', 75)
+            ->assertJsonPath('data.avg_ctr', 5)
+            ->assertJsonPath('data.total_revenue', 1500.50)
+            ->assertJsonPath('data.pending_payment', 1);
+
+        $this->assertIsInt($response->json('data.total_impressions'));
+        $this->assertIsNumeric($response->json('data.revenue_this_month'));
     }
 
     public function test_non_admin_cannot_access_advertisements(): void
