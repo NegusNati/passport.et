@@ -6,6 +6,7 @@ use App\Domain\Advertisement\Models\Advertisement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AdvertisementPublicApiTest extends TestCase
@@ -104,8 +105,8 @@ class AdvertisementPublicApiTest extends TestCase
             ->assertJsonPath('data.home-alerts-banner.slot_code', 'home-alerts-banner')
             ->assertJsonPath('data.home-alerts-banner.target_url', 'https://passport.et/alerts')
             ->assertJsonPath('data.home-alerts-banner.desktop_asset.width', 1200)
-            ->assertJsonPath('data.home-alerts-banner.desktop_dark_asset.url', '/storage/advertisements/desktop-dark/home.webp')
-            ->assertJsonPath('data.home-alerts-banner.mobile_dark_asset.url', '/storage/advertisements/mobile-dark/home.webp')
+            ->assertJsonPath('data.home-alerts-banner.desktop_dark_asset.url', Storage::disk('public')->url('advertisements/desktop-dark/home.webp'))
+            ->assertJsonPath('data.home-alerts-banner.mobile_dark_asset.url', Storage::disk('public')->url('advertisements/mobile-dark/home.webp'))
             ->assertJsonPath('data.home-download-app', null);
     }
 
