@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAdvertisementRequestRequest extends FormRequest
 {
+    private const MAX_UPLOAD_KB = 51200;
+
     public function authorize(): bool
     {
         return true;
@@ -19,7 +21,7 @@ class StoreAdvertisementRequestRequest extends FormRequest
             'full_name' => ['required', 'string', 'max:255'],
             'company_name' => ['nullable', 'string', 'max:255'],
             'description' => ['required', 'string', 'min:10', 'max:5000'],
-            'file' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png', 'max:10240'],
+            'file' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png', 'max:'.self::MAX_UPLOAD_KB],
         ];
     }
 
@@ -30,7 +32,7 @@ class StoreAdvertisementRequestRequest extends FormRequest
             'full_name.required' => 'Full name is required.',
             'description.required' => 'Description is required.',
             'description.min' => 'Description must be at least 10 characters.',
-            'file.max' => 'File size must not exceed 10MB.',
+            'file.max' => 'File size must not exceed 50MB.',
         ];
     }
 }

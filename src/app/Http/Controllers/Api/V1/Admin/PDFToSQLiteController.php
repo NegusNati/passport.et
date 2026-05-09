@@ -71,7 +71,7 @@ class PDFToSQLiteController extends ApiController
         return $this->respond([
             'message' => 'Use POST /api/v1/admin/pdf-to-sqlite to upload a PDF for processing.',
             'constraints' => [
-                'pdf_file' => 'required PDF file up to 10MB',
+                'pdf_file' => 'required PDF file up to 50MB',
                 'date' => 'required date (YYYY-MM-DD)',
                 'location' => 'required string',
                 'start_after_text' => 'required string matched before row parsing starts',

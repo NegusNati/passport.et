@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 
 class StorePassportImportRequest extends FormRequest
 {
+    private const MAX_UPLOAD_KB = 51200;
+
     public function authorize(): bool
     {
         return true;
@@ -26,7 +28,7 @@ class StorePassportImportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pdf_file' => ['required', 'file', 'mimes:pdf', 'max:10240'],
+            'pdf_file' => ['required', 'file', 'mimes:pdf', 'max:'.self::MAX_UPLOAD_KB],
             'date' => ['required', 'date'],
             'location' => ['required', 'string', 'max:255'],
             'start_after_text' => ['required', 'string', 'max:255'],

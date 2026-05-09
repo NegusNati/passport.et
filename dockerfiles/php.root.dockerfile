@@ -39,7 +39,9 @@ RUN apk add --no-cache freetype libjpeg-turbo libpng \
     
 
 RUN echo "upload_max_filesize = 50M" > /usr/local/etc/php/conf.d/uploads.ini
-RUN echo "post_max_size = 50M" >> /usr/local/etc/php/conf.d/uploads.ini
+RUN echo "post_max_size = 60M" >> /usr/local/etc/php/conf.d/uploads.ini
+RUN echo "max_execution_time = 300" >> /usr/local/etc/php/conf.d/uploads.ini
+RUN echo "max_input_time = 300" >> /usr/local/etc/php/conf.d/uploads.ini
 
 USER root
 CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
