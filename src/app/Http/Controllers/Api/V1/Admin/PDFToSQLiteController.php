@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
-use App\Domain\Passport\Models\PassportImportBatch;
 use App\Domain\Passport\Enums\PassportImportBatchStatus;
+use App\Domain\Passport\Models\PassportImportBatch;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Passport\StorePassportImportRequest;
 use App\Jobs\PDFToSQLiteJob;
@@ -33,7 +33,7 @@ class PDFToSQLiteController extends ApiController
                 'source_format' => $validated['format'],
                 'date_of_publish' => $validated['date'],
                 'location' => $validated['location'],
-                'start_after_text' => $validated['start_after_text'],
+                'start_after_text' => $validated['start_after_text'] ?? null,
                 'created_by' => $request->user()?->id,
             ]);
 
@@ -74,9 +74,9 @@ class PDFToSQLiteController extends ApiController
                 'pdf_file' => 'required PDF file up to 50MB',
                 'date' => 'required date (YYYY-MM-DD)',
                 'location' => 'required string',
-                'start_after_text' => 'required string matched before row parsing starts',
+                'start_after_text' => 'optional string matched before row parsing starts',
                 'linesToSkip' => 'legacy alias for start_after_text',
-                'format' => 'optional: auto | legacy_5col | application_4col',
+                'format' => 'optional: auto | legacy_5col | application_4col | application_5col_remark',
             ],
         ]);
     }

@@ -7,8 +7,11 @@ use App\Domain\Passport\Models\PassportImportBatch;
 use App\Domain\Passport\Services\PassportImportService;
 use App\Domain\Passport\Services\PassportPdfParser;
 use App\Domain\Passport\Services\PassportPdfTextExtractor;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+
+uses(RefreshDatabase::class);
 
 it('processes a four-column import batch and writes compatibility fields', function () {
     Storage::fake('public');
@@ -32,7 +35,7 @@ No.    Application Number    Applicant's Surname    Applicant's Givenname
 1      BRPP525001B2D2P       Anu Ahmed              Abato
 TEXT);
 
-    $service = new PassportImportService($extractor, new PassportPdfParser(), Cache::store());
+    $service = new PassportImportService($extractor, new PassportPdfParser, Cache::store());
     $processed = $service->process($batch->fresh());
 
     $passport = Passport::query()->where('requestNumber', 'BRPP525001B2D2P')->firstOrFail();
@@ -45,6 +48,42 @@ TEXT);
         ->and($passport->middleName)->toBe('Anu')
         ->and($passport->lastName)->toBe('Ahmed')
         ->and($passport->sourceSurname)->toBe('Anu Ahmed');
+});
+
+it('processes a five-column application batch without persisting remarks', function () {
+    Storage::fake('public');
+    Storage::disk('public')->put('pdfs/application-remark.pdf', 'stub');
+
+    $batch = PassportImportBatch::query()->create([
+        'status' => PassportImportBatchStatus::Queued,
+        'file_path' => 'pdfs/application-remark.pdf',
+        'original_filename' => 'application-remark.pdf',
+        'source_format' => PassportPdfSourceFormat::Auto,
+        'date_of_publish' => '2026-08-15',
+        'location' => 'Hosaena',
+        'start_after_text' => null,
+    ]);
+
+    $extractor = \Mockery::mock(PassportPdfTextExtractor::class);
+    $extractor->shouldReceive('extract')
+        ->once()
+        ->andReturn(<<<'TEXT'
+No.   Application Number Applicant's Surname Applicant's Givenname Remark
+1     BVPP426114F773P     Hiwot Beyene        Eliso                  Ready for pickup
+TEXT);
+
+    $service = new PassportImportService($extractor, new PassportPdfParser, Cache::store());
+    $processed = $service->process($batch->fresh());
+
+    $passport = Passport::query()->where('requestNumber', 'BVPP426114F773P')->firstOrFail();
+
+    expect($processed->status)->toBe(PassportImportBatchStatus::Completed)
+        ->and($processed->source_format)->toBe(PassportPdfSourceFormat::ApplicationFiveColumnRemark)
+        ->and($passport->sourceFormat)->toBe(PassportPdfSourceFormat::ApplicationFiveColumnRemark)
+        ->and($passport->sourceSurname)->toBe('Hiwot Beyene')
+        ->and($passport->sourceGivenname)->toBe('Eliso')
+        ->and($passport->firstName)->toBe('Eliso')
+        ->and($passport->lastName)->toBe('Beyene');
 });
 
 it('upserts repeated request numbers and marks the later batch as updates', function () {
@@ -66,7 +105,7 @@ No.    NAME    F. NAME    G.F. NAME    REQUEST_No.
 TEXT,
         );
 
-    $service = new PassportImportService($extractor, new PassportPdfParser(), Cache::store());
+    $service = new PassportImportService($extractor, new PassportPdfParser, Cache::store());
 
     $firstBatch = PassportImportBatch::query()->create([
         'status' => PassportImportBatchStatus::Queued,
@@ -119,7 +158,7 @@ it('marks the batch as failed when extraction or parsing throws', function () {
         ->once()
         ->andThrow(new RuntimeException('Parser exploded'));
 
-    $service = new PassportImportService($extractor, new PassportPdfParser(), Cache::store());
+    $service = new PassportImportService($extractor, new PassportPdfParser, Cache::store());
 
     expect(fn () => $service->process($batch))->toThrow(RuntimeException::class, 'Parser exploded');
 
@@ -149,7 +188,7 @@ No.    Application Number    Applicant's Surname    Applicant's Givenname
 1      BROKEN
 TEXT);
 
-    $service = new PassportImportService($extractor, new PassportPdfParser(), Cache::store());
+    $service = new PassportImportService($extractor, new PassportPdfParser, Cache::store());
 
     expect(fn () => $service->process($batch))
         ->toThrow(RuntimeException::class, 'No passport rows could be parsed');

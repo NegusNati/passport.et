@@ -195,6 +195,7 @@ services:
       SESSION_DRIVER: redis
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      HORIZON_QUEUES: ${HORIZON_QUEUES:-default,imports,notifications}
     networks:
       - laravel
 volumes:

@@ -7,4 +7,5 @@ enum PassportPdfSourceFormat: string
     case Auto = 'auto';
     case LegacyFiveColumn = 'legacy_5col';
     case ApplicationFourColumn = 'application_4col';
+    case ApplicationFiveColumnRemark = 'application_5col_remark';
 }

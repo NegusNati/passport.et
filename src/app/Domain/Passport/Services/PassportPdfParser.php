@@ -29,11 +29,15 @@ class PassportPdfParser
     }
 
     /**
-     * @param array<int, string> $lines
+     * @param  array<int, string>  $lines
      */
     private function detectFormat(array $lines): PassportPdfSourceFormat
     {
         foreach ($lines as $line) {
+            if ($this->isHeaderLine($line, PassportPdfSourceFormat::ApplicationFiveColumnRemark)) {
+                return PassportPdfSourceFormat::ApplicationFiveColumnRemark;
+            }
+
             if ($this->isHeaderLine($line, PassportPdfSourceFormat::ApplicationFourColumn)) {
                 return PassportPdfSourceFormat::ApplicationFourColumn;
             }
@@ -43,7 +47,15 @@ class PassportPdfParser
             }
         }
 
-        $haystack = Str::lower(implode("\n", $lines));
+        $haystack = $this->normalizeHeaderText(implode("\n", $lines));
+
+        if (
+            str_contains($haystack, 'application number')
+            && str_contains($haystack, "applicant's")
+            && (str_contains($haystack, 'remark') || str_contains($haystack, 'remarks'))
+        ) {
+            return PassportPdfSourceFormat::ApplicationFiveColumnRemark;
+        }
 
         if (str_contains($haystack, 'application number') && str_contains($haystack, "applicant's")) {
             return PassportPdfSourceFormat::ApplicationFourColumn;
@@ -57,7 +69,7 @@ class PassportPdfParser
     }
 
     /**
-     * @param array<int, string> $lines
+     * @param  array<int, string>  $lines
      */
     private function parseRows(array $lines, PassportPdfSourceFormat $format): ParsedPassportImport
     {
@@ -132,7 +144,11 @@ class PassportPdfParser
     {
         return match ($format) {
             PassportPdfSourceFormat::LegacyFiveColumn => $this->parseLegacyRow($line),
-            PassportPdfSourceFormat::ApplicationFourColumn => $this->parseApplicationRow($line),
+            PassportPdfSourceFormat::ApplicationFourColumn => $this->parseApplicationRow(
+                $line,
+                PassportPdfSourceFormat::ApplicationFourColumn,
+            ),
+            PassportPdfSourceFormat::ApplicationFiveColumnRemark => $this->parseApplicationRemarkRow($line),
             default => null,
         };
     }
@@ -161,16 +177,52 @@ class PassportPdfParser
         );
     }
 
-    private function parseApplicationRow(string $line): ?PassportImportRow
+    private function parseApplicationRemarkRow(string $line): ?PassportImportRow
     {
+        $segments = $this->splitColumns($line);
+
+        if (count($segments) >= 4) {
+            if (count($segments) >= 5) {
+                array_pop($segments);
+            }
+
+            return $this->parseApplicationSegments(
+                $segments,
+                PassportPdfSourceFormat::ApplicationFiveColumnRemark,
+            );
+        }
+
+        // Layout-less extractors collapse an empty trailing Remark cell. The
+        // reference layout leaves Remark blank, so the last token remains the
+        // given name. Layout-aware extraction handles populated remarks above.
+        return $this->parseApplicationSegments(
+            $this->splitWhitespaceFallback($line),
+            PassportPdfSourceFormat::ApplicationFiveColumnRemark,
+        );
+    }
+
+    private function parseApplicationRow(
+        string $line,
+        PassportPdfSourceFormat $sourceFormat,
+    ): ?PassportImportRow {
         $segments = $this->splitColumns($line);
 
         if (count($segments) < 4) {
             $segments = $this->splitWhitespaceFallback($line);
+        }
 
-            if (count($segments) < 4) {
-                return null;
-            }
+        return $this->parseApplicationSegments($segments, $sourceFormat);
+    }
+
+    /**
+     * @param  array<int, string>  $segments
+     */
+    private function parseApplicationSegments(
+        array $segments,
+        PassportPdfSourceFormat $sourceFormat,
+    ): ?PassportImportRow {
+        if (count($segments) < 4) {
+            return null;
         }
 
         $number = $this->parseNumber(array_shift($segments));
@@ -183,11 +235,12 @@ class PassportPdfParser
             applicationNumber: $applicationNumber ?? '',
             sourceSurname: $surname,
             sourceGivenname: $givenname,
+            sourceFormat: $sourceFormat,
         );
     }
 
     /**
-     * @param array<int, string> $lines
+     * @param  array<int, string>  $lines
      * @return array<int, string>
      */
     private function sliceAfterMarker(array $lines, ?string $startAfterText): array
@@ -208,7 +261,7 @@ class PassportPdfParser
     }
 
     /**
-     * @param array<int, string> $lines
+     * @param  array<int, string>  $lines
      * @return array<int, string>
      */
     private function sliceAfterHeader(array $lines, PassportPdfSourceFormat $format): array
@@ -230,22 +283,34 @@ class PassportPdfParser
 
     private function isHeaderLine(string $line, PassportPdfSourceFormat $format): bool
     {
-        $normalizedLine = Str::of($line)
-            ->replace("\t", ' ')
-            ->squish()
-            ->lower()
-            ->value();
+        $normalizedLine = $this->normalizeHeaderText($line);
+        $isApplicationHeader = str_contains($normalizedLine, 'application number')
+            && str_contains($normalizedLine, "applicant's surname")
+            && (
+                str_contains($normalizedLine, "applicant's givenname")
+                || str_contains($normalizedLine, "applicant's given name")
+            );
 
         return match ($format) {
             PassportPdfSourceFormat::LegacyFiveColumn => str_contains($normalizedLine, 'name')
                 && str_contains($normalizedLine, 'f. name')
                 && str_contains($normalizedLine, 'g.f. name')
                 && (str_contains($normalizedLine, 'request_no') || str_contains($normalizedLine, 'request no')),
-            PassportPdfSourceFormat::ApplicationFourColumn => str_contains($normalizedLine, 'application number')
-                && str_contains($normalizedLine, "applicant's surname")
-                && str_contains($normalizedLine, "applicant's givenname"),
+            PassportPdfSourceFormat::ApplicationFourColumn => $isApplicationHeader
+                && ! str_contains($normalizedLine, 'remark'),
+            PassportPdfSourceFormat::ApplicationFiveColumnRemark => $isApplicationHeader
+                && str_contains($normalizedLine, 'remark'),
             default => false,
         };
+    }
+
+    private function normalizeHeaderText(string $text): string
+    {
+        return Str::of($text)
+            ->replace(["\t", '’', '‘', '`'], [' ', "'", "'", "'"])
+            ->squish()
+            ->lower()
+            ->value();
     }
 
     private function looksLikeRowStart(string $line): bool

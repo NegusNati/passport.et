@@ -27,7 +27,6 @@ it('creates an import batch and dispatches the processing job', function () {
         'pdf_file' => UploadedFile::fake()->create('legacy.pdf', 64, 'application/pdf'),
         'date' => '2026-03-26',
         'location' => 'ICS branch office, Jimma',
-        'linesToSkip' => 'REQUEST_No.',
     ], [
         'Accept' => 'application/json',
         'Authorization' => 'Bearer '.$token,
@@ -42,7 +41,8 @@ it('creates an import batch and dispatches the processing job', function () {
 
     $batch = PassportImportBatch::query()->findOrFail($response->json('data.batch_id'));
 
-    expect($batch->start_after_text)->toBe('REQUEST_No.')
+    expect($batch->start_after_text)->toBeNull()
+        ->and($batch->source_format->value)->toBe('auto')
         ->and($batch->location)->toBe('ICS branch office, Jimma');
 
     Queue::assertPushed(PDFToSQLiteJob::class, fn (PDFToSQLiteJob $job) => true);

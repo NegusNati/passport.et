@@ -31,7 +31,7 @@ class StorePassportImportRequest extends FormRequest
             'pdf_file' => ['required', 'file', 'mimes:pdf', 'max:'.self::MAX_UPLOAD_KB],
             'date' => ['required', 'date'],
             'location' => ['required', 'string', 'max:255'],
-            'start_after_text' => ['required', 'string', 'max:255'],
+            'start_after_text' => ['nullable', 'string', 'max:255'],
             'linesToSkip' => ['nullable', 'string', 'max:255'],
             'format' => ['nullable', Rule::enum(PassportPdfSourceFormat::class)],
         ];

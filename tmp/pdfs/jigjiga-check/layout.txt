@@ -1,0 +1,147 @@
+                                      ጅግጅጋ ፓስፖርት የደረሰላቸዉ :
+                           ቦታ: ጅግጅጋ የዜግነትና ኢሚግሬሽን አገልግሎት ቅርንጫፍ ፅ/ቤት
+                                        ቀን: ነሀሴ 2018 ዓ. ም .
+
+No
+      Application Number          Applicant's Surname    Applicant's Givenname   Remark
+  .
+  1   BSPP526002A5C2P          Abdifatah Mohamed        Abdi
+ 2    BSPP5260DDC992P          Fathi Farah              Abdi
+ 3    BSPP5260E80382P          Abdikani Farhan          Abdi
+ 4    BSPP5260F676C0P          Zekeriye Ismail          Abdi
+ 5    BSPP5260F68FA3P          Abdulahi Mahamed         Abdi
+ 6    BSPP5260FEA854P          Nour Hasan               Abdi
+ 7     BSPP526105CC10P         Hamda Del                Abdi
+ 8     BSPP5261060E08P         Istahil Abokor           Abdiali
+ 9    BSPP5261348CA4P          Samatar Ahmed            Abdikarim
+10     BSPP5260E14329P         Abdifatah Ali            Abdilahi
+ 11    BSPP5261123897P         Saynab Sidik             Abdile
+12    BSPP52600242B0P          Kadar Shugri             Abdirahman
+13     BSPP5260027010P         Wondwossen Chane         Abegaz
+14     BSPP526104E3E0P         Hamdi Muhumed            Abukar
+15    BSPP5260DD5F95P          Dahir Isse               Aden
+16     BSPP526118E4D0P         Abdi Omer                Aden
+17     BSPP5261332B51P         Fadumo Ali               Aden
+18     BSPP52613375B6P         Yahye Saed               Aden
+19    BSPP5260E66283P          Hana Olad                Ahmed
+20    BSPP526104DBF8P          Kali Muse                Ahmed
+21    BSPP526104DC72P          Idil Hassan              Ahmed
+22     BSPP52611420D3P         Muhsin Mahamed           Ahmed
+23     BSPP52612870F7P         Mohamed Bare             Ahmed
+24     BSPP526150B5F2P         Jabur Abdi               Ahmed
+25     BSPP5261232652P         Wubishet Birhanu         Alebachew
+26    BSPP526001E4D8P          Farhiya Muhumed          Ali
+27    BSPP5260DCAE55P          Kalid Abdi               Ali
+28    BSPP5260F5C486P          Kaltun Ahmed             Ali
+29     BSPP5260F68163P         Shugri Yusuf             Ali
+30     BSPP5261050672P         Ayub Abdinour            Ali
+31     BSPP526105FAA2P         Abdi Sulub               Ali
+32     BSPP5261061375P         Yusuf Abdinasir          Ali
+33     BSPP52613D77E3P         Ahmed Hassen             Ali
+34      BSPP5261061410P        Muse Nour                Aman
+35      BSPP52611A14C1P        Mekides Negewo           Aman
+36     BSPP52611460E3P         Ibrahim Abdiwahab        Bashir
+37     BSPP52611474E8P         Abdirahman Abdiwahab     Bashir
+38     BSPP526002FE32P         Tadesse Shimelis         Begashaw
+39     BSPP52612282D2P         Hamda Ahmed              Budul
+40     BSPP526104C3F8P         Asli Moalin              Daar
+41     BSPP52611D0357P         Wilo Ali                 Dahir
+42    BSPP526001FFC7P    Mahir Mubarig        Daud
+43   BSPP5260F99654P     Mahamed Mursal       Dawud
+44   BSPP5260DBD9B6P     Keder Mohamed        Diriye
+45   BSPP5260D61556P     Mustafe Abdi         Duale
+46    BSPP52611EDD73P    Arfi Haybe           Dube
+47    BSPP52612B3D08P    Shamsi Mengistu      Fanta
+48   BSPP5260F69E94P     Ahmed Abdi           Farah
+49    BSPP5261054B72P    Abdikani Abdifatah   Farah
+50   BSPP5260020734P     Huda Ismail          Farhan
+51    BSPP526131D178P    Ismael Muhumed       Gedi
+52    BSPP526146E4F1P    Isra Ahmed           Goran
+53   BSPP52600204D0P     Ahmed Muhumed        Guled
+54   BSPP5260E28E78P     Abdi Mahamed         Gutale
+55    BSPP526155C751P    Almtshay Nega        Hailu
+56   BSPP5260D3C694P     Shamsedin Osman      Hasan
+57   BSPP526104D4E0P     Ahmed Mahamed        Hasan
+58    BSPP5261220FE6P    Ahmed Abdi           Hashi
+59    BSPP526001C186P    Hinda Muktar         Hassen
+60   BSPP5260F6C4D0P     Asad Qowden          Hassen
+61     BSPP5261338011P   Hinda Ahmed          Hassen
+62    BSPP5260FAC151P    Mushtak Muse         Haybe
+63   BSPP5250003863P     Habso Bashir         Husein
+64    BSPP526104EF44P    Ismail Harun         Husen
+65   BSPP5260D35022P     Asma Adani           Hussen
+66   BSPP5260F6BAE4P     Nasra Mohamed        Hussen
+67    BSPP5260E6A1E0P    Abdurahman Mohamud   Hussien
+68   BSPP5260D22000P     Abdikadir Yusuf      Ibrahim
+69   BSPP5260D4B715P     Nura Osman           Ibrahim
+70    BSPP5260E7C241P    Hamda Husen          Ibrahin
+71   BSPP5260F4A689P     Amin Muktar          Ibrahin
+72    BSPP526104EF94P    Habsa Malin          Isack
+73    BSPP5261060B45P    Samsam Ali           Ise
+74   BSPP5260F6AE86P     Hamda Muhumed        Ismail
+75    BSPP5261135BB7P    Fadumo Abdi          Ismail
+76    BSPP52610538E8P    Halimo Abdilahi      Isman
+77   BSPP5260E76FD5P     Mahamud Muse         Jama
+78    BSPP5261148040P    Nuriyo Yasin         Jama
+79    BSPP52611F25A6P    Sakariye Mustafe     Jama
+80    BSPP5261434B90P    Mymoon Esman         Jama
+81    BSPP526112DD60P    Abdirahman Mohamed   Jibril
+82   BSPP526130DBD7P     Amira Tahir          Jibril
+83   BSPP5260E5F7E0P     Muhsin Abdi          Kahin
+84    BSPP5260E60013P    Mahamednor Kayru     Kamal
+85    BSPP52610F9333P    Abera Nuram          Liremo
+86   BSPP5260029737P     Mohamed Muhiyadin    Mahamed
+87   BSPP5260D42464P     Samira Foosi         Mahamed
+88   BSPP5260D4AD79P     Abdishakur Ibrahim   Mahamed
+89      BSPP5260DC0667P     Yasin Adan           Mahamed
+ 90     BSPP5260EDFDC8P     Sadiya Sheik         Mahamed
+  91     BSPP526156EE96P    Said Hassen          Mahamed
+ 92     BSPP5260FF2474P     Kader Abdilahi       Mahamud
+ 93     BSPP5260DF7EE3P     Kos Hassen           Matan
+94       BSPP52610527D2P    Kawsar Ahmed         Mehamed
+ 95     BSPP5260F000D9P     Habtamu Kassahun     Mekonen
+96      BSPP5260D33862P     Amin Omar            Miad
+ 97     BSPP5260029436P     Adam Mustafe         Mohamed
+98      BSPP5260D32033P     Hibo Abdi            Mohamed
+99      BSPP5260D56AA3P     Najma Mohamud        Mohamed
+100     BSPP5260E5F705P     Saado Abdi           Mohamed
+ 101    BSPP5260E7BF80P     Abdifatah Kilwe      Mohamed
+102     BSPP5260E7C2C4P     Ayan Omar            Mohamed
+103     BSPP5260F6A439P     Sudi Suleyman        Mohamed
+104     BSPP5260F72CE5P     Hawo Abdirahman      Mohamed
+105      BSPP526103FA49P    Sadik Shafi          Mohamed
+106       BSPP5261116E76P   Bisharo Sheikh       Mohamed
+107      BSPP5261142434P    Ibrahim Ahmed        Mohamed
+108     BSPP526133D544P     Nimo Sultanseid      Mohamed
+109     BSPP5260DD2703P     Mohamud Hassen       Mohamud
+ 110    BSPP526104DEC3P     Soo Ahmed            Mohamud
+  111    BSPP5261061785P    Ubah Mohamed         Mohamud
+ 112     BSPP526109EEE9P    Ikra Dek             Mohamud
+ 113     BSPP52611450D4P    Halimo Abdilahi      Mohamud
+ 114     BSPP526159BF29P    Isra Adam            Mohamud
+ 115    BSPP5260D67A24P     Abdirahman Mahamud   Muhumed
+116     BSPP5260E65F58P     Nimo Sadad           Muhumed
+ 117     BSPP526150FD32P    Ayanle Elmi          Mumin
+ 118    BSPP526002E042P     Run Libah            Muse
+ 119    BSPP5260D2FF74P     Rahma Abdi           Muse
+120     BSPP5260F6D6E3P     Halimo Mohamed       Muse
+ 121     BSPP5261132D75P    Mahamed Mahamud      Muse
+122     BSPP5260EED533P     Naema Ibrahim        Nour
+123     BSPP526002AB50P     Fadumo Mohamed       Nuh
+124       BSPP5261212551P   Najah Farah          Nur
+125      BSPP526104CC01P    Asma Ese             Omar
+126     BSPP5260DE4671P     Amin Ahmed           Omer
+127     BSPP52610587D4P     Naima Abdinur        Osman
+128      BSPP5261293F13P    Mohamed Abdilahi     Osman
+129      BSPP5261200754P    Safia Yusuf          Samater
+130      BSPP5260014133P    Abdirahman Mahamud   Seid
+ 131    BSPP5260F9F7E5P     Mahamud Ali          Seid
+132       BSPP5261051861P   Ayan Mahamed         Seid
+133     BSPP5260E78907P     Tahir Hassan         Siyad
+134     BSPP5260FA01D3P     Sulekha Hasan        Siyad
+135     BSPP525000BEA0P     Muyadin Abdi         Usman
+136   BSPP5260E1C552P   Anas Abdi        Yusuf
+137   BSPP52610603F1P   Safiya Mohamed   Yusuf
+138   BSPP52614EB240P   Asad Hassen      Yusuf
+139   BSPP5261520977P   Sadi Abdi        Zakariya
+

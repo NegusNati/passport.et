@@ -19,8 +19,7 @@ readonly class PassportImportRow
         public ?string $sourceSurname,
         public ?string $sourceGivenname,
         public PassportPdfSourceFormat $sourceFormat,
-    ) {
-    }
+    ) {}
 
     public static function legacy(
         ?int $number,
@@ -53,7 +52,15 @@ readonly class PassportImportRow
         string $applicationNumber,
         ?string $sourceSurname,
         ?string $sourceGivenname,
+        PassportPdfSourceFormat $sourceFormat = PassportPdfSourceFormat::ApplicationFourColumn,
     ): ?self {
+        if (! in_array($sourceFormat, [
+            PassportPdfSourceFormat::ApplicationFourColumn,
+            PassportPdfSourceFormat::ApplicationFiveColumnRemark,
+        ], true)) {
+            throw new \InvalidArgumentException('An application PDF source format is required.');
+        }
+
         $normalizedApplicationNumber = self::normalizeIdentifier($applicationNumber);
 
         if ($normalizedApplicationNumber === null) {
@@ -73,7 +80,7 @@ readonly class PassportImportRow
             applicationNumber: $normalizedApplicationNumber,
             sourceSurname: $normalizedSurname,
             sourceGivenname: $normalizedGivenname,
-            sourceFormat: PassportPdfSourceFormat::ApplicationFourColumn,
+            sourceFormat: $sourceFormat,
         );
     }
 

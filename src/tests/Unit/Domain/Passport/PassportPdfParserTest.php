@@ -4,7 +4,7 @@ use App\Domain\Passport\Enums\PassportPdfSourceFormat;
 use App\Domain\Passport\Services\PassportPdfParser;
 
 it('parses legacy five-column rows using column spacing', function () {
-    $parser = new PassportPdfParser();
+    $parser = new PassportPdfParser;
 
     $text = <<<'TEXT'
 Ignored heading
@@ -26,7 +26,7 @@ TEXT;
 });
 
 it('parses application four-column rows and maps them into compatibility fields', function () {
-    $parser = new PassportPdfParser();
+    $parser = new PassportPdfParser;
 
     $text = <<<'TEXT'
 No.    Application Number    Applicant's Surname    Applicant's Givenname
@@ -47,8 +47,65 @@ TEXT;
         ->and($parsed->rows[0]->sourceGivenname)->toBe('Abato');
 });
 
+it('detects application five-column rows with blank remarks', function () {
+    $parser = new PassportPdfParser;
+
+    $text = <<<'TEXT'
+No.   Application Number Applicant's Surname Applicant's Givenname Remark
+1     BVPP426114F773P     Hiwot Beyene        Eliso
+2     BVPP4261276878P     Genet Shiferaw      Muges
+TEXT;
+
+    $parsed = $parser->parse($text);
+
+    expect($parsed->detectedFormat)->toBe(PassportPdfSourceFormat::ApplicationFiveColumnRemark)
+        ->and($parsed->rows)->toHaveCount(2)
+        ->and($parsed->failedRows)->toBe(0)
+        ->and($parsed->rows[0]->requestNumber)->toBe('BVPP426114F773P')
+        ->and($parsed->rows[0]->sourceSurname)->toBe('Hiwot Beyene')
+        ->and($parsed->rows[0]->sourceGivenname)->toBe('Eliso')
+        ->and($parsed->rows[0]->sourceFormat)->toBe(PassportPdfSourceFormat::ApplicationFiveColumnRemark);
+});
+
+it('discards populated remarks without shifting application name fields', function () {
+    $parser = new PassportPdfParser;
+
+    $text = <<<'TEXT'
+No.   Application Number Applicant’s Surname Applicant’s Given Name Remark
+1     BVPP426114F773P     Hiwot Beyene        Eliso                  Ready for pickup
+2     BVPP4261276878P     Genet Shiferaw      Muges                  Needs review
+TEXT;
+
+    $parsed = $parser->parse($text);
+
+    expect($parsed->detectedFormat)->toBe(PassportPdfSourceFormat::ApplicationFiveColumnRemark)
+        ->and($parsed->rows)->toHaveCount(2)
+        ->and($parsed->rows[0]->sourceSurname)->toBe('Hiwot Beyene')
+        ->and($parsed->rows[0]->sourceGivenname)->toBe('Eliso')
+        ->and($parsed->rows[0]->firstName)->toBe('Eliso')
+        ->and($parsed->rows[0]->middleName)->toBe('Hiwot')
+        ->and($parsed->rows[0]->lastName)->toBe('Beyene')
+        ->and($parsed->rows[1]->sourceGivenname)->toBe('Muges');
+});
+
+it('parses layout-less five-column application rows when remarks are blank', function () {
+    $parser = new PassportPdfParser;
+
+    $text = <<<'TEXT'
+No. Application Number Applicant's Surname Applicant's Givenname Remark
+1 BVPP426114F773P Hiwot Beyene Eliso
+TEXT;
+
+    $parsed = $parser->parse($text);
+
+    expect($parsed->detectedFormat)->toBe(PassportPdfSourceFormat::ApplicationFiveColumnRemark)
+        ->and($parsed->rows)->toHaveCount(1)
+        ->and($parsed->rows[0]->sourceSurname)->toBe('Hiwot Beyene')
+        ->and($parsed->rows[0]->sourceGivenname)->toBe('Eliso');
+});
+
 it('supports manual format override and counts malformed rows', function () {
-    $parser = new PassportPdfParser();
+    $parser = new PassportPdfParser;
 
     $text = <<<'TEXT'
 1      BRPP525001B2D2P       Anu Ahmed              Abato
@@ -63,7 +120,7 @@ TEXT;
 });
 
 it('preserves wrapped application rows across multiple lines', function () {
-    $parser = new PassportPdfParser();
+    $parser = new PassportPdfParser;
 
     $text = <<<'TEXT'
 No.    Application Number    Applicant's Surname    Applicant's Givenname
@@ -81,7 +138,7 @@ TEXT;
 });
 
 it('ignores footer text after the last parsed row', function () {
-    $parser = new PassportPdfParser();
+    $parser = new PassportPdfParser;
 
     $text = <<<'TEXT'
 No.    Application Number    Applicant's Surname    Applicant's Givenname
@@ -99,7 +156,7 @@ TEXT;
 });
 
 it('parses single-spaced legacy rows when layout spacing is unavailable', function () {
-    $parser = new PassportPdfParser();
+    $parser = new PassportPdfParser;
 
     $text = <<<'TEXT'
 No. NAME F. NAME G.F. NAME REQUEST_No.
@@ -117,7 +174,7 @@ TEXT;
 });
 
 it('parses single-spaced application rows when layout spacing is unavailable', function () {
-    $parser = new PassportPdfParser();
+    $parser = new PassportPdfParser;
 
     $text = <<<'TEXT'
 No. Application Number Applicant's Surname Applicant's Givenname
@@ -134,7 +191,7 @@ TEXT;
 });
 
 it('detects the table format after the configured start marker', function () {
-    $parser = new PassportPdfParser();
+    $parser = new PassportPdfParser;
 
     $text = <<<'TEXT'
 Cover sheet

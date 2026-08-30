@@ -50,6 +50,14 @@ This document summarizes the strategy for turning the existing Laravel/Inertia p
 - Added `tests/Performance/PassportLoadTest.js` for k6 smoke testing; instructions are in the README.
 - Rollout & fallback playbook lives in `docs/rollout.md`, covering pre-deploy verification, post-deploy smoke tests, and rollback steps.
 
+### PDF Import Format Expansion
+- Automatic PDF detection now supports three source layouts: legacy five-column (`No.`, three name columns, `REQUEST_No.`), application four-column, and application five-column with a trailing `Remark` column.
+- The application five-column format is tracked as `application_5col_remark`; `Remark` is intentionally discarded before import DTO creation and is never stored in the passport table.
+- Application format detection is semantic and checks the full header, allowing the two five-column layouts to be distinguished without frontend hints. Curly apostrophes and `Givenname`/`Given Name` variants are normalized.
+- `start_after_text` is now an optional recovery hint. Normal admin uploads use `format=auto`, while manual format and marker overrides remain available as advanced controls.
+- Docker Horizon workers explicitly consume the `imports` queue, and Redis `retry_after` defaults to 360 seconds so the 300-second PDF job timeout cannot make an active import eligible for premature redelivery.
+- Parser coverage includes blank and populated remarks, layout-less extraction, and regressions for the two pre-existing formats. The 31-page Hosaena reference PDF was verified at 1,305 parsed rows with zero failures.
+
 Use the observations above to drive the migration plan and as regression targets when testing the new API surface.
 
 ## 2. Migration Strategy Overview

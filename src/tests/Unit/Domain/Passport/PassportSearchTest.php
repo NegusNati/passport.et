@@ -3,7 +3,10 @@
 use App\Actions\Passport\SearchPassportsAction;
 use App\Domain\Passport\Data\PassportSearchParams;
 use App\Domain\Passport\Models\Passport;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
+
+uses(RefreshDatabase::class);
 
 it('filters passports by request number prefix', function () {
     $matching = Passport::factory()->create(['requestNumber' => 'AB12345']);
