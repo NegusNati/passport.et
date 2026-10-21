@@ -73,9 +73,12 @@ It does not run Docker pruning, orphan removal, stack-wide `down`, or scaling.
   and `SUDO_PASSWORD` (optional for root/passwordless sudo).
 - Linux VPS with Bash, Git, `flock`, GNU `timeout`, Docker Engine API 1.42+
   (Docker 23+), and Docker Compose v2+.
-- An existing production checkout on branch `main`, with no tracked changes or
-  untracked files other than Git-ignored runtime files. The root `.env`,
-  `src/.env`, production certificates, and existing volumes remain server-managed.
+- An existing production checkout on branch `main`, with no tracked source
+  changes. Generated `src/public/build/` output is ignored and is not versioned.
+  Server-only untracked files, including ignored files, may remain in place;
+  deployment refuses incoming file/directory collisions before maintenance.
+  The root `.env`, `src/.env`, production certificates, and existing volumes
+  remain server-managed.
 - The existing app, PHP, MariaDB, and Redis containers must be running and have
   the expected `laraveldockerprod` project/service labels. Horizon must exist with
   matching labels, but may already be stopped after a failed deployment.
@@ -85,7 +88,9 @@ It does not run Docker pruning, orphan removal, stack-wide `down`, or scaling.
 
 ### Deployment behavior and downtime
 
-1. Validate the commit, clean checkout, container ownership, and infrastructure.
+1. Validate the commit, tracked source, incoming path collisions, container
+   ownership, and infrastructure. Dry-run Git's checkout rules without changing
+   live files. Never stash, reset, or clean the server checkout automatically.
 2. Put Passport in maintenance mode with a pre-rendered 503 page that still works
    while Composer files change. Gracefully terminate Horizon and stop only
    its validated container, explicitly using `SIGTERM` and a 360-second timeout
@@ -137,6 +142,12 @@ Passport may remain in maintenance mode and Horizon may remain stopped.
   refuses to guess how to repair missing infrastructure.
 - If a code rollback is needed, prefer a reviewed revert commit through CI.
   There is no automatic database rollback. Do not reset a dirty server checkout.
+- Older releases tracked generated CSS/JS. The build-output migration tolerates
+  their deletion by Vite and stops tracking them; the asset build regenerates
+  them during maintenance. Do not restore old assets or remove server-local
+  files to make `git status` empty. A normal build must not dirty tracked source.
+  If a real source edit or incoming collision blocks deployment, preserve and
+  review that file separately rather than bypassing the guard.
 
 For scoped inspection, run from the production checkout:
 
@@ -158,9 +169,11 @@ sudo docker compose --project-name laraveldockerprod \
 
 ### Deployment regression checks
 
-These checks require Python 3, Ruby's bundled YAML parser, and a PHP CLI for
-dependency-free version-policy tests. Git/Docker commands are mocked; the
-checks do not start containers or contact a server:
+These checks require Git, Python 3, Ruby's bundled YAML parser, and a PHP CLI for
+dependency-free version-policy tests. Deployment commands are mocked; checkout
+safety tests also use isolated temporary Git repositories with synthetic history
+without invoking `git commit` or changing author configuration.
+The checks do not start containers or contact a server:
 
 ```bash
 bash -n scripts/deploy.sh

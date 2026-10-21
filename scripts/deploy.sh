@@ -14,6 +14,31 @@ fail() {
     exit 1
 }
 
+check_worktree() {
+    local before=$1 after=$2 worktree_status path parent
+    # Vite replaces generated output; only tracked source changes block a deploy.
+    worktree_status="$(git status --porcelain --untracked-files=no -- . ':(exclude)src/public/build')"
+    [[ -z "$worktree_status" ]] || fail "The server checkout has tracked source changes."
+
+    # Git normally permits overwriting ignored files. Protect those too, including
+    # server-managed .env files and symlinks in an incoming path's parent folders.
+    git diff --no-renames --diff-filter=A --name-only -z "$before" "$after" |
+    while IFS= read -r -d '' path; do
+        [[ ! -e "$path" && ! -L "$path" ]] || fail "An incoming path would overwrite a server-local file or directory: $path"
+        parent=$path
+        while [[ "$parent" = */* ]]; do
+            parent=${parent%/*}
+            if [[ -L "$parent" || ( -e "$parent" && ! -d "$parent" ) ]]; then
+                fail "An incoming path conflicts with a server-local parent: $parent"
+            fi
+        done
+    done || fail "Unable to safely inspect incoming paths."
+
+    # Dry-run Git's own checkout rules without changing the index or live files.
+    git read-tree --dry-run -m -u "$before" "$after" ||
+        fail "The tested commit cannot be applied without overwriting local changes."
+}
+
 [[ "$DEPLOY_DIR" = /* ]] || fail "DEPLOY_DIR must be an absolute path."
 [[ "$DEPLOY_SHA" =~ ^[0-9a-f]{40}$ ]] || fail "DEPLOY_SHA must be a full commit SHA."
 [[ "$HEALTH_ATTEMPTS" =~ ^[1-9][0-9]?$ ]] || fail "Invalid HEALTH_ATTEMPTS."
@@ -52,8 +77,6 @@ on_exit() {
 trap on_exit EXIT
 
 [[ "$(git branch --show-current)" = main ]] || fail "The server checkout must be on main."
-worktree_status="$(git status --porcelain --untracked-files=normal)"
-[[ -z "$worktree_status" ]] || fail "The server checkout has local changes."
 git fetch --no-tags origin refs/heads/main:refs/remotes/origin/main
 git cat-file -e "$DEPLOY_SHA^{commit}" || fail "The tested commit is unavailable."
 latest_sha="$(git rev-parse refs/remotes/origin/main)"
@@ -66,6 +89,7 @@ if [[ "$DEPLOY_SHA" != "$latest_sha" ]]; then
 fi
 previous_sha="$(git rev-parse HEAD)"
 git merge-base --is-ancestor "$previous_sha" "$DEPLOY_SHA" || fail "The server checkout has diverged from the tested commit."
+check_worktree "$previous_sha" "$DEPLOY_SHA"
 
 # Existing infrastructure is a prerequisite, never something this script starts.
 api_version="$(docker version --format '{{.Server.APIVersion}}')"
@@ -119,7 +143,7 @@ if [[ "$horizon_running" = true ]]; then
 fi
 # Override the old PHP image's SIGQUIT as well as the old 10-second grace period.
 docker stop --signal SIGTERM --timeout 360 "$HORIZON_CONTAINER"
-git merge --ff-only "$DEPLOY_SHA"
+git merge --ff-only --no-overwrite-ignore "$DEPLOY_SHA"
 [[ "$(git rev-parse HEAD)" = "$DEPLOY_SHA" ]] || fail "The checkout does not match the tested commit."
 "${COMPOSE[@]}" config --quiet
 

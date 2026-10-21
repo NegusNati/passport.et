@@ -66,7 +66,14 @@ if tool == "git":
     if args == ["branch", "--show-current"]:
         finish(output="other" if scenario == "branch" else "main")
     if args[:2] == ["status", "--porcelain"]:
+        assert args == ["status", "--porcelain", "--untracked-files=no", "--", ".", ":(exclude)src/public/build"]
         finish(output=" M user-file" if scenario == "dirty" else "")
+    if args[0] == "diff":
+        assert args == ["diff", "--no-renames", "--diff-filter=A", "--name-only", "-z", "b" * 40, "a" * 40]
+        finish(1 if scenario == "diff" else 0)
+    if args[0] == "read-tree":
+        assert args == ["read-tree", "--dry-run", "-m", "-u", "b" * 40, "a" * 40]
+        finish(1 if scenario == "checkout_collision" else 0)
     if args[0] == "fetch":
         finish(1 if scenario == "fetch" else 0)
     if args[0] == "cat-file":
@@ -78,6 +85,7 @@ if tool == "git":
     if args[:2] == ["merge-base", "--is-ancestor"]:
         finish(1 if scenario in ("diverged", "unrelated") else 0)
     if args[:2] == ["merge", "--ff-only"]:
+        assert args == ["merge", "--ff-only", "--no-overwrite-ignore", "a" * 40]
         if scenario == "merge":
             finish(1)
         state["merged"] = True
@@ -277,7 +285,10 @@ class DeploymentTests(unittest.TestCase):
         )
         self.assertEqual(self.operations[-1][-1], "http://127.0.0.1/up")
         merge = next(call for call in self.calls if call["tool"] == "git" and call["args"][0] == "merge")
-        self.assertEqual(merge["args"], ["merge", "--ff-only", TARGET])
+        self.assertEqual(merge["args"], ["merge", "--ff-only", "--no-overwrite-ignore", TARGET])
+        preflight = next(i for i, call in enumerate(self.calls) if call["tool"] == "git" and call["args"][0] == "read-tree")
+        first_docker = next(i for i, call in enumerate(self.calls) if call["tool"] == "docker")
+        self.assertLess(preflight, first_docker)
         self.assertEqual(self.calls[1]["tool"], "flock")
 
     def test_preflight_failures_never_change_the_release(self):
@@ -285,6 +296,7 @@ class DeploymentTests(unittest.TestCase):
             "locked", "branch", "dirty", "fetch", "missing_commit", "diverged",
             "unrelated", "network", "ownership", "missing_database",
             "stopped_database", "disconnected", "config", "old_docker",
+            "diff", "checkout_collision",
         ):
             with self.subTest(scenario=scenario):
                 self.log.unlink(missing_ok=True)
