@@ -97,6 +97,10 @@ if [[ ! "$api_version" =~ ^1\.([0-9]+)$ ]]; then
     fail "Unable to verify the Docker Engine API version."
 fi
 (( BASH_REMATCH[1] >= 42 )) || fail "Docker Engine API 1.42 or newer is required for an explicit stop signal."
+# The CLI can be older than the daemon. Check flags before entering maintenance.
+stop_help="$(docker stop --help)" || fail "Unable to inspect Docker stop options."
+[[ "$stop_help" = *"--signal"* && "$stop_help" = *"-t,"* ]] ||
+    fail "The Docker CLI must support docker stop --signal and -t."
 docker network inspect "$WEB_NETWORK" >/dev/null || fail "The existing shared web network is missing."
 docker network inspect "${PROJECT}_laravel" >/dev/null || fail "The existing private Laravel network is missing."
 horizon_running=false
@@ -142,7 +146,8 @@ if [[ "$horizon_running" = true ]]; then
     [[ "$terminate_status" = 0 || "$terminate_status" = 137 || "$terminate_status" = 143 ]] || fail "Unable to terminate Horizon gracefully."
 fi
 # Override the old PHP image's SIGQUIT as well as the old 10-second grace period.
-docker stop --signal SIGTERM --timeout 360 "$HORIZON_CONTAINER"
+# -t works with CLIs that name the long option either --time or --timeout.
+docker stop --signal SIGTERM -t 360 "$HORIZON_CONTAINER"
 git merge --ff-only --no-overwrite-ignore "$DEPLOY_SHA"
 [[ "$(git rev-parse HEAD)" = "$DEPLOY_SHA" ]] || fail "The checkout does not match the tested commit."
 "${COMPOSE[@]}" config --quiet

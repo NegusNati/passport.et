@@ -93,8 +93,17 @@ if tool == "git":
 if tool == "docker":
     if args == ["version", "--format", "{{.Server.APIVersion}}"]:
         finish(output="1.41" if scenario == "old_docker" else "1.47")
+    if args == ["stop", "--help"]:
+        if scenario == "stop_help":
+            finish(1)
+        signal = "" if scenario == "old_cli" else "  -s, --signal string  Signal to send\n"
+        time_flag = "--time" if scenario == "legacy_stop_cli" else "--timeout"
+        wait = "" if scenario == "missing_stop_time" else f"  -t, {time_flag} int  Seconds to wait"
+        finish(output="Usage: docker stop [OPTIONS] CONTAINER\n" + signal + wait)
     if args[0] == "stop":
-        assert args == ["stop", "--signal", "SIGTERM", "--timeout", "360", "laraveldockerprod-horizon-1"]
+        if scenario == "legacy_stop_cli" and "--timeout" in args:
+            finish(125, "unknown flag: --timeout")
+        assert args == ["stop", "--signal", "SIGTERM", "-t", "360", "laraveldockerprod-horizon-1"]
         finish(1 if scenario == "stop" else 0)
     if args[:2] == ["network", "inspect"]:
         finish(1 if scenario == "network" else 0)
@@ -233,8 +242,8 @@ class DeploymentTests(unittest.TestCase):
         for call in self.calls:
             if call["tool"] == "docker":
                 self.assertIn(call["args"][0], ("version", "network", "inspect", "compose", "stop"))
-                if call["args"][0] == "stop":
-                    self.assertEqual(call["args"], ["stop", "--signal", "SIGTERM", "--timeout", "360", "laraveldockerprod-horizon-1"])
+                if call["args"][0] == "stop" and call["args"] != ["stop", "--help"]:
+                    self.assertEqual(call["args"], ["stop", "--signal", "SIGTERM", "-t", "360", "laraveldockerprod-horizon-1"])
                 self.assertEqual(call["orphans"], "false")
                 self.assertEqual(call["parallel"], "1")
                 self.assertIsNone(call["profiles"])
@@ -248,7 +257,8 @@ class DeploymentTests(unittest.TestCase):
     def assert_no_release_changes(self):
         self.assertFalse(any(op[0] in ("stop", "build", "run", "up", "exec") for op in self.operations))
         self.assertFalse(any(call["tool"] == "git" and call["args"][0] == "merge" for call in self.calls))
-        self.assertFalse(any(call["tool"] == "docker" and call["args"][0] == "stop" for call in self.calls))
+        self.assertFalse(any(call["tool"] == "docker" and call["args"][0] == "stop"
+                             and call["args"] != ["stop", "--help"] for call in self.calls))
 
     def test_success_is_scoped_and_ordered(self):
         result = self.run_deploy()
@@ -276,7 +286,8 @@ class DeploymentTests(unittest.TestCase):
         build = self.operations.index(["build", "app"])
         self.assertLess(down, terminate)
         self.assertLess(terminate, build)
-        stop_call = next(i for i, call in enumerate(self.calls) if call["tool"] == "docker" and call["args"][0] == "stop")
+        stop_call = next(i for i, call in enumerate(self.calls) if call["tool"] == "docker"
+                         and call["args"][0] == "stop" and call["args"] != ["stop", "--help"])
         merge_call = next(i for i, call in enumerate(self.calls) if call["tool"] == "git" and call["args"][0] == "merge")
         self.assertLess(stop_call, merge_call)
         self.assertLess(
@@ -289,7 +300,17 @@ class DeploymentTests(unittest.TestCase):
         preflight = next(i for i, call in enumerate(self.calls) if call["tool"] == "git" and call["args"][0] == "read-tree")
         first_docker = next(i for i, call in enumerate(self.calls) if call["tool"] == "docker")
         self.assertLess(preflight, first_docker)
+        stop_help = next(i for i, call in enumerate(self.calls)
+                         if call["tool"] == "docker" and call["args"] == ["stop", "--help"])
+        maintenance = next(i for i, call in enumerate(self.calls)
+                           if call["tool"] == "docker" and "down" in call["args"])
+        self.assertLess(stop_help, maintenance)
         self.assertEqual(self.calls[1]["tool"], "flock")
+
+    def test_legacy_stop_cli_uses_the_portable_timeout_flag(self):
+        result = self.run_deploy("legacy_stop_cli")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("deployment succeeded", result.stdout)
 
     def test_preflight_failures_never_change_the_release(self):
         for scenario in (
@@ -297,6 +318,7 @@ class DeploymentTests(unittest.TestCase):
             "unrelated", "network", "ownership", "missing_database",
             "stopped_database", "disconnected", "config", "old_docker",
             "diff", "checkout_collision",
+            "old_cli", "missing_stop_time", "stop_help",
         ):
             with self.subTest(scenario=scenario):
                 self.log.unlink(missing_ok=True)

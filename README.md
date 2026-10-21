@@ -72,7 +72,8 @@ It does not run Docker pruning, orphan removal, stack-wide `down`, or scaling.
 - Existing GitHub Actions secrets: `VPS_HOST`, `VPS_USERNAME`, `VPS_SSH_KEY`,
   and `SUDO_PASSWORD` (optional for root/passwordless sudo).
 - Linux VPS with Bash, Git, `flock`, GNU `timeout`, Docker Engine API 1.42+
-  (Docker 23+), and Docker Compose v2+.
+  (Docker 23+), and Docker Compose v2+. The Docker CLI must support `stop --signal`
+  and `-t`; this is checked before maintenance independently of the daemon API.
 - An existing production checkout on branch `main`, with no tracked source
   changes. Generated `src/public/build/` output is ignored and is not versioned.
   Server-only untracked files, including ignored files, may remain in place;
@@ -95,6 +96,8 @@ It does not run Docker pruning, orphan removal, stack-wide `down`, or scaling.
    while Composer files change. Gracefully terminate Horizon and stop only
    its validated container, explicitly using `SIGTERM` and a 360-second timeout
    for the existing 300-second import jobs, including on the first deployment.
+   The stop command uses portable `-t 360`, compatible with both `--time` and
+   `--timeout` CLI variants.
 3. Fast-forward to the tested commit and build `app`, `php`, and `horizon` images
    serially to reduce shared-host load. PHP builds use `--pull` to refresh their
    pinned base images; there is no fallback to an older PHP image.
@@ -173,7 +176,8 @@ These checks require Git, Python 3, Ruby's bundled YAML parser, and a PHP CLI fo
 dependency-free version-policy tests. Deployment commands are mocked; checkout
 safety tests also use isolated temporary Git repositories with synthetic history
 without invoking `git commit` or changing author configuration.
-The checks do not start containers or contact a server:
+An optional actual Docker CLI parsing check targets a nonexistent temporary socket;
+it does not use a running daemon. The checks do not start containers or contact a server:
 
 ```bash
 bash -n scripts/deploy.sh
