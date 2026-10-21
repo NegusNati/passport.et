@@ -58,6 +58,22 @@ This document summarizes the strategy for turning the existing Laravel/Inertia p
 - Docker Horizon workers explicitly consume the `imports` queue, and Redis `retry_after` defaults to 360 seconds so the 300-second PDF job timeout cannot make an active import eligible for premature redelivery.
 - Parser coverage includes blank and populated remarks, layout-less extraction, and regressions for the two pre-existing formats. The 31-page Hosaena reference PDF was verified at 1,305 parsed rows with zero failures.
 
+### Shared-VPS Deployment Isolation
+- `.github/workflows/deploy.yml` deploys only the exact SHA of a successful `CI` push run on this repository's `main`. GitHub concurrency and a server-side `flock` serialize deployments; stale commits, dirty/diverged checkouts, missing infrastructure, and unexpected container ownership block deployment.
+- `scripts/deploy.sh` always targets Compose project `laraveldockerprod` and the production file. Keep `laravel-nginx`, `laraveldockerprod_laravel`, and external `passport-frontend_web` identities unchanged. Never add global Docker pruning, orphan removal, stack-wide `down`, or shared-proxy restarts to deployment.
+- Deployment deliberately permits Passport maintenance downtime because source/vendor/assets are bind-mounted. Only application services (`php`, `app`, `horizon`) are updated, with `--no-deps --no-build`; MariaDB, Redis, other projects, shared networks, and volumes are not deployment targets. No automatic migrations or rollback run.
+- Composer/npm/Artisan helpers are under the `tools` profile with no published development ports. Production dependency installation uses the PHP runtime image; the asset helper and CI use Node 22. Builds are serial, but still share host resources.
+- Horizon runs PHP directly with `SIGTERM` and a 360-second stop grace period. Deployment also explicitly terminates the existing Horizon master and overrides the old container's stop signal/grace period. Docker Engine API 1.42+ is required.
+- Bounded database, Redis, Horizon, and internal `/up` probes determine deployment success. Failures after maintenance starts require explicit recovery, documented in README; stopped Horizon is supported on a retry.
+- Deployment checks: `bash -n scripts/deploy.sh` and `python3 -B -m unittest discover -s scripts/tests -v` (Python 3, Ruby, and a PHP CLI required; no Docker daemon or server access). CI additionally runs ShellCheck and validates production Compose with dummy environment values.
+
+### PHP Security Baseline (2026-10-21)
+- Both PHP Dockerfiles pin `php:8.3.36-fpm-alpine` for CVE-2026-109618 and CVE-2026-109619. Keep CI's PHP version, `src/composer.json` (`~8.3.36`, platform `8.3.36`), and Composer lock platform metadata aligned. This is a patch-only change; dependency package versions are unchanged.
+- `src/scripts/check-php-runtime.php` is dependency-free and verifies a stable PHP 8.3 version at least 8.3.36 plus a matching FPM binary. Deployment runs it in newly built images before Composer and in running PHP/Horizon containers before success. PHP builds use `--pull`; missing images or failed version checks must never fall back to vulnerable runtimes.
+- CI includes a separate `php-runtime-images` job that builds both PHP images and runs the guard without network access or writable mounts. Application CI additionally checks actual Composer platform requirements on PHP 8.3.36.
+- The reviewed, commit-pinned `openai/php2shell-checker` URL skill advertised PHP 8.3.33 (`vulnerable`) at `https://api.passport.et` before changes. Header checks are not exploit or backport verification. Maintenance mode and source changes do not patch an existing FPM worker.
+- See `docs/security/php-2026-10-21.md` for checker provenance, validation limitations, and required production follow-up. No exploit probes, Homebrew PHP upgrade, or VPS deployment were performed.
+
 Use the observations above to drive the migration plan and as regression targets when testing the new API surface.
 
 ## 2. Migration Strategy Overview

@@ -1,42 +1,57 @@
-name: Zero Downtime Deployment to VPS
+name: Deploy Passport to VPS
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: passport-production
+  cancel-in-progress: false
 
 jobs:
   deploy:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
+    timeout-minutes: 45
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout the tested commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
 
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@master
+      - name: Prepare the tested deployment script
+        id: script
+        run: echo "payload=$(base64 -w 0 scripts/deploy.sh)" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy only the Passport application
+        uses: appleboy/ssh-action@v1.2.5
+        env:
+          DEPLOY_SHA: ${{ github.event.workflow_run.head_sha }}
+          SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          envs: DEPLOY_SHA,SUDO_PASSWORD
+          command_timeout: 40m
           script: |
-            cd ~/laraveldocker.prod/
-
-            # Step 1: Pull the latest code
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S git pull origin main
-
-            # Step 2: Build new images without removing old containers yet
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml build
-
-            # Step 3: Perform a rolling restart for zero downtime
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml up --scale app=2 -d --remove-orphans
-
-            # Wait for new containers to be healthy (optional)
-            sleep 20
-
-            # Step 4: Bring back the scaling to 1 (if needed, depending on your app load balancing setup)
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker compose -f docker-compose.prod.yml up --scale app=1 -d
-
-            # Clean up orphan containers (optional)
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S docker system prune -f
-
+            set -eu
+            payload="$(printf '%s' '${{ steps.script.outputs.payload }}' | base64 -d)"
+            deploy_dir="$HOME/laraveldocker.prod"
+            if [ "$(id -u)" = 0 ]; then
+              env DEPLOY_SHA="$DEPLOY_SHA" DEPLOY_DIR="$deploy_dir" bash -c "$payload" </dev/null
+            elif [ -n "${SUDO_PASSWORD:-}" ]; then
+              printf '%s\n' "$SUDO_PASSWORD" | sudo -S -p '' -- env DEPLOY_SHA="$DEPLOY_SHA" DEPLOY_DIR="$deploy_dir" bash -c "$payload"
+            else
+              sudo -n -- env DEPLOY_SHA="$DEPLOY_SHA" DEPLOY_DIR="$deploy_dir" bash -c "$payload" </dev/null
+            fi

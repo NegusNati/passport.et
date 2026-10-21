@@ -7,6 +7,44 @@ on:
     branches: [ main, api ]
 
 jobs:
+  deployment-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3.36'
+      - name: Check deployment shell syntax and lint
+        run: |
+          bash -n scripts/deploy.sh
+          shellcheck scripts/deploy.sh
+      - name: Test deployment isolation and failures
+        run: python3 -m unittest discover -s scripts/tests -v
+      - name: Validate production Compose configuration
+        env:
+          MYSQL_DATABASE: passport_test
+          MYSQL_USER: passport_test
+          MYSQL_PASSWORD: test_only
+          MYSQL_ROOT_PASSWORD: test_only
+        run: docker compose --project-name laraveldockerprod --env-file /dev/null -f docker-compose.prod.yml --profile tools config --quiet
+
+  php-runtime-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build patched PHP images serially
+        run: |
+          docker build --pull -f dockerfiles/php.root.dockerfile -t passport-php-security:root dockerfiles
+          docker build --pull -f dockerfiles/php.dockerfile --build-arg UID=1000 --build-arg GID=1000 -t passport-php-security:worker dockerfiles
+      - name: Verify actual CLI and FPM versions in both images
+        run: |
+          for image in passport-php-security:root passport-php-security:worker; do
+            docker run --rm --network none --read-only --cap-drop ALL \
+              --security-opt no-new-privileges:true \
+              --mount "type=bind,source=$GITHUB_WORKSPACE/src/scripts,target=/checks,readonly" \
+              --entrypoint php "$image" /checks/check-php-runtime.php
+          done
+
   build-and-test:
     runs-on: ubuntu-latest
 
@@ -46,11 +84,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.3.36'
           extensions: pcntl, redis, pdo_mysql
           tools: composer
 
@@ -60,6 +98,10 @@ jobs:
       - name: Install PHP dependencies
         working-directory: ./src
         run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Verify actual PHP platform requirements
+        working-directory: ./src
+        run: composer check-platform-reqs
 
       - name: Generate key
         working-directory: ./src

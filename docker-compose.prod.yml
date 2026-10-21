@@ -7,6 +7,7 @@ networks:
 
 services:
   app:
+    restart: unless-stopped
     build:
       context: ./dockerfiles
       dockerfile: nginx.dockerfile
@@ -25,7 +26,7 @@ services:
       - redis
     networks:
       - laravel
-      - passport-web  # Add this line
+      - passport-web
     container_name: laravel-nginx
 
   mysql:
@@ -62,6 +63,7 @@ services:
       - laravel
 
   php:
+    restart: unless-stopped
     build:
       context: ./dockerfiles
       dockerfile: php.root.dockerfile
@@ -93,6 +95,7 @@ services:
       - redis
 
   composer:
+    profiles: [tools]
     build:
       context: ./dockerfiles
       dockerfile: php.dockerfile
@@ -123,19 +126,17 @@ services:
       - laravel
 
   npm:
-    image: node:current-alpine
+    profiles: [tools]
+    image: node:22-alpine
     volumes:
       - ./src:/var/www/html
-    ports:
-      - "3000:3000"
-      - "3001:3001"
-      - "5173:5173"
     working_dir: /var/www/html
     command: sh -c "npm ci && npm run build && cp public/build/.vite/manifest.json public/build/manifest.json"
     networks:
       - laravel
 
   artisan:
+    profiles: [tools]
     build:
       context: ./dockerfiles
       dockerfile: php.dockerfile
@@ -173,7 +174,9 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    command: ["sh", "-lc", "if [ ! -f vendor/autoload.php ]; then composer install --no-dev -o; fi && php artisan horizon"]
+    command: ["php", "artisan", "horizon"]
+    stop_signal: SIGTERM
+    stop_grace_period: 360s
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:

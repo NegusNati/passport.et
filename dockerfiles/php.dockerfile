@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.3.36-fpm-alpine
 
 ENV PHPIZE_DEPS="autoconf file g++ gcc libc-dev make pkgconf re2c"
 
